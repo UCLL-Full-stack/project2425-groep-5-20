@@ -9,7 +9,6 @@ export class Family {
 
     constructor(family: {name: string, familyList: User[], owner: User}) {
         this.validate(family);
-
         this.name = family.name;
         this.familyList = family.familyList;
         this.owner = family.owner;
