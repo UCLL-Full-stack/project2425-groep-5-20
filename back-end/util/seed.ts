@@ -1,9 +1,6 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
 // : run om de database te fillen: npx ts-node util/seed.ts
 
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -15,7 +12,6 @@ const main = async () => {
 
     const john = await prisma.user.create({
         data: {
-            username: 'john',
             firstName: 'John',
             lastName: 'Doe',
             email: 'john@email.com',
@@ -26,7 +22,6 @@ const main = async () => {
 
     const jorrit = await prisma.user.create({
         data: {
-            username: 'jorrit',
             firstName: 'Jorrit',
             lastName: 'Smith',
             email: 'jorrit@email.com',
@@ -37,7 +32,6 @@ const main = async () => {
 
     const johnJr = await prisma.user.create({
         data: {
-            username: 'johnjr',
             firstName: 'John Jr.',
             lastName: 'Doe',
             email: 'johnjr@email.com',
