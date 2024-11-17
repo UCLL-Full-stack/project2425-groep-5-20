@@ -1,4 +1,5 @@
 import { Role } from "../types";
+import {User as UserPrisma,} from "@prisma/client"
 
 export class User {
     private name: string;
@@ -14,6 +15,15 @@ export class User {
         this.email = user.email;
         this.password = user.password;
         this.role = user.role;
+    }
+
+    static from({name,email,password,role}: UserPrisma){
+        return new User({
+            name,
+            email,
+            password,
+            role,
+        });
     }
 
     validate(user: {name: string, email: string, password: string, role: Role}) {
