@@ -1,0 +1,2 @@
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/famList?scherna=public"
+APP_PORT=3000
