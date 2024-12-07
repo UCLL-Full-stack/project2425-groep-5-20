@@ -5,7 +5,7 @@ import userDb from "../repository/user.db"
 
 const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
 
-const getUserByEmail = async (email: string): Promise<User | undefined> => {
+const getUserByEmail = async (email: string): Promise<User | null> => {
     const user = userDb.getUserByEmail(email);
 
     return user;

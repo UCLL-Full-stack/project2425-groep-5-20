@@ -16,17 +16,14 @@ const getAllFamlies = async () => {
     }
 }
 
-const createFamily = async (familyName: string, user: User): Promise<Family | null> => {
-    const familyList = [user];
-    const family: Family = { name: familyName, familyList, owner: user };
-
+const createFamily = async (familyName: string, userEmail: string): Promise<Family | null> => {
     try {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/families', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(family),
+            body: JSON.stringify({familyName, userEmail}),
         });
 
         if (!response.ok) {

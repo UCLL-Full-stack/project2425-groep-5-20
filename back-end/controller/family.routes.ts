@@ -91,8 +91,8 @@ familyRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  */
 familyRouter.post("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const family = <FamilyInput>req.body;
-        const result = await familyService.createFamily(family);
+        const {familyName, userEmail} = req.body;
+        const result = await familyService.createFamily(familyName, userEmail);
         res.status(200).json(result);
     } catch (error){
         if (error instanceof Error) {

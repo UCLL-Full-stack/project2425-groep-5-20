@@ -1,0 +1,45 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id            Int            @id @default(autoincrement())
+    name          String
+    email         String         @unique
+    password      String
+    role          String
+    Family        Family[]       @relation("FamilyMemberList")
+    FamilyOwnerOf Family[]
+    ShoppingList  ShoppingList[]
+}
+
+model Family {
+    id         Int    @id @default(autoincrement())
+    name       String
+    familyList User[] @relation("FamilyMemberList")
+    ownerid    Int
+    owner      User   @relation(fields: [ownerid], references: [id])
+}
+
+model Item {
+    id             Int           @id @default(autoincrement())
+    name           String
+    quantity       Int
+    shoppingListId Int?
+    ShoppingList   ShoppingList? @relation(fields: [shoppingListId], references: [id])
+}
+
+model ShoppingList {
+    id           Int      @id @default(autoincrement())
+    items        Item[]
+    name         String
+    creationDate DateTime
+    lastUpdate   DateTime
+    userId       Int
+    updatedBy    User     @relation(fields: [userId], references: [id])
+}

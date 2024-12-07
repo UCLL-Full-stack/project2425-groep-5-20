@@ -1,20 +1,21 @@
 import { Family } from "../model/family";
+import { User } from "../model/user";
 import familyDb from "../repository/family.db";
+import userDb from "../repository/user.db";
 import { FamilyInput } from "../types";
 import userService from "./user.service";
 
 
 const getAllFamilies = async (): Promise<Family[]> => familyDb.getAllFamilies();
 
-const createFamily = async ({name, familyList, owner}: FamilyInput): Promise<Family> => {
-    if (!name) throw new Error ("familyName is required.");
-    if (!familyList) throw new Error ("list of familymembers is required.")
-    if (!owner) throw new Error ("owner of family is required.")
-    
-    const family = new Family({name,familyList,owner});
-    familyDb.createFamily(family);
+const createFamily = async (familyName: string, userEmail: string): Promise<Family> => {
+    const user = await userDb.getUserByEmail(userEmail);
+    if (!user) {
+        throw new Error('User does not exist.');
+    }
+    const familyList: User[] = [user];
 
-    return family
+    return familyDb.createFamily(familyName, familyList, user);
 }
 
 export default {

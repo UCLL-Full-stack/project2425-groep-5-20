@@ -3,16 +3,18 @@ import { User } from "../model/user";
 type Role = 'admin' | 'parent' | 'child';
 
 type UserInput = {
-    name?: string;
-    email?: string;
-    password?: string;
-    role?: Role;
+    id?: number;
+    name: string;
+    email: string;
+    password: string;
+    role: Role;
 }
 
 type FamilyInput = {
-    name?: string;
-    familyList?: User[];
-    owner?: User;
+    id?: number,
+    name: string;
+    familyList: User[];
+    owner: User;
 }
 
 export {

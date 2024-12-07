@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
             return;
         }
         
-        if (await UserService.getUserByEmail(email) !== undefined) {
+        if (await UserService.getUserByEmail(email)) {
             setEmailError("A User with this email already exists.");
             return;
         }
@@ -106,7 +106,7 @@ const LoginPage: React.FC = () => {
         }
 
         const user = await UserService.getUserByEmail(email);
-        if (user === undefined) {
+        if (!user) {
             setEmailError("A User with this email doesn't exists.");
             return;
         }

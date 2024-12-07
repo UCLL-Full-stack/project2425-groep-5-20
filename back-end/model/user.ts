@@ -1,22 +1,25 @@
 import { Role } from "../types";
+import {User as UserPrisma} from '@prisma/client'
 
 export class User {
+    private id?: number;
     private name: string;
     private email: string;
     private password: string;
     private role: Role;
 
 
-    constructor(user: {name: string, email: string, password: string, role: Role}) {
+    constructor(user: {id?: number, name: string, email: string, password: string, role: Role}) {
         this.validate(user);
 
+        this.id = user.id;
         this.name = user.name;
         this.email = user.email;
         this.password = user.password;
         this.role = user.role;
     }
 
-    validate(user: {name: string, email: string, password: string, role: Role}) {
+    validate(user: {id?: number, name: string, email: string, password: string, role: Role}) {
        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
        
        if (!user.name || user.name.trim().length < 1) {
@@ -32,7 +35,21 @@ export class User {
        }
     }
 
-    getName(): String {
+    static from({id, name, email, password, role}: UserPrisma) {
+        return new User({
+            id,
+            name,
+            email,
+            password,
+            role: role as Role,
+        })
+    }
+
+    getId(): number | undefined {
+        return this.id;
+    }
+
+    getName(): string {
         return this.name;
     }
 
@@ -40,7 +57,7 @@ export class User {
         return this.email;
     }
 
-    getPassword(): String {
+    getPassword(): string {
         return this.password;
     }
 
