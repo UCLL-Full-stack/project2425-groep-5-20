@@ -2,10 +2,12 @@ const TableOverview: React.FC = () => {
     return <>
     <table>
         <thead>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Role</th>
+            <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Password</th>
+            <th scope="col">Role</th>
+            </tr>
         </thead>
         <tbody>
             <tr>
