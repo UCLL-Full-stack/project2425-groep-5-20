@@ -31,7 +31,7 @@ const authenticate = async({email, password}: UserInput): Promise<Authentication
         throw Error("Incorrect email or password.");
     }
 
-    const isValidPassword = await bcrypt.compare(user.getPassword(), password); 
+    const isValidPassword = await bcrypt.compare(password, user.getPassword()); 
 
     if (!isValidPassword) {
         throw Error("Incorrect email or password.");
