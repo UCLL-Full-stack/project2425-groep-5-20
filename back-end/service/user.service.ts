@@ -13,16 +13,25 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
     return user;
 }
 
-const createUser = async ({name, email, password, role}: UserInput): Promise<User> => {
+const createUser = async ({name, email, password, role}: UserInput): Promise<AuthenticationResponse> => {
     if (!name) throw new Error("createUser: Name is required.");
     if (!email) throw new Error("createUser: Email is required.");
     if (!password) throw new Error("createUser: Password is required.");
     if (!role) throw new Error("createUser: Role is required");
-    
-    const user = new User({name, email, password, role});
-    userDb.createUser(user);
 
-    return user;
+    if (await userDb.getUserByEmail(email)) {
+        throw new Error("User with this email already exists.");
+    }
+    
+    const user = new User({name, email, password: await bcrypt.hash(password, 12), role});
+    await userDb.createUser(user);
+    return {
+        
+        token: generateJwtToken(email, user.getRole()),
+        name: user.getName(),
+        email: user.getEmail(),
+        role: user.getRole(),
+    }
 }
 
 const authenticate = async({email, password}: UserInput): Promise<AuthenticationResponse> => {

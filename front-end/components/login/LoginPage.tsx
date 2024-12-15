@@ -76,16 +76,22 @@ const LoginPage: React.FC = () => {
         if (!validationSignUp()) {
             return;
         }
-        
-        if (await UserService.getUserByEmail(email)) {
-            setEmailError("A User with this email already exists.");
+
+
+        const response = await UserService.createUser(name, email, password, selectedOption as Role);
+
+        if (response.status) {
+            setEmailError("User with this email already exists.");
             return;
         }
 
-        UserService.createUser(name, email, password, selectedOption as Role);
 
-        const user = await UserService.getUserByEmail(email);
-        sessionStorage.setItem('loggedInUser', JSON.stringify(user));
+        sessionStorage.setItem("loggedInUser", JSON.stringify({
+            token: response.token,
+            name: response.name,
+            email: response.email,
+            role: response.role
+          }));
 
         setStatusMessage('Successfully registered! Redirecting you to the homepage in 2 seconds...');
         setTimeout(() => {

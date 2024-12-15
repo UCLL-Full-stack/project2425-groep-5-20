@@ -37,7 +37,7 @@ const getUserByEmail = async (email: string): Promise<User | undefined>=> {
   }
 }
 
-const createUser = async (name: string, email: string, password: string, role: Role): Promise<User | undefined> => {
+const createUser = async (name: string, email: string, password: string, role: Role) => {
   const user: User = {name, email, password, role};
   try {
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/users/signup`, {
