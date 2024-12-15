@@ -9,6 +9,34 @@ const main = async() => {
     await prisma.family.deleteMany();
     await prisma.user.deleteMany();
 
+    const admin = await prisma.user.create({
+        data: {
+            name: 'Admin',
+            email: 'admin@email.com',
+            password: await bcrypt.hash('admin123', 12),
+            role: 'admin',
+        }
+    })
+
+    const parent = await prisma.user.create({
+        data: {
+            name: 'Parent',
+            email: 'parent@email.com',
+            password: await bcrypt.hash('parent123', 12),
+            role: 'parent',
+        }
+    })
+
+    const child = await prisma.user.create({
+        data: {
+            name: 'Child',
+            email: 'child@email.com',
+            password: await bcrypt.hash('child123', 12),
+            role: 'child',
+        }
+    })
+
+
     const userJorrit = await prisma.user.create({
         data: {
             name: 'Jorrit',
