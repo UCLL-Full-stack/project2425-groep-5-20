@@ -1,10 +1,10 @@
-import { User } from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 
 const Header: React.FC = () => {
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
+  
 
   useEffect(() => {
     setLoggedInUser(sessionStorage.getItem('loggedInUser'));
@@ -26,13 +26,13 @@ const Header: React.FC = () => {
             Home
           </Link>
 
-          <Link href="/users">
+          {loggedInUser && JSON.parse(loggedInUser).role == 'admin' && <Link href="/users">
             Users
-          </Link>
+          </Link>}
 
-          <Link href="/families">
+          {loggedInUser && <Link href="/families">
             Families
-          </Link>
+          </Link>}
 
           {!loggedInUser && <Link href='/login'>
             Sign in
