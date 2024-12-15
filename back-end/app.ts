@@ -7,10 +7,20 @@ import swaggerUi from 'swagger-ui-express';
 import userRouter from './controller/user.routes';
 import familyRouter from './controller/family.routes';
 import { Request, Response, NextFunction } from 'express';
+import { expressjwt } from 'express-jwt';
 
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
+
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: ["/api-docs", /^\/api-docs\/.*/, "/users/login", "/users/signup", "/status"],
+    })
+)
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -50,9 +60,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // generic error handeling
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.stack);
-    res.status(400).json({
-        status: 'application error',
-        message: err.message,
-    });
+    if (err.name === "UnauthorizedError") {
+        res.status(401).json({status: 'unauthorized', message: err.message})
+    } else {
+        res.status(401).json({status: 'application error', message: err.message})
+    }
 });

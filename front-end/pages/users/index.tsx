@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 
 const Users: React.FC = () => {
   const [users, setUsers] = useState<Array<User>>([]);
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
   const getAllUsers = async () => {
     const response = await UserService.getAllUsers();
@@ -18,6 +19,7 @@ const Users: React.FC = () => {
   };
 
   useEffect(() => {
+    setLoggedInUser(sessionStorage.getItem('loggedInUser'));
     getAllUsers();
   }, []);
 
@@ -27,12 +29,12 @@ const Users: React.FC = () => {
         <title>Users</title>
       </Head>
       <Header />
-      <main>
+      {loggedInUser && JSON.parse(loggedInUser).role == 'admin' && <main>
         <h1>All Users</h1>
         <section>
           {users.length > 0 ? <UserOverview users={users} /> : <p>No users found.</p>}
         </section>
-      </main>
+      </main> || <h1>You are not authorized to access this content</h1>}
     </>
   );
 };

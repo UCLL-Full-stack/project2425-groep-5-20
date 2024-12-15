@@ -17,8 +17,17 @@ type FamilyInput = {
     owner: User;
 }
 
+type AuthenticationResponse = {
+    token: string,
+    name: string,
+    email: string,
+    role: Role
+}
+
 export {
     Role,
     UserInput,
     FamilyInput,
+    AuthenticationResponse,
 }
+

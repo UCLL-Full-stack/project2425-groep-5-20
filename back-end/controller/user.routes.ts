@@ -2,7 +2,7 @@
  * @swagger
  * components:
  *   securitySchemes:
- *     bearerAuth:
+ *     bearerAuth: 
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
@@ -38,6 +38,8 @@ const userRouter = express.Router();
  * @swagger
  * /users:
  *   get:
+ *     security:
+ *         - bearerAuth: []
  *     summary: Get a list of all users.
  *     responses:
  *       200:
@@ -66,6 +68,8 @@ userRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /users/{email}:
  *   get:
+ *     security:
+ *         - bearerAuth: []
  *     summary: Get a a user by email.
  *     parameters:
  *         - in: path
@@ -100,8 +104,10 @@ userRouter.get("/:email", async (req: Request, res: Response, next: NextFunction
 
 /**
  * @swagger
- * /users:
+ * /users/signup:
  *   post:
+ *      security:
+ *          - bearerAuth: []
  *      summary: Create a new user object
  *      requestBody:
  *        required: true
@@ -117,7 +123,7 @@ userRouter.get("/:email", async (req: Request, res: Response, next: NextFunction
  *                schema:
  *                  $ref: '#/components/schemas/User'
  */
-userRouter.post("/", async (req: Request, res: Response, next: NextFunction) => {
+userRouter.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = <UserInput>req.body;
         const result = await userService.createUser(user);
@@ -130,5 +136,39 @@ userRouter.post("/", async (req: Request, res: Response, next: NextFunction) => 
         }
     }
 });
+
+// --------------- POST --------------- //
+
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *      security:
+ *          - bearerAuth: []
+ *      summary: Logs user in
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      responses:
+ *         200:
+ *            description: The logged in user
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/User'
+ */
+
+userRouter.post("/login", async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = <UserInput>req.body;
+        const response = await userService.authenticate(user);
+        res.status(200).json({message: "Authentication successful...", ...response});
+    } catch (error) {
+        next(error)
+    }
+})
 
 export default userRouter;

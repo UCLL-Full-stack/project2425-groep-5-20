@@ -10,6 +10,7 @@ import { Family } from '@/types';
 const Families: React.FC = () => {
     const [families, setFamilies] = useState<Array<Family>>([]);
     const [selectedFamily, setSelectedFamily] = useState<any | null>(null);
+    const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
     const getAllFamilies = async () => {
         const families = await FamilyService.getAllFamlies();
@@ -17,6 +18,7 @@ const Families: React.FC = () => {
     };
 
     useEffect(() => {
+        setLoggedInUser(sessionStorage.getItem("loggedInUser"));
         getAllFamilies();
     }, []);
 
@@ -31,15 +33,15 @@ const Families: React.FC = () => {
             </Head>
             <main>
                 <Header />
-                <h1>All Families</h1>
-                <CreateFamily onCreatedFamily={addNewFamily} />
+                {loggedInUser && <><h1>All Families</h1>
+                {JSON.parse(loggedInUser).role != 'child' && <CreateFamily onCreatedFamily={addNewFamily} email={JSON.parse(loggedInUser).email} role={JSON.parse(loggedInUser).role}/>}
                 <FamiliesOverview families={families} selectedFamily={setSelectedFamily} />
                 {selectedFamily && (
                     <>
                         <h2>Members of the "{selectedFamily.name}" family</h2>
                         <SingleFamilyOverview family={selectedFamily} />
                     </>
-                )}
+                )}</> || <h1>You are not authorized to access this content</h1>}
             </main>
         </>
     );

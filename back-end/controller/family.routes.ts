@@ -46,6 +46,8 @@ const familyRouter = express.Router();
  * @swagger
  * /families:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all families.
  *     responses:
  *       200:
@@ -57,9 +59,10 @@ const familyRouter = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Family'
  */
-familyRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+familyRouter.get('/', async(req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
-        const families = await familyService.getAllFamilies();
+        const {email, role} = req.auth;
+        const families = await familyService.getAllFamilies(email, role);
         res.status(200).json(families);
     } catch (error) {
         if (error instanceof Error) {
@@ -74,6 +77,8 @@ familyRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  * @swagger
  * /families:
  *   post:
+ *     security:
+ *         - bearerAuth: []
  *     summary: Create a new family.
  *     requestBody:
  *       required: true

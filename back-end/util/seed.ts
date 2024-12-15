@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -8,11 +9,39 @@ const main = async() => {
     await prisma.family.deleteMany();
     await prisma.user.deleteMany();
 
+    const admin = await prisma.user.create({
+        data: {
+            name: 'Admin',
+            email: 'admin@email.com',
+            password: await bcrypt.hash('admin123', 12),
+            role: 'admin',
+        }
+    })
+
+    const parent = await prisma.user.create({
+        data: {
+            name: 'Parent',
+            email: 'parent@email.com',
+            password: await bcrypt.hash('parent123', 12),
+            role: 'parent',
+        }
+    })
+
+    const child = await prisma.user.create({
+        data: {
+            name: 'Child',
+            email: 'child@email.com',
+            password: await bcrypt.hash('child123', 12),
+            role: 'child',
+        }
+    })
+
+
     const userJorrit = await prisma.user.create({
         data: {
             name: 'Jorrit',
             email: 'jorrit@email.com',
-            password: 'jorrit1234',
+            password: await bcrypt.hash('jorrit1234', 12),
             role: 'admin',
         }
     })
@@ -21,7 +50,7 @@ const main = async() => {
         data: {
             name: 'John',
             email: 'john@email.com',
-            password: 'john12345678',
+            password: await bcrypt.hash('john12345678', 12),
             role: 'parent',
         }
     })
@@ -30,7 +59,7 @@ const main = async() => {
         data: {
             name: 'JohnJr',
             email: 'johnJr@email.com',
-            password: 'johnJr12345678',
+            password: await bcrypt.hash('johnJr12345678', 12),
             role: 'child',
         }
     })
