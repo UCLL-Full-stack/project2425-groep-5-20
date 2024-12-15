@@ -50,9 +50,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // generic error handeling
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.stack);
-    res.status(400).json({
-        status: 'application error',
-        message: err.message,
-    });
+    if (err.name === "UnauthorizedError") {
+        res.status(401).json({status: 'unauthorized', message: err.message})
+    } else {
+        res.status(401).json({status: 'application error', message: err.message})
+    }
 });
