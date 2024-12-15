@@ -34,7 +34,7 @@ const Families: React.FC = () => {
             <main>
                 <Header />
                 {loggedInUser && <><h1>All Families</h1>
-                <CreateFamily onCreatedFamily={addNewFamily} />
+                {JSON.parse(loggedInUser).role != 'child' && <CreateFamily onCreatedFamily={addNewFamily} email={JSON.parse(loggedInUser).email} role={JSON.parse(loggedInUser).role}/>}
                 <FamiliesOverview families={families} selectedFamily={setSelectedFamily} />
                 {selectedFamily && (
                     <>

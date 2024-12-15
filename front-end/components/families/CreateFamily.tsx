@@ -4,9 +4,11 @@ import { useState } from "react";
 
 type Props = {
     onCreatedFamily: any;
+    email: string,
+    role: string
 }
 
-const CreateFamily: React.FC<Props> = ({onCreatedFamily}: Props) => {
+const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [newFamilyName, setNewFamilyName] = useState("");
     const [userEmail, setUserEmail] = useState("");
@@ -36,10 +38,11 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily}: Props) => {
             setFamilyNameError('Family name is required.');
             result = false;
         }
-        if (userEmail.trim() === '' || !emailRegex.test(userEmail)) {
-            setUserEmailError('Email should be a valid email.');
-            result = false;
-        }
+        if (role == "admin"){
+            if (userEmail.trim() === '' || !emailRegex.test(userEmail)) {
+                setUserEmailError('Email should be a valid email.');
+                result = false;
+        }}
 
         return result;
     };
@@ -52,13 +55,16 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily}: Props) => {
             return;
         }
 
-        const user = await UserService.getUserByEmail(userEmail);
-        if (!user || user.email !== userEmail) {
-            setUserEmailError("No user with that email exists!");
-            return;
-        }
+        if (role == 'admin') {
+            const user = await UserService.getUserByEmail(userEmail);
+            if (!user || user.email !== userEmail) {
+                setUserEmailError("No user with that email exists!");
+                return;
+        }}
+        console.log(email)
+        console.log(role)
 
-        const newFamily = await FamilyService.createFamily(newFamilyName, userEmail);
+        const newFamily = await FamilyService.createFamily(newFamilyName, email);
         if (newFamily) {
             onCreatedFamily(newFamily);
             setNewFamilyName("");
@@ -87,7 +93,7 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily}: Props) => {
                             />
                             {familyNameError && <p className="error">{familyNameError}</p>}
                         </div>
-                        <div>
+                        {role == 'admin' &&<div>
                             <label id="useremail">Please enter your user email.</label>
                             <input
                                 type="text"
@@ -96,7 +102,7 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily}: Props) => {
                                 placeholder="Enter your user email"
                             />
                             {userEmailError && <p className="error">{userEmailError}</p>}
-                        </div>
+                        </div>}
                         <button type="submit">Add Family</button>
                     </form>
                 </div>
