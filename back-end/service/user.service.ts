@@ -1,6 +1,8 @@
-import { User } from "../model/user"
-import { UserInput } from "../types";
-import userDb from "../repository/user.db"
+import { User } from "../model/user";
+import { AuthenticationResponse, UserInput } from "../types";
+import userDb from "../repository/user.db";
+import bcrypt from "bcrypt";
+import generateJwtToken from "../util/jwt";
 
 
 const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
@@ -23,9 +25,30 @@ const createUser = async ({name, email, password, role}: UserInput): Promise<Use
     return user;
 }
 
+const authenticate = async({email, password}: UserInput): Promise<AuthenticationResponse> => {
+    const user = await getUserByEmail(email);
+    if (user === null) {
+        throw Error("Incorrect email or password.");
+    }
+
+    const isValidPassword = await bcrypt.compare(user.getPassword(), password); 
+
+    if (!isValidPassword) {
+        throw Error("Incorrect email or password.");
+    }
+
+    return {
+        token: generateJwtToken(email),
+        name: user.getName(),
+        email: user.getEmail(),
+        role: user.getRole(),
+    }
+}
+
 
 export default {
     getAllUsers,
     getUserByEmail,
     createUser,
+    authenticate,
 }

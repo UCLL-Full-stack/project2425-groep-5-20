@@ -46,6 +46,8 @@ const familyRouter = express.Router();
  * @swagger
  * /families:
  *   get:
+ *     security:
+ *         - bearerAuth: []
  *     summary: Get a list of all families.
  *     responses:
  *       200:
@@ -74,6 +76,8 @@ familyRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  * @swagger
  * /families:
  *   post:
+ *     security:
+ *         - bearerAuth: []
  *     summary: Create a new family.
  *     requestBody:
  *       required: true
