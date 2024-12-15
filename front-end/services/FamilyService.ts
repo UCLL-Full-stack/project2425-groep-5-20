@@ -1,11 +1,17 @@
 import { Family, User } from "@/types";
 
+const getToken = () => {
+    return JSON.parse(sessionStorage.getItem("loggedInUser") as string)?.token;
+  }
+
 const getAllFamlies = async () => {
+    const token = getToken();
     try {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL +'/families', {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`,
             },
         })
 
@@ -17,11 +23,13 @@ const getAllFamlies = async () => {
 }
 
 const createFamily = async (familyName: string, userEmail: string): Promise<Family | null> => {
+    const token = getToken();
     try {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/families', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({familyName, userEmail}),
         });

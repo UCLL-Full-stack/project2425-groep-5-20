@@ -1,12 +1,18 @@
 import { Role, User } from "@/types";
 
+const getToken = () => {
+  return JSON.parse(sessionStorage.getItem("loggedInUser") as string)?.token;
+}
+
 const getAllUsers = async (): Promise<Array<User>> => {
+  const token = getToken();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   try {
     const response = await fetch(apiUrl + '/users', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
       },
     });
 
@@ -20,12 +26,13 @@ const getAllUsers = async (): Promise<Array<User>> => {
 };
 
 const getUserByEmail = async (email: string): Promise<User | undefined>=> {
-  
+  const token = getToken();
   try {
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/users/${email}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
       },
     });
 
