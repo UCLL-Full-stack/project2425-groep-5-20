@@ -150,7 +150,7 @@ const LoginPage: React.FC = () => {
 
                 <div>
                 <label id="password">Password</label>
-                <input id="login-password" type="text" value={password} onChange={(event) => setPassword(event.target.value)}/>
+                <input id="login-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)}/>
                 </div>
 
                 <div className="parentOrChild">
@@ -194,7 +194,7 @@ const LoginPage: React.FC = () => {
 
                 <div>
                 <label id="password">Password</label>
-                <input id="login-password" type="text" value={password} onChange={(event) => setPassword(event.target.value)}/>
+                <input id="login-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)}/>
                 </div>
                 <button id="signInButton">Log in</button>
                 <div className="no-account-message"><p>You don't have an account yet? <a className="no-account-message-button" onClick={() => setSignUpForm(true)}>Sign up!</a></p></div>
