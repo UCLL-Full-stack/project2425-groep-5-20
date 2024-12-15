@@ -27,6 +27,43 @@ const getAllFamilies = async(): Promise<Family[]> => {
     }
 }
 
+const getFamilyWithOwner = async(email: string): Promise<Family[]> => {
+    try {
+        const familyPrisma = await database.family.findMany({
+            include: {owner: true, familyList: true},
+            where: {
+                owner: {
+                    email: email
+                }
+            }
+        });
+        return familyPrisma.map((family) => Family.from(family));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error: Could not fetch all families, check server logs.');
+    }
+}
+
+const getFamilyWithChild = async(email: string): Promise<Family[]> => {
+    try {
+        const familyPrisma = await database.family.findMany({
+            include: {owner: true, familyList: true},
+            where: {
+                familyList: {
+                    some: {
+                        email: email
+                    }
+                }
+            }
+        });
+        return familyPrisma.map((family) => Family.from(family));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error: Could not fetch all families, check server logs.');
+    }
+}
+
+
 // Post
 const createFamily = async(name: string, familyList: User[], owner: User): Promise<Family> => {
     try {
@@ -54,4 +91,6 @@ const createFamily = async(name: string, familyList: User[], owner: User): Promi
 export default {
     getAllFamilies,
     createFamily,
+    getFamilyWithOwner,
+    getFamilyWithChild,
 }
