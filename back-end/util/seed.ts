@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -12,7 +13,7 @@ const main = async() => {
         data: {
             name: 'Jorrit',
             email: 'jorrit@email.com',
-            password: 'jorrit1234',
+            password: await bcrypt.hash('jorrit1234', 12),
             role: 'admin',
         }
     })
@@ -21,7 +22,7 @@ const main = async() => {
         data: {
             name: 'John',
             email: 'john@email.com',
-            password: 'john12345678',
+            password: await bcrypt.hash('john12345678', 12),
             role: 'parent',
         }
     })
@@ -30,7 +31,7 @@ const main = async() => {
         data: {
             name: 'JohnJr',
             email: 'johnJr@email.com',
-            password: 'johnJr12345678',
+            password: await bcrypt.hash('johnJr12345678', 12),
             role: 'child',
         }
     })
