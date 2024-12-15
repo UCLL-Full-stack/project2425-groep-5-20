@@ -55,10 +55,28 @@ const createUser = async (name: string, email: string, password: string, role: R
   }
 }
 
+const login = async(email: string, password: string)  => {
+  try {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/users/login`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, password})
+    });
+
+    const data = await response.json()
+    return data;
+  } catch (error) {
+    console.error('Error creating a user:', error);
+  }
+}
+
 const UserService = {
   getAllUsers,
   getUserByEmail,
   createUser,
+  login,
 };
 
 export default UserService;

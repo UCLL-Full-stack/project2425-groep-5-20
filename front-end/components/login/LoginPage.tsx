@@ -105,20 +105,19 @@ const LoginPage: React.FC = () => {
             return;
         }
 
-        const user = await UserService.getUserByEmail(email);
-        if (!user) {
-            setEmailError("A User with this email doesn't exists.");
-            return;
-        }
-        console.log(user);
-        console.log(password);
+        const user = await UserService.login(email, password);
 
-        if (user.password !== password) {
-            setPasswordError("The password is incorrect.");
+        if (user.status != null) {
+            setEmailError(user.message);
             return;
         }
 
-        sessionStorage.setItem("loggedInUser", JSON.stringify(user));
+        sessionStorage.setItem("loggedInUser", JSON.stringify({
+            token: user.token,
+            name: user.name,
+            email: user.email,
+            role: user.role
+          }));
         setStatusMessage('Successfully logged in! Redirecting you to the homepage in 2 seconds...');
         setTimeout(()=> {
             setStatusMessage('Successfully logged in! Redirecting you to the homepage in 1 seconds...');
