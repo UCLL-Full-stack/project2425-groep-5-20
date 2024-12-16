@@ -11,7 +11,7 @@ const getAllShoppingLists = async(): Promise<ShoppingList[]> => {
         return shoppingListPrismas.map((shoppingListPrisma) => ShoppingList.from(shoppingListPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error: Could not fetch all users, check server logs.')
+        throw new Error('Database error: Could not fetch all shopping lists, check server logs.')
     }
 }
 
@@ -28,7 +28,7 @@ const getAllShoppingListsForFamily = async(familyId: number): Promise<ShoppingLi
         return shoppingListPrismas.map((shoppingListPrisma) => ShoppingList.from(shoppingListPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error: Could not fetch all users, check server logs.')
+        throw new Error('Database error: Could not fetch all shopping lists of certain family, check server logs.')
     }
 }
 
