@@ -43,6 +43,13 @@ const FamilyID: React.FC = () => {
         }
     }
 
+    const handleAddFamilyMember = () => {
+        const email = prompt("Please enter the email of the family member you want to add.");
+        if (email) {
+            FamilyService.addFamilyMember(parseInt(familyId as string), email);
+        }
+    }
+
     return (
         <>
             <Head>
@@ -58,6 +65,7 @@ const FamilyID: React.FC = () => {
                 </div>
                 <h1>Overview of {family?.name}</h1>
                 <button onClick={handleRemoveFamily}>Remove Family</button>
+                <button onClick={handleAddFamilyMember}>Add a family member</button>
                 <SingleFamilyOverview family={family}></SingleFamilyOverview> 
                 </>
                 || <h1>You are not authorized to view this content.</h1>}

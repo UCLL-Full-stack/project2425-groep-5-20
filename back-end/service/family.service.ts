@@ -35,6 +35,18 @@ const createFamily = async (familyName: string, userEmail: string): Promise<Fami
     return familyDb.createFamily(familyName, familyList, user);
 }
 
+const addFamilyMember = async (familyId: number, userEmail: string) => {
+    const family = await familyDb.getFamilyById(familyId);
+    if (!family) {
+        throw new Error('Family does not exist.');
+    }
+    const user = await userDb.getUserByEmail(userEmail);
+    if (!user) {
+        throw new Error('User does not exist.');
+    }
+    return familyDb.addFamilyMember(familyId, user);
+}
+
 const deleteFamily = async (familyId: number): Promise<void> => {
     const family = await familyDb.getFamilyById(familyId);
     if (!family) {
@@ -47,4 +59,5 @@ export default {
     getFamilyById,
     createFamily,
     deleteFamily,
+    addFamilyMember,
 }

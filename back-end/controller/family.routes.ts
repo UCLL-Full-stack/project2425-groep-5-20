@@ -144,6 +144,21 @@ familyRouter.post("/", async (req: Request, res: Response, next: NextFunction) =
         }
     }
 });
+
+familyRouter.post("/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const familyId = parseInt(req.params.id);
+        const {email} = req.body;
+        const result = await familyService.addFamilyMember(familyId, email);
+        res.status(200).json(result);
+    } catch (error){
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        }
+    }
+});
 /**
  * @swagger
  * /families/{id}:

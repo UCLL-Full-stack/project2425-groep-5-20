@@ -103,6 +103,26 @@ const createFamily = async(name: string, familyList: User[], owner: User): Promi
     }
 }
 
+const addFamilyMember = async(familyId: number, user: User): Promise<Family> => {
+    try {
+        const familyPrisma = await database.family.update({
+            where: {
+                id: familyId
+            },
+            data: {
+                familyList: {
+                    connect: {id: user.getId()}
+                }
+            },
+            include: {owner: true, familyList: true}
+        });
+        return Family.from(familyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error: Could not add a family member, check server logs');
+    }
+};
+
 // Delete
 
 const deleteFamily = async(familyId: number): Promise<void> => {
@@ -125,4 +145,5 @@ export default {
     getFamilyWithOwner,
     getFamilyWithChild,
     deleteFamily,
+    addFamilyMember,
 }

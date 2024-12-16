@@ -1,4 +1,5 @@
 import { Family, User } from "@/types";
+import UserService from "./UserService";
 
 // GET 
 
@@ -66,6 +67,37 @@ const createFamily = async (familyName: string, userEmail: string): Promise<Fami
     }
 };
 
+
+const addFamilyMember = async (familyId: number, email: string): Promise<User | null> => {
+    const token = getToken();
+    try {
+        if (!email) {
+            throw new Error('No email provided');
+        }
+        if (!await UserService.getUserByEmail(email)) {
+            throw new Error('No user found with this email');
+        }
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/families/${familyId}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({email}),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add family member');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error adding family member:', error);
+        return null;
+    }
+};
+
+
 // DELETE
 
 const removeFamily = async (familyId: number) => {
@@ -96,6 +128,7 @@ const FamilyService = {
     getFamilyById,
     createFamily,
     removeFamily,
+    addFamilyMember,
 }
 
 export default FamilyService
