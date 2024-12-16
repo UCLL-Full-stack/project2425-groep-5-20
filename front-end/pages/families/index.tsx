@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Header from '@components/header';
 import FamilyService from '@/services/FamilyService';
 import FamiliesOverview from '@components/families/FamiliesOverview';
-import SingleFamilyOverview from '@components/families/SingleFamilyOverview';
 import CreateFamily  from '@components/families/CreateFamily';
 import { Family } from '@/types';
 
@@ -36,12 +35,7 @@ const Families: React.FC = () => {
                 {loggedInUser && <><h1>All Families</h1>
                 {JSON.parse(loggedInUser).role != 'child' && <CreateFamily onCreatedFamily={addNewFamily} email={JSON.parse(loggedInUser).email} role={JSON.parse(loggedInUser).role}/>}
                 <FamiliesOverview families={families} selectedFamily={setSelectedFamily} />
-                {selectedFamily && (
-                    <>
-                        <h2>Members of the "{selectedFamily.name}" family</h2>
-                        <SingleFamilyOverview family={selectedFamily} />
-                    </>
-                )}</> || <h1>You are not authorized to access this content</h1>}
+                </> || <h1>You are not authorized to access this content</h1>}
             </main>
         </>
     );

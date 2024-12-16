@@ -1,4 +1,5 @@
 export type User = {
+    id?: number;
     name?: string;
     email?: string;
     password?: string;
@@ -6,6 +7,7 @@ export type User = {
   };
 
   export type Family = {
+    id?: number;
     name?: string;
     familyList?: User[];
     owner?: User;

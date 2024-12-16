@@ -27,6 +27,21 @@ const getAllFamilies = async(): Promise<Family[]> => {
     }
 }
 
+const getFamilyById = async(familyId: number): Promise<Family | null> => {
+    try {
+        const familyPrisma = await database.family.findUnique({
+            include: {owner: true, familyList: true},
+            where: {
+                id: familyId
+            }
+        })
+        return familyPrisma? Family.from(familyPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error: Could not fetch a family by the ID provided, check server logs.');
+    }
+}
+
 const getFamilyWithOwner = async(email: string): Promise<Family[]> => {
     try {
         const familyPrisma = await database.family.findMany({
@@ -90,6 +105,7 @@ const createFamily = async(name: string, familyList: User[], owner: User): Promi
 
 export default {
     getAllFamilies,
+    getFamilyById,
     createFamily,
     getFamilyWithOwner,
     getFamilyWithChild,

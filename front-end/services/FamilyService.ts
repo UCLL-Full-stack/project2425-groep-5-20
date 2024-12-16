@@ -22,6 +22,23 @@ const getAllFamlies = async () => {
     }
 }
 
+const getFamilyById = async(familyId: number) => {
+    const token = getToken();
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL +`/families/${familyId}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`,
+            },
+        })
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching families:', error);
+    }
+}
+
 const createFamily = async (familyName: string, userEmail: string): Promise<Family | null> => {
     const token = getToken();
     try {
@@ -49,6 +66,7 @@ const createFamily = async (familyName: string, userEmail: string): Promise<Fami
 // Hierboven u code
 const FamilyService = {
     getAllFamlies,
+    getFamilyById,
     createFamily,
 }
 

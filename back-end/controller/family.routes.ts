@@ -75,6 +75,41 @@ familyRouter.get('/', async(req: Request & {auth?: any}, res: Response, next: Ne
 
 /**
  * @swagger
+ * /families/{id}:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Get a list of all families.
+ *     parameters:
+ *         - in: path
+ *           name: familyId
+ *           schema:
+ *             type: number
+ *             required: true
+ *             description: the family ID 
+ *     responses:
+ *       200:
+ *         description: The family by ID.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/Family'
+ */
+familyRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const family = await familyService.getFamilyById(parseInt(req.params.id));
+        res.status(200).json(family); 
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        }
+    }
+})
+
+/**
+ * @swagger
  * /families:
  *   post:
  *     security:
