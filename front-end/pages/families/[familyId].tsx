@@ -13,6 +13,11 @@ const FamilyID: React.FC = () => {
     const [family, setFamily] = useState<Family>();
     const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
+    // This is for the switch between Family Overview and Shopping Lists
+    // False => Family Overview
+    // True => Shopping Lists
+    const [selectedOption, setSelectedOption] = useState<boolean>(false);
+
     const getFamilyById = async (familyid : number) => {
         const family = await FamilyService.getFamilyById(familyid);
         setFamily(family);
@@ -23,6 +28,14 @@ const FamilyID: React.FC = () => {
         getFamilyById(parseInt(familyId as string));
     }, []);
 
+    const handleSelectedOption = (bool: boolean) => {
+        if (!bool) {
+            setSelectedOption(false);
+        } else {
+            setSelectedOption(true);
+        }
+    }
+
 
     return (
         <>
@@ -32,7 +45,15 @@ const FamilyID: React.FC = () => {
             <main>
                 <Header />
                 {loggedInUser && 
-                <SingleFamilyOverview family={family}></SingleFamilyOverview> || <h1>You are not authorized to view this content.</h1>}
+                <>
+                <div className='selectOptionFamilyOrShoppingLists'>
+                    <div onClick={() => handleSelectedOption(false)}>Family Overview</div>
+                    <div onClick={() => handleSelectedOption(true)}>Shopping Lists</div>
+                </div>
+                <h1>Overview of {family?.name}</h1>
+                <SingleFamilyOverview family={family}></SingleFamilyOverview> 
+                </>
+                || <h1>You are not authorized to view this content.</h1>}
             </main>
         </>
     );

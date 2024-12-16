@@ -212,3 +212,25 @@ td, th {
 .familyTable tbody tr:hover {
   background-color: #f1f5f9;
 }
+
+.selectOptionFamilyOrShoppingLists {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.selectOptionFamilyOrShoppingLists div {
+  background-color: gray;
+  color: white;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.selectOptionFamilyOrShoppingLists div:hover {
+  background-color: blue;
+  color: white;
+  padding: 1rem;
+  cursor: pointer;
+}
