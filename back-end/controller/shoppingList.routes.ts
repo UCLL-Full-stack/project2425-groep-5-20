@@ -104,4 +104,17 @@ shoppingListRouter.get('/', async(req: Request, res: Response, next: NextFunctio
     }
 })
 
+shoppingListRouter.get('/family/:id', async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const shoppingLists = await shoppingListsService.getAllShoppingListsForFamily(parseInt(req.params.id));
+        res.status(200).json(shoppingLists);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        }
+    }
+})
+
 export default shoppingListRouter;
