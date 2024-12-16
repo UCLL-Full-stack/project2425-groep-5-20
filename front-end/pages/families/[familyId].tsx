@@ -36,6 +36,12 @@ const FamilyID: React.FC = () => {
         }
     }
 
+    const handleRemoveFamily = async () => {
+        if (window.confirm("Are you sure you want to remove this family?")) {
+            await FamilyService.removeFamily(parseInt(familyId as string));
+            router.push('/families');
+        }
+    }
 
     return (
         <>
@@ -51,6 +57,7 @@ const FamilyID: React.FC = () => {
                     <div onClick={() => handleSelectedOption(true)}>Shopping Lists</div>
                 </div>
                 <h1>Overview of {family?.name}</h1>
+                <button onClick={handleRemoveFamily}>Remove Family</button>
                 <SingleFamilyOverview family={family}></SingleFamilyOverview> 
                 </>
                 || <h1>You are not authorized to view this content.</h1>}
