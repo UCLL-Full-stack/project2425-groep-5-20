@@ -103,10 +103,26 @@ const createFamily = async(name: string, familyList: User[], owner: User): Promi
     }
 }
 
+// Delete
+
+const deleteFamily = async(familyId: number): Promise<void> => {
+    try {
+        await database.family.delete({
+            where: {
+                id: familyId
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error: Could not delete a family, check server logs');
+    }
+};
+
 export default {
     getAllFamilies,
     getFamilyById,
     createFamily,
     getFamilyWithOwner,
     getFamilyWithChild,
+    deleteFamily,
 }

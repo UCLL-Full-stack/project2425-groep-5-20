@@ -1,3 +1,5 @@
+// Swagger documentation for the family routes
+// http://localhost:3000/api-docs/
 /**
  * @swagger
  * components:
@@ -142,5 +144,39 @@ familyRouter.post("/", async (req: Request, res: Response, next: NextFunction) =
         }
     }
 });
-
+/**
+ * @swagger
+ * /families/{id}:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a family by ID.
+ *     parameters:
+ *       - in: path
+ *         name: familyId
+ *         schema:
+ *           type: number
+ *           required: true
+ *           description: The family ID
+ *     responses:
+ *       200:
+ *         description: The deleted family.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Family'
+ */
+familyRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const familyId = parseInt(req.params.id);
+        const result = await familyService.deleteFamily(familyId);
+        res.status(200).json(result);
+    } catch (error){
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        }
+    }
+});
 export default familyRouter;
