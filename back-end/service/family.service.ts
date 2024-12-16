@@ -17,6 +17,14 @@ const getAllFamilies = async (email: string, role: Role): Promise<Family[]> => {
 
 }
 
+const getFamilyById = async(familyId: number): Promise<Family> => {
+    const family = await familyDb.getFamilyById(familyId);
+    if (!family) {
+        throw Error("No family with this id exists");
+    }
+    return family;
+}
+
 const createFamily = async (familyName: string, userEmail: string): Promise<Family> => {
     const user = await userDb.getUserByEmail(userEmail);
     if (!user) {
@@ -29,5 +37,6 @@ const createFamily = async (familyName: string, userEmail: string): Promise<Fami
 
 export default {
     getAllFamilies,
+    getFamilyById,
     createFamily,
 }
