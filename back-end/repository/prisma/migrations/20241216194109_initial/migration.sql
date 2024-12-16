@@ -35,6 +35,7 @@ CREATE TABLE "ShoppingList" (
     "creationDate" TIMESTAMP(3) NOT NULL,
     "lastUpdate" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
+    "familyId" INTEGER NOT NULL,
 
     CONSTRAINT "ShoppingList_pkey" PRIMARY KEY ("id")
 );
@@ -61,6 +62,9 @@ ALTER TABLE "Item" ADD CONSTRAINT "Item_shoppingListId_fkey" FOREIGN KEY ("shopp
 
 -- AddForeignKey
 ALTER TABLE "ShoppingList" ADD CONSTRAINT "ShoppingList_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ShoppingList" ADD CONSTRAINT "ShoppingList_familyId_fkey" FOREIGN KEY ("familyId") REFERENCES "Family"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FamilyMemberList" ADD CONSTRAINT "_FamilyMemberList_A_fkey" FOREIGN KEY ("A") REFERENCES "Family"("id") ON DELETE CASCADE ON UPDATE CASCADE;
