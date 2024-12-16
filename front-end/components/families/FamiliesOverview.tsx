@@ -1,11 +1,13 @@
 import { Family } from "@/types";
+import { useRouter } from "next/router";
 
 type Props = {
     families: Family[];
-    selectedFamily: (family: Family) => void;
+    selectedFamily?: (family: Family) => void;
 }
 
 const FamiliesOverview: React.FC<Props> = ({families, selectedFamily}: Props) => {
+  const router = useRouter();
     return (
         <>
         <table>
@@ -20,7 +22,7 @@ const FamiliesOverview: React.FC<Props> = ({families, selectedFamily}: Props) =>
             {families &&
               families.length > 0 &&
               families.map((family, index) => (
-                <tr key={index} onClick={() => {selectedFamily(family)}} role="button">
+                <tr key={index} onClick={() => {router.push(`/families/${family.id}`)}} role="button">
                   <td>
                     {family.name}
                   </td>
