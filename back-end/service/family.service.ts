@@ -8,11 +8,11 @@ import userService from "./user.service";
 
 const getAllFamilies = async (email: string, role: Role): Promise<Family[]> => {
     if (role == 'admin') {
-        return familyDb.getAllFamilies();
+        return await familyDb.getAllFamilies();
     } else if (role == 'parent') {
-        return familyDb.getFamilyWithOwner(email);
+        return await familyDb.getFamilyWithOwner(email);
     } else {
-        return familyDb.getFamilyWithChild(email);
+        return await familyDb.getFamilyWithChild(email);
     }
 
 }

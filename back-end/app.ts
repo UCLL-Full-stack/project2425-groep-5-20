@@ -8,6 +8,7 @@ import userRouter from './controller/user.routes';
 import familyRouter from './controller/family.routes';
 import { Request, Response, NextFunction } from 'express';
 import { expressjwt } from 'express-jwt';
+import shoppingListRouter from './controller/shoppingList.routes';
 
 const app = express();
 dotenv.config();
@@ -34,8 +35,9 @@ app.listen(port || 3000, () => {
 });
 
 // ENDPOINTS
-app.use("/users", userRouter)
+app.use("/users", userRouter);
 app.use("/families", familyRouter);
+app.use("/shoppingLists", shoppingListRouter);
 
 // Swagger 
 const swaggerOptions = {
