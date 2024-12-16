@@ -36,6 +36,9 @@ const createFamily = async (familyName: string, userEmail: string): Promise<Fami
 }
 
 const addFamilyMember = async (familyId: number, userEmail: string) => {
+    if (!familyId) {
+        throw new Error('Family ID is required.');
+    }
     const family = await familyDb.getFamilyById(familyId);
     if (!family) {
         throw new Error('Family does not exist.');
