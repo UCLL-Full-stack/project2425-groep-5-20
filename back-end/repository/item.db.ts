@@ -11,6 +11,21 @@ const getAllItems = async(): Promise<Item[]> => {
     }
 }
 
+const getItemsFromShoppingList = async(shoppingListId: number): Promise<Item[]> => {
+    try {
+        const itemPrismas = await database.item.findMany({
+            where: {
+                shoppingListId: shoppingListId
+            }
+        });
+        return itemPrismas.map((itemPrisma) => Item.from(itemPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Datebase error: Could not fetch all items of a certain shopping list, check server logs.');
+    }
+}
+
 export default {
     getAllItems,
+    getItemsFromShoppingList,
 }

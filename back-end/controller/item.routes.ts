@@ -103,4 +103,17 @@ itemRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
     }
 })
 
+itemRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const items = await itemService.getItemsFromShoppingList(parseInt(req.params.id));
+        res.status(200).json(items);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        } 
+    }
+})
+
 export default itemRouter;

@@ -2,12 +2,15 @@ import { Family, ShoppingList } from "@/types";
 import AddShoppingList from "./AddShoppingList";
 import { useEffect, useState } from "react";
 import ShoppingListService from "@/services/ShoppingListService";
+import { useRouter } from "next/router";
 
 type Props = {
     family: Family | undefined;
 }
 
 const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
+    const router = useRouter();
+
     const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
 
     const getShoppingListsForFamily = async(familyId: number | undefined) => {
@@ -40,7 +43,7 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
         </thead>
         <tbody>
         {shoppingLists.map((shoppingList, index) => (
-            <tr key={index} className="shoppingList">
+            <tr key={index} className="shoppingList" onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>
                 <td>{shoppingList.name}</td>
                 <td>{shoppingList.creationDate?.slice(0,10)}  {shoppingList.creationDate?.slice(11,16)}</td>
                 <td>{shoppingList.lastUpdate?.slice(0,10)}  {shoppingList.lastUpdate?.slice(11,16)}</td>

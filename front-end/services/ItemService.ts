@@ -1,10 +1,28 @@
 
 
 
+const getToken = () => {
+    return JSON.parse(sessionStorage.getItem("loggedInUser") as string)?.token;
+  }
 
-// Hierboven u code
-const ItemService = {
+const getItemsFromShoppingList = async (shoppingListId: number) => {
+    const token = getToken();
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL +`/items/${shoppingListId}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`,
+            },
+        })
 
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching items for shopping List:', error);
+        return [];
+    }
 }
 
-export default ItemService
+export default {
+    getItemsFromShoppingList,
+}
