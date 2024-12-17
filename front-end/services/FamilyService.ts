@@ -122,6 +122,29 @@ const removeFamily = async (familyId: number) => {
     }
 };
 
+const removeFamilyMember = async (familyId: number, email: string) => {
+    const token = getToken();
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/families/${familyId}/member`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({email}),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to remove family member');
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error removing family member:', error);
+        return false;
+    }
+};
+
 // Hierboven u code
 const FamilyService = {
     getAllFamlies,
@@ -129,6 +152,7 @@ const FamilyService = {
     createFamily,
     removeFamily,
     addFamilyMember,
+    removeFamilyMember,
 }
 
 export default FamilyService

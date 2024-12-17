@@ -25,8 +25,8 @@ const FamilyID: React.FC = () => {
 
     useEffect(() => {
         setLoggedInUser(sessionStorage.getItem("loggedInUser"));
-        getFamilyById(parseInt(familyId as string));
-    }, []);
+        getFamilyById(parseInt(familyId as string)); 
+    }, [familyId,family]);
 
     const handleSelectedOption = (bool: boolean) => {
         if (!bool) {
