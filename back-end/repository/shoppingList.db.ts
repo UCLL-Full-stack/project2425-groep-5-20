@@ -1,6 +1,9 @@
 // GET
 
+import { Family } from "../model/family";
+import { Item } from "../model/item";
 import { ShoppingList } from "../model/shoppingList";
+import { User } from "../model/user";
 import database from "../util/database";
 
 const getAllShoppingLists = async(): Promise<ShoppingList[]> => {
@@ -32,8 +35,33 @@ const getAllShoppingListsForFamily = async(familyId: number): Promise<ShoppingLi
     }
 }
 
+// POST //
+
+const createShoppingList = async(name: string, updatedBy: User, family: Family): Promise<ShoppingList> => {
+    try {
+        const shoppingListPrisma = await database.shoppingList.create({
+            data: {
+                name: name,
+                creationDate: new Date().toISOString(),
+                lastUpdate: new Date().toISOString(),
+                updatedBy: {connect: {id: updatedBy.getId()}},
+                family: {connect: {id: family.getId()}}
+            },
+            include: {updatedBy: true, items: true}
+        });
+
+        return ShoppingList.from(shoppingListPrisma);
+
+    } catch (error) {
+        console.error(error);
+        throw new Error("Database error: Could not create a shopping list, check server logs.")
+    }
+
+}
+
 
 export default {
     getAllShoppingLists,
-    getAllShoppingListsForFamily
+    getAllShoppingListsForFamily,
+    createShoppingList,
 }

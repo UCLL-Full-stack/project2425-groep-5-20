@@ -234,3 +234,9 @@ td, th {
   padding: 1rem;
   cursor: pointer;
 }
+
+/* Shopping list */
+
+.shoppingList {
+  cursor: pointer;
+}

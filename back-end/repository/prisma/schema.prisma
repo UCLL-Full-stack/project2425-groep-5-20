@@ -28,11 +28,11 @@ model Family {
 }
 
 model Item {
-    id             Int           @id @default(autoincrement())
+    id             Int          @id @default(autoincrement())
     name           String
     quantity       Int
-    shoppingListId Int?
-    ShoppingList   ShoppingList? @relation(fields: [shoppingListId], references: [id])
+    shoppingListId Int
+    ShoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
 }
 
 model ShoppingList {

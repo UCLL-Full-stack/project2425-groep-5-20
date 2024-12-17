@@ -1,11 +1,22 @@
-import { useState } from "react";
+import ShoppingListService from "@/services/ShoppingListService";
+import { useEffect, useState } from "react";
 
-const addShoppingList: React.FC = () => {
+type Props = {
+    familyId: number | undefined;
+    addShoppingListToShoppingLists: any;
+}
+
+const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLists}: Props) => {
     const [showNameTextField, setShowNameTextField] = useState<boolean>(false);
-    const [name, setName] = useState<string | undefined>('');
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [nameError, setNameError] = useState<string | null>(null);
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
+    useEffect(() => {
+        setEmail(JSON.parse(sessionStorage.getItem("loggedInUser") as string).email);
+    },[])
+    
     const handleSelected = (bool: boolean) => {
         if (bool) {
             setShowNameTextField(true);
@@ -29,7 +40,7 @@ const addShoppingList: React.FC = () => {
         return result;
     }
 
-    const addShoppingList = (event: any) => {
+    const addShoppingList = async(event: any) => {
         event.preventDefault();
 
         cleanError();
@@ -37,9 +48,18 @@ const addShoppingList: React.FC = () => {
             return;
         }
 
-        setShowNameTextField(false);
-        setName('');
-        setStatusMessage('Shopping list added successfully!')
+        if (!familyId) {
+            return;
+        }
+
+        const shoppingList = await ShoppingListService.createShoppingList(name, familyId.toString(), email);
+
+        if (shoppingList) {
+            setShowNameTextField(false);
+            setName('');
+            addShoppingListToShoppingLists(shoppingList);
+            setStatusMessage('Shopping list added successfully!')
+        }
         
 
     }
