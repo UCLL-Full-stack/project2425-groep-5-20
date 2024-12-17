@@ -57,10 +57,26 @@ const deleteFamily = async (familyId: number): Promise<void> => {
     }
     return familyDb.deleteFamily(familyId);
 }
+
+const removeFamilyMember = async (familyId: number, userEmail: string): Promise<void> => {
+    if (!familyId) {
+        throw new Error('Family ID is required.');
+    }
+    const family = await familyDb.getFamilyById(familyId);
+    if (!family) {
+        throw new Error('Family does not exist.');
+    }
+    const user = await userDb.getUserByEmail(userEmail);
+    if (!user) {
+        throw new Error('User does not exist.');
+    }
+    return familyDb.removeFamilyMember(familyId, user);
+};
 export default {
     getAllFamilies,
     getFamilyById,
     createFamily,
     deleteFamily,
     addFamilyMember,
+    removeFamilyMember,
 }

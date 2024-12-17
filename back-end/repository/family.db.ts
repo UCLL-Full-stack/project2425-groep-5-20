@@ -138,6 +138,24 @@ const deleteFamily = async(familyId: number): Promise<void> => {
     }
 };
 
+const removeFamilyMember = async(familyId: number, user: User): Promise<void> => {
+    try {
+        await database.family.update({
+            where: {
+                id: familyId
+            },
+            data: {
+                familyList: {
+                    disconnect: {id: user.getId()}
+                }
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error: Could not remove a family member, check server logs');
+    }
+};
+
 export default {
     getAllFamilies,
     getFamilyById,
@@ -146,4 +164,5 @@ export default {
     getFamilyWithChild,
     deleteFamily,
     addFamilyMember,
+    removeFamilyMember,
 }
