@@ -134,8 +134,12 @@ const removeFamilyMember = async (familyId: number, email: string) => {
             body: JSON.stringify({email}),
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to remove family member');
+        const errorResponse = await response.json();
+        if (!response.ok && errorResponse) {
+            if (errorResponse.errorMessage === "Owner cannot be removed from family.") {
+                throw new Error("You can't remove the owner");
+            }
+            console.error('Error response:', errorResponse);
         }
 
         return true;

@@ -8,6 +8,11 @@ type Props = {
 const handleRemoveFamilyMember = async (useremail: string, familyId: number | undefined) => {
     if (window.confirm("Are you sure you want to remove this member?")) {
         if (familyId !== undefined) {
+            const response = await FamilyService.getFamilyById(familyId);
+            if (response.owner.email === useremail) {
+                alert("You can't remove the owner");
+                return;
+            }
             await FamilyService.removeFamilyMember(familyId, useremail);
         }
     }
