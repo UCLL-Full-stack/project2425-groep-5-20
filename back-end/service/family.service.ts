@@ -70,6 +70,9 @@ const removeFamilyMember = async (familyId: number, userEmail: string): Promise<
     if (!user) {
         throw new Error('User does not exist.');
     }
+    if (family.getOwner().getEmail() === user.getEmail()) {
+        throw new Error('Owner cannot be removed from family.');
+    }
     return familyDb.removeFamilyMember(familyId, user);
 };
 export default {

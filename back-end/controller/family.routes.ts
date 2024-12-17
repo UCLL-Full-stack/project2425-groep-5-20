@@ -145,6 +145,38 @@ familyRouter.post("/", async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
+/**
+ * @swagger
+ * /families/{id}:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Add a family member.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: number
+ *           required: true
+ *           description: The family ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The email of the user to add.
+ *     responses:
+ *       200:
+ *         description: The added family member.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
 familyRouter.post("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const familyId = parseInt(req.params.id);
@@ -159,6 +191,7 @@ familyRouter.post("/:id", async (req: Request, res: Response, next: NextFunction
         }
     }
 });
+
 /**
  * @swagger
  * /families/{id}:
@@ -195,6 +228,34 @@ familyRouter.delete("/:id", async (req: Request, res: Response, next: NextFuncti
     }
 });
 
+/**
+ * @swagger
+ * /families/{id}/{email}:
+ *   put:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Remove a family member.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: number
+ *           required: true
+ *           description: The family ID
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *           required: true
+ *           description: The email of the user to remove.
+ *     responses:
+ *       200:
+ *         description: The removed family member.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
 familyRouter.put("/:id/:email", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const familyId = parseInt(req.params.id);
