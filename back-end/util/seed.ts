@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 const main = async() => {
-    await prisma.item.deleteMany();
     await prisma.shoppingList.deleteMany();
+    await prisma.item.deleteMany();
     await prisma.family.deleteMany();
     await prisma.user.deleteMany();
 

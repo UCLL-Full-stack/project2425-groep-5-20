@@ -19,19 +19,20 @@ model User {
 }
 
 model Family {
-    id         Int    @id @default(autoincrement())
-    name       String
-    familyList User[] @relation("FamilyMemberList")
-    ownerid    Int
-    owner      User   @relation(fields: [ownerid], references: [id])
+    id           Int            @id @default(autoincrement())
+    name         String
+    familyList   User[]         @relation("FamilyMemberList")
+    ownerid      Int
+    owner        User           @relation(fields: [ownerid], references: [id])
+    ShoppingList ShoppingList[]
 }
 
 model Item {
-    id             Int           @id @default(autoincrement())
+    id             Int          @id @default(autoincrement())
     name           String
     quantity       Int
-    shoppingListId Int?
-    ShoppingList   ShoppingList? @relation(fields: [shoppingListId], references: [id])
+    shoppingListId Int
+    ShoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
 }
 
 model ShoppingList {
@@ -42,4 +43,6 @@ model ShoppingList {
     lastUpdate   DateTime
     userId       Int
     updatedBy    User     @relation(fields: [userId], references: [id])
+    familyId     Int
+    family       Family   @relation(fields: [familyId], references: [id])
 }

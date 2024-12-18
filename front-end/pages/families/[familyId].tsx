@@ -5,6 +5,7 @@ import FamilyService from '@/services/FamilyService';
 import { Family } from '@/types';
 import { useRouter } from 'next/router';
 import SingleFamilyOverview from '@components/families/familyId/SingleFamilyOverview';
+import ShoppingListsOverview from '@components/families/familyId/ShoppingListsOverview';
 
 const FamilyID: React.FC = () => {
     const router = useRouter();
@@ -63,11 +64,10 @@ const FamilyID: React.FC = () => {
                     <div onClick={() => handleSelectedOption(false)}>Family Overview</div>
                     <div onClick={() => handleSelectedOption(true)}>Shopping Lists</div>
                 </div>
-                <h1>Overview of {family?.name}</h1>
+                {!selectedOption && <><h1>Overview of {family?.name}</h1>
                 <button onClick={handleRemoveFamily}>Remove Family</button>
                 <button onClick={handleAddFamilyMember}>Add a family member</button>
-                <SingleFamilyOverview family={family}></SingleFamilyOverview> 
-                </>
+                <SingleFamilyOverview family={family}></SingleFamilyOverview></> || <ShoppingListsOverview family={family}/>} 
                 || <h1>You are not authorized to view this content.</h1>}
             </main>
         </>

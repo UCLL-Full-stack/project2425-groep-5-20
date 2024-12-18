@@ -6,11 +6,26 @@ export type User = {
     role?: Role;
   };
 
-  export type Family = {
+export type Family = {
     id?: number;
     name?: string;
     familyList?: User[];
     owner?: User;
   }
+
+export type Item = {
+  id?: number,
+  name?: string,
+  quantity?: number
+}
+
+export type ShoppingList = {
+  id?: number;
+  name?: string;
+  creationDate?: string,
+  lastUpdate?: string,
+  updatedBy?: User,
+  items?: Item[]
+}
 
   export type Role = 'admin' | 'parent' | 'child';

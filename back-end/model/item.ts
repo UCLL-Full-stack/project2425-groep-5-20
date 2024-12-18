@@ -31,13 +31,6 @@ export class Item {
         })
     }
     
-    addQuantity(number : number) {
-        this.quantity += number
-    }
-
-    decreaseQuantity(number : number) {
-        this.quantity -= number
-    }
 
     getId(): number | undefined {
         return this.id;
