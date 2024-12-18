@@ -2,7 +2,7 @@
 
 
 const getToken = () => {
-    return JSON.parse(sessionStorage.getItem("loggedInUser") as string)?.token;
+    return JSON.parse(localStorage.getItem("loggedInUser") as string)?.token;
   }
 
 const getItemsFromShoppingList = async (shoppingListId: number) => {

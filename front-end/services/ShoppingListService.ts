@@ -3,7 +3,7 @@ import { Item, ShoppingList } from "@/types";
 
 
 const getToken = () => {
-    return JSON.parse(sessionStorage.getItem("loggedInUser") as string)?.token;
+    return JSON.parse(localStorage.getItem("loggedInUser") as string)?.token;
 }
 
 // Get
