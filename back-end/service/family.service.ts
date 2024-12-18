@@ -1,6 +1,9 @@
 import { Family } from "../model/family";
+import { Item } from "../model/item";
 import { User } from "../model/user";
 import familyDb from "../repository/family.db";
+import itemDb from "../repository/item.db";
+import shoppingListDb from "../repository/shoppingList.db";
 import userDb from "../repository/user.db";
 import { FamilyInput, Role } from "../types";
 import userService from "./user.service";
@@ -52,10 +55,20 @@ const addFamilyMember = async (familyId: number, userEmail: string) => {
 
 const deleteFamily = async (familyId: number): Promise<void> => {
     const family = await familyDb.getFamilyById(familyId);
+    const shoppingLists = await shoppingListDb.getAllShoppingListsForFamily(familyId);
+
     if (!family) {
         throw new Error('Family does not exist.');
     }
-    return familyDb.deleteFamily(familyId);
+
+    if (shoppingLists.length > 0) {
+        for (const shoppingList of shoppingLists) {
+            await itemDb.deleteItemsFromShoppingList(shoppingList.getId());
+    }}
+
+    await shoppingListDb.deleteShoppingList(familyId);
+
+    return await familyDb.deleteFamily(familyId);
 }
 
 const removeFamilyMember = async (familyId: number, userEmail: string): Promise<void> => {

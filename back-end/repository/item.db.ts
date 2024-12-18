@@ -25,7 +25,24 @@ const getItemsFromShoppingList = async(shoppingListId: number): Promise<Item[]> 
     }
 }
 
+// Delete
+const deleteItemsFromShoppingList = async(shoppingListId: number | undefined): Promise<void> => {
+    try {
+        await database.item.deleteMany({
+            where: {
+                ShoppingList: {
+                    id: shoppingListId
+                }
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error: Could not delete a shopping lists, check server logs');
+    }
+};
+
 export default {
     getAllItems,
     getItemsFromShoppingList,
+    deleteItemsFromShoppingList,
 }
