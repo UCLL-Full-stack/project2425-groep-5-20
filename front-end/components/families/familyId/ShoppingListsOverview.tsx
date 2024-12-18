@@ -12,6 +12,7 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
     const router = useRouter();
 
     const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
+    const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
     const getShoppingListsForFamily = async(familyId: number | undefined) => {
         if (!familyId) {
@@ -30,8 +31,21 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
     }
 
     useEffect(() => {
+        setLoggedInUser(localStorage.getItem("loggedInUser"));
         getShoppingListsForFamily(family?.id);
-    }, [])
+    }, [shoppingLists])
+
+    const handleRemoveShoppingList = async(shoppingListId: number | undefined) => {
+        if (!shoppingListId) {
+            return;
+        }
+        if (window.confirm("Are you sure you want to remove this shopping list?")){
+
+            await ShoppingListService.deleteShoppingList(shoppingListId);
+
+            getShoppingListsForFamily(family?.id);
+        }
+    }
 
     return <>
     <h1>Shopping Lists of {family?.name}</h1>
@@ -47,11 +61,12 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
         </thead>
         <tbody>
         {shoppingLists.map((shoppingList, index) => (
-            <tr key={index} className="shoppingList" onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>
-                <td>{shoppingList.name}</td>
-                <td>{shoppingList.creationDate?.slice(0,10)}  {shoppingList.creationDate?.slice(11,16)}</td>
-                <td>{shoppingList.lastUpdate?.slice(0,10)}  {shoppingList.lastUpdate?.slice(11,16)}</td>
-                <td>{shoppingList.updatedBy?.name}</td>
+            <tr key={index} className="shoppingList">
+                <td onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>{shoppingList.name}</td>
+                <td onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>{shoppingList.creationDate?.slice(0,10)}  {shoppingList.creationDate?.slice(11,16)}</td>
+                <td onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>{shoppingList.lastUpdate?.slice(0,10)}  {shoppingList.lastUpdate?.slice(11,16)}</td>
+                <td onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>{shoppingList.updatedBy?.name}</td>
+                {loggedInUser && JSON.parse(loggedInUser).role != 'child' && <td><button onClick={() => handleRemoveShoppingList(shoppingList.id)}>Remove</button></td>}
             </tr>
         ))}
         </tbody>

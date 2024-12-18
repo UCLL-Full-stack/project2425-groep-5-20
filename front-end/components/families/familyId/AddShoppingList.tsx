@@ -15,8 +15,8 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
     const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
     useEffect(() => {
-        setEmail(JSON.parse(sessionStorage.getItem("loggedInUser") as string).email);
-        setLoggedInUser(sessionStorage.getItem('loggedInUser'));
+        setEmail(JSON.parse(localStorage.getItem("loggedInUser") as string).email);
+        setLoggedInUser(localStorage.getItem('loggedInUser'));
     },[])
     
     const handleSelected = (bool: boolean) => {

@@ -140,4 +140,46 @@ itemRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) =>
     }
 })
 
+
+// Delete
+/**
+ * @swagger
+ * /items/remove:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete an item by ID.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userEmail:
+ *                 type: string
+ *                 description: The email of the user.
+ *               itemId:
+ *                 type: number
+ *                 description: The ID of the item.
+ *               shoppingListId:
+ *                 type: number
+ *                 description: The ID of the shopping list.
+ *     responses:
+ *       200:
+ *         description: The deleted item.
+ */
+itemRouter.delete('/remove', async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        await itemService.deleteItem(req.body.itemId, req.body.userEmail, req.body.shoppingListId);
+        res.status(200);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        } 
+    }
+})
+
 export default itemRouter;

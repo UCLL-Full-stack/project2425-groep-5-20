@@ -4,7 +4,7 @@ import UserService from "./UserService";
 // GET 
 
 const getToken = () => {
-    return JSON.parse(sessionStorage.getItem("loggedInUser") as string)?.token;
+    return JSON.parse(localStorage.getItem("loggedInUser") as string)?.token;
   }
 
 const getAllFamlies = async () => {

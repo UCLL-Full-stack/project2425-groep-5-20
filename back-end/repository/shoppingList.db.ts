@@ -88,8 +88,30 @@ const addItemToShoppingList = async(shoppingListId: number, item: Item, updatedB
     }
 }
 
+const removeItemFromShoppingList = async(shoppingListId: number, updatedBy: User): Promise<ShoppingList> => {
+    try {
+        const shoppingListPrisma = await database.shoppingList.update({
+            where: {
+                id: shoppingListId
+            },
+            data: {
+                lastUpdate: new Date().toISOString(),
+                updatedBy: {connect: {id: updatedBy.getId()}},
+            },
+            include: {updatedBy: true, items: true}
+        })
+        return ShoppingList.from(shoppingListPrisma);
+
+
+    } catch (error) {
+        console.error(error);
+        throw new Error("Database error: Could not add item to shopping list, check server logs.");
+    }
+}
+
+
 // Delete
-const deleteShoppingList = async(familyId: number): Promise<void> => {
+const deleteShoppingListsForFamily = async(familyId: number): Promise<void> => {
     try {
         await database.shoppingList.deleteMany({
             where: {
@@ -104,11 +126,27 @@ const deleteShoppingList = async(familyId: number): Promise<void> => {
     }
 };
 
+const deleteShoppingList = async(shoppingListId: number): Promise<void> => {
+    try {
+        await database.shoppingList.delete({
+            where: {
+                id: shoppingListId
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error: Could not delete a shopping lists, check server logs');
+    }
+};
+
+
 
 export default {
     getAllShoppingLists,
     getAllShoppingListsForFamily,
     createShoppingList,
     addItemToShoppingList,
+    deleteShoppingListsForFamily,
+    removeItemFromShoppingList,
     deleteShoppingList,
 }

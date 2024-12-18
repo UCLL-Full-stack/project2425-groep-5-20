@@ -13,6 +13,7 @@ const shoppingListId: React.FC= () => {
 
     const [items, setItems] = useState<Item[]>([]);
     const [status, setStatus] = useState<string>('');
+    const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
     const getItemsFromShoppingList = async(shoppingListId: number | undefined) => {
         if (!shoppingListId) {
@@ -24,12 +25,13 @@ const shoppingListId: React.FC= () => {
 
     useEffect(() => {
         getItemsFromShoppingList(parseInt(shoppingListId as string));
-    },[])
+        setLoggedInUser(localStorage.getItem('loggedInUser'));
+    },[shoppingListId, items])
 
     const addItemToShoppingList = async(item: Item) => {
-        const userEmail = JSON.parse(sessionStorage.getItem('loggedInUser') as string).email;
+        const userEmail = JSON.parse(localStorage.getItem('loggedInUser') as string).email;
 
-        const shoppingListItem = await ShoppingListService.addItemToShoppingList(parseInt(shoppingListId as string),item,userEmail);
+        await ShoppingListService.addItemToShoppingList(parseInt(shoppingListId as string),item,userEmail);
 
         getItemsFromShoppingList(parseInt(shoppingListId as string));
         setStatus('Item successfully added to shopping list.');
@@ -37,6 +39,20 @@ const shoppingListId: React.FC= () => {
         setTimeout(()=> {
             setStatus('');
         }, 2000);
+    }
+
+    const handleDeleteItem = async(itemId: number | undefined) => {
+        if (!itemId) {
+            return;
+        }
+
+        if (window.confirm("Are you sure you want to delete this item from the shopping list?")) {
+            const userEmail = JSON.parse(localStorage.getItem('loggedInUser') as string).email;
+
+            await ItemService.deleteItem(itemId, userEmail, parseInt(shoppingListId as string))
+        }
+
+        getItemsFromShoppingList(parseInt(shoppingListId as string));
     }
 
     return <>
@@ -56,6 +72,7 @@ const shoppingListId: React.FC= () => {
                 <tr key={idx}>
                     <td>{item.name}</td>
                     <td>{item.quantity}</td>
+                    { loggedInUser && JSON.parse(loggedInUser).role != 'child' &&<td><button onClick={() => handleDeleteItem(item.id)}>Remove</button></td>}
                 </tr>
             ))}
         </tbody>

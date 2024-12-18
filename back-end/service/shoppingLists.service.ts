@@ -3,6 +3,7 @@ import { ShoppingList } from "../model/shoppingList";
 import familyDb from "../repository/family.db";
 import userDb from "../repository/user.db";
 import { Item } from "../model/item";
+import itemDb from "../repository/item.db";
 
 const getAllShoppingLists = async(): Promise<ShoppingList[]> => {
     return await shoppingListDb.getAllShoppingLists();
@@ -44,9 +45,15 @@ const addItemToShoppingList = async(shoppingListId: number, item: any, userEmail
     return shoppingListDb.addItemToShoppingList(shoppingListId, new_item, user);
 }
 
+const deleteShoppingList = async(shoppingListId: number) => {
+    await itemDb.deleteItemsFromShoppingList(shoppingListId);
+    await shoppingListDb.deleteShoppingList(shoppingListId);
+}
+
 export default {
     getAllShoppingLists,
     getAllShoppingListsForFamily,
     createShoppingList,
     addItemToShoppingList,
+    deleteShoppingList,
 }

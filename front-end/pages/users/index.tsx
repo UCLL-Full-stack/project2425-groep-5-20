@@ -19,7 +19,7 @@ const Users: React.FC = () => {
   };
 
   useEffect(() => {
-    setLoggedInUser(sessionStorage.getItem('loggedInUser'));
+    setLoggedInUser(localStorage.getItem('loggedInUser'));
     getAllUsers();
   }, []);
 
