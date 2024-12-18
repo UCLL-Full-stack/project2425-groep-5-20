@@ -1,11 +1,13 @@
 import FamilyService from "@/services/FamilyService";
 import { Family } from "@/types";
+import { useEffect, useState } from "react";
 
 type Props = {
     family: Family | undefined;
 }
 
 const handleRemoveFamilyMember = async (useremail: string, familyId: number | undefined) => {
+    
     if (window.confirm("Are you sure you want to remove this member?")) {
         if (familyId !== undefined) {
             const response = await FamilyService.getFamilyById(familyId);
@@ -18,7 +20,14 @@ const handleRemoveFamilyMember = async (useremail: string, familyId: number | un
     }
 }
 
+
 const SingleFamilyOverview: React.FC<Props> = ({family}: Props) => {
+    const [loggedInUser, setLoggedInUser] = useState<string | null>();
+
+    useEffect(() => {
+        setLoggedInUser(sessionStorage.getItem('loggedInUser'));
+    }, [])
+    
     return <>
     <table>
         <thead>
@@ -40,9 +49,9 @@ const SingleFamilyOverview: React.FC<Props> = ({family}: Props) => {
                     <td>
                         {user.role}
                     </td>
-                    <td>
+                    {loggedInUser && JSON.parse(loggedInUser).role != "child" && <td>
                         <button onClick={() => user.email && handleRemoveFamilyMember(user.email, family?.id)}>Remove</button>
-                    </td>
+                    </td>}
                 </tr>
             ))}
         </tbody>

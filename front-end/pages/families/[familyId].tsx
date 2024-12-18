@@ -66,8 +66,8 @@ const FamilyID: React.FC = () => {
                 </div>
                 {!selectedOption && 
                     <><h1>Overview of {family?.name}</h1>
-                    <button onClick={handleRemoveFamily}>Remove Family</button>
-                    <button onClick={handleAddFamilyMember}>Add a family member</button>
+                    {JSON.parse(loggedInUser).role != 'child' && <><button onClick={handleRemoveFamily}>Remove Family</button>
+                    <button onClick={handleAddFamilyMember}>Add a family member</button></>}
                     <SingleFamilyOverview family={family}></SingleFamilyOverview></> || <ShoppingListsOverview family={family}/>}</> 
                 || <h1>You are not authorized to view this content.</h1>}
             </main>
