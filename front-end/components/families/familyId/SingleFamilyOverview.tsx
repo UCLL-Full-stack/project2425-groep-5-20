@@ -25,7 +25,7 @@ const SingleFamilyOverview: React.FC<Props> = ({family}: Props) => {
     const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
     useEffect(() => {
-        setLoggedInUser(sessionStorage.getItem('loggedInUser'));
+        setLoggedInUser(localStorage.getItem('loggedInUser'));
     }, [])
     
     return <>

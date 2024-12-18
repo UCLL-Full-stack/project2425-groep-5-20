@@ -86,7 +86,7 @@ const LoginPage: React.FC = () => {
         }
 
 
-        sessionStorage.setItem("loggedInUser", JSON.stringify({
+        localStorage.setItem("loggedInUser", JSON.stringify({
             token: response.token,
             name: response.name,
             email: response.email,
@@ -118,7 +118,7 @@ const LoginPage: React.FC = () => {
             return;
         }
 
-        sessionStorage.setItem("loggedInUser", JSON.stringify({
+        localStorage.setItem("loggedInUser", JSON.stringify({
             token: user.token,
             name: user.name,
             email: user.email,

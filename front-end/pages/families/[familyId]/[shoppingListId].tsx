@@ -27,7 +27,7 @@ const shoppingListId: React.FC= () => {
     },[])
 
     const addItemToShoppingList = async(item: Item) => {
-        const userEmail = JSON.parse(sessionStorage.getItem('loggedInUser') as string).email;
+        const userEmail = JSON.parse(localStorage.getItem('loggedInUser') as string).email;
 
         const shoppingListItem = await ShoppingListService.addItemToShoppingList(parseInt(shoppingListId as string),item,userEmail);
 

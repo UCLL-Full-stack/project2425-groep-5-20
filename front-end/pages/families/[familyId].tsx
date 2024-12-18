@@ -25,7 +25,7 @@ const FamilyID: React.FC = () => {
     };
 
     useEffect(() => {
-        setLoggedInUser(sessionStorage.getItem("loggedInUser"));
+        setLoggedInUser(localStorage.getItem("loggedInUser"));
         getFamilyById(parseInt(familyId as string)); 
     }, [familyId,family]);
 
