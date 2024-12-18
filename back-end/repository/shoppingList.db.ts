@@ -88,6 +88,28 @@ const addItemToShoppingList = async(shoppingListId: number, item: Item, updatedB
     }
 }
 
+const removeItemFromShoppingList = async(shoppingListId: number, updatedBy: User): Promise<ShoppingList> => {
+    try {
+        const shoppingListPrisma = await database.shoppingList.update({
+            where: {
+                id: shoppingListId
+            },
+            data: {
+                lastUpdate: new Date().toISOString(),
+                updatedBy: {connect: {id: updatedBy.getId()}},
+            },
+            include: {updatedBy: true, items: true}
+        })
+        return ShoppingList.from(shoppingListPrisma);
+
+
+    } catch (error) {
+        console.error(error);
+        throw new Error("Database error: Could not add item to shopping list, check server logs.");
+    }
+}
+
+
 // Delete
 const deleteShoppingList = async(familyId: number): Promise<void> => {
     try {
@@ -111,4 +133,5 @@ export default {
     createShoppingList,
     addItemToShoppingList,
     deleteShoppingList,
+    removeItemFromShoppingList,
 }

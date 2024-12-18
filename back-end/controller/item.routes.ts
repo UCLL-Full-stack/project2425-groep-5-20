@@ -140,4 +140,18 @@ itemRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) =>
     }
 })
 
+
+// Delete
+itemRouter.delete('/remove', async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        await itemService.deleteItem(req.body.itemId, req.body.userEmail, req.body.shoppingListId);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        } 
+    }
+})
+
 export default itemRouter;
