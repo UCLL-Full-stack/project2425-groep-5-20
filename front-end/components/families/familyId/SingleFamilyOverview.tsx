@@ -27,7 +27,7 @@ const SingleFamilyOverview: React.FC<Props> = ({ family }: Props) => {
     }, [])
 
     return (
-        <div className="bg-[#1F2833] min-h-screen mt-5 container mx-auto p-4">
+        <div className=" mt-5 container mx-auto p-4">
             <table className="min-w-full bg-white border border-gray-200">
                 <thead>
                     <tr className="bg-gray-100">

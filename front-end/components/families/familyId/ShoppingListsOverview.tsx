@@ -48,7 +48,7 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
     }
 
     return <>
-    <div className="bg-[#1F2833] min-h-screen">
+    <div className="">
         <div className="flex flex-col items-center">
         <h1 className="text-2xl text-white mb-4">Shopping Lists of {family?.name}</h1>
         <AddShoppingList familyId={family?.id} addShoppingListToShoppingLists={addShoppingListToShoppingLists}></AddShoppingList>

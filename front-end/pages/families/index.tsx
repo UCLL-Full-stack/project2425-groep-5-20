@@ -36,7 +36,7 @@ const Families: React.FC = () => {
           {loggedInUser ? (
             <div className="flex flex-col items-center mt-10">
               {/* card ding wrapper div */}
-              <div className="bg-[#0b0c10] shadow-lg rounded-lg w-11/12 md:w-3/5 p-6 text-black">
+              <div className="bg-[#303341] shadow-lg rounded-lg w-11/12 md:w-3/5 p-6 text-black">
                 <h1 className="text-3xl font-bold text-center text-[#c5c6c7] mb-6">
                   All Families
                 </h1>
