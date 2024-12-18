@@ -12,9 +12,11 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
     const [email, setEmail] = useState<string>('');
     const [nameError, setNameError] = useState<string | null>(null);
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
+    const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
     useEffect(() => {
         setEmail(JSON.parse(sessionStorage.getItem("loggedInUser") as string).email);
+        setLoggedInUser(sessionStorage.getItem('loggedInUser'));
     },[])
     
     const handleSelected = (bool: boolean) => {
@@ -65,7 +67,7 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
     }
 
     return <>
-    <button onClick={() => handleSelected(!showNameTextField)}> Add a new shopping list</button>
+    {loggedInUser && JSON.parse(loggedInUser).role != 'child' && <><button onClick={() => handleSelected(!showNameTextField)}> Add a new shopping list</button>
     {showNameTextField && 
         <div>
             <form onSubmit={(e) => addShoppingList(e)}>
@@ -76,7 +78,7 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
             {nameError && <p>{nameError}</p>}
         </div>
     }
-    {statusMessage && <p>{statusMessage}</p>}
+    {statusMessage && <p>{statusMessage}</p>}</>}
     </>
 }
 
