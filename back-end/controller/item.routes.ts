@@ -145,6 +145,7 @@ itemRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) =>
 itemRouter.delete('/remove', async(req: Request, res: Response, next: NextFunction) => {
     try {
         await itemService.deleteItem(req.body.itemId, req.body.userEmail, req.body.shoppingListId);
+        res.status(200);
     } catch (error) {
         if (error instanceof Error) {
             res.status(400).json({ status: "error", errorMessage: error.message });

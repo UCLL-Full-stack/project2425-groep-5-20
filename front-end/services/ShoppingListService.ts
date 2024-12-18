@@ -69,8 +69,27 @@ const addItemToShoppingList = async(shoppingListId: number, item: Item, userEmai
     }
 }
 
+// Delete
+const deleteShoppingList = async(shoppingListId: number) => {
+    const token = getToken();
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/shoppingLists/${shoppingListId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        return await response.json();
+
+    } catch (error) {
+        throw new Error('Error deleting shopping list:' + error);
+    }
+}
+
 export default {
     getAllShoppingListsForFamily,
     createShoppingList,
     addItemToShoppingList,
+    deleteShoppingList,
 }
