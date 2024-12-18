@@ -1,0 +1,117 @@
+{
+    "app.title": "FamList",
+    "header": {
+        "welcome": "Welkom",
+        "nav": {
+            "home": "Home",
+            "users": "Gebruikers",
+            "families": "Families",
+            "signin": "Inloggen",
+            "logoout": "Uitloggen"
+        }
+    },
+    "home": {
+        "testUsers": "Testgebruikers",
+        "testUsersExplained": "Dit zijn de gebruikers die docenten kunnen gebruiken om tests uit te voeren op onze applicatie."
+    },
+    "login": {
+        "email": "E-mail",
+        "password": "Wachtwoord",
+        "hasnoAccount": "Heb je nog geen account?",
+        "hasAccount": "Heb je al een account?",
+        "button": {
+            "login": "Inloggen",
+            "signUp": "Registreren",
+            "parent": "Ouder",
+            "child": "Kind"
+        },
+        "status": {
+            "nameError": "Naam is verplicht.",
+            "emailError": "E-mail moet een geldig e-mailadres zijn.",
+            "passwordError": "Wachtwoord moet minstens 8 tekens bevatten.",
+            "options": "Je moet een van de twee opties kiezen.",
+            "userExists": "Er bestaat al een gebruiker met dit e-mailadres.",
+            "incorrect": "Onjuist e-mailadres of wachtwoord.",
+            "success2sec": "Succesvol ingelogd! Je wordt over 2 seconden doorgestuurd naar de homepage...",
+            "success1sec": "Succesvol ingelogd! Je wordt over 1 seconde doorgestuurd naar de homepage..."
+        }
+    },
+    "users": {
+        "allUsers": "Alle gebruikers",
+        "name": "Naam",
+        "email": "E-mail",
+        "password": "Wachtwoord",
+        "role": "Rol"
+    },
+    "families": {
+        "allFamilies": "Alle families",
+        "name": "Naam",
+        "amountOfMembers": "Aantal leden",
+        "owner": "Eigenaar",
+        "createNewFamily": "Nieuwe familie aanmaken",
+        "pleaseEnterNewName": "Voer een nieuwe familienaam in",
+        "pleaseEnterEmail": "Voer je e-mailadres in",
+        "addFamily": "Familie toevoegen",
+        "status": {
+            "familyError": "Familienaam is verplicht.",
+            "emailError": "E-mailadres moet een geldig formaat hebben.",
+            "noUserWithThisEmail": "Er bestaat geen gebruiker met dat e-mailadres!",
+            "success": "Familie succesvol toegevoegd!"
+        },
+        "familyOverview": {
+            "title": "Overzicht van",
+            "titleButtom": "Familieoverzicht",
+            "button": {
+                "removeFamily": "Familie verwijderen",
+                "addMember": "Familielid toevoegen",
+                "remove": "Verwijderen"
+            },
+            "status": {
+                "areYouSure": "Weet je zeker dat je deze familie wilt verwijderen?",
+                "addEmail": "Voer het e-mailadres in van het familielid dat je wilt toevoegen.",
+                "noOwner": "Je kunt de eigenaar niet verwijderen."
+            }
+        },
+        "shoppingListOverview": {
+            "title": "Boodschappenlijsten van",
+            "titleButtom": "Boodschappenlijsten",
+            "button": {
+                "addShoppingList": "Nieuwe boodschappenlijst toevoegen",
+                "remove": "Verwijderen",
+                "add": "Toevoegen"
+            },
+            "name": "Naam",
+            "table": {
+                "name": "Naam",
+                "creationDate": "Aanmaakdatum",
+                "lastTimeUpdated": "Laatst bijgewerkt",
+                "lastUpdateBy": "Laatst bijgewerkt door"
+            },
+            "status": {
+                "areYouSure": "Weet je zeker dat je deze boodschappenlijst wilt verwijderen?",
+                "nameError": "Naam is verplicht.",
+                "succes": "Boodschappenlijst succesvol toegevoegd."
+            }
+        },
+        "itemOverview": {
+            "title": "Items in",
+            "button": {
+                "addShoppingList": "Nieuwe boodschappenlijst toevoegen",
+                "remove": "Verwijderen",
+                "add": "Item toevoegen"
+            },
+            "name": "Naam",
+            "quantity": "Hoeveelheid",
+            "table": {
+                "name": "Itemnaam",
+                "quanity": "Hoeveelheid"
+            },
+            "status": {
+                "nameError": "Naam is verplicht.",
+                "quantityError": "Je moet meer dan 0 van een item toevoegen.",
+                "succes": "Item succesvol toegevoegd aan de boodschappenlijst.",
+                "areYouSure": "Weet je zeker dat je dit item van de boodschappenlijst wilt verwijderen?"
+            }
+        }
+    }
+}
