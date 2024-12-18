@@ -12,6 +12,7 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
     const router = useRouter();
 
     const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
+    const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
     const getShoppingListsForFamily = async(familyId: number | undefined) => {
         if (!familyId) {
@@ -30,6 +31,7 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
     }
 
     useEffect(() => {
+        setLoggedInUser(localStorage.getItem("loggedInUser"));
         getShoppingListsForFamily(family?.id);
     }, [shoppingLists])
 
@@ -64,7 +66,7 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
                 <td onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>{shoppingList.creationDate?.slice(0,10)}  {shoppingList.creationDate?.slice(11,16)}</td>
                 <td onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>{shoppingList.lastUpdate?.slice(0,10)}  {shoppingList.lastUpdate?.slice(11,16)}</td>
                 <td onClick={() => router.push(`/families/${family?.id}/${shoppingList.id}`)}>{shoppingList.updatedBy?.name}</td>
-                <td><button onClick={() => handleRemoveShoppingList(shoppingList.id)}>Remove</button></td>
+                {loggedInUser && JSON.parse(loggedInUser).role != 'child' && <td><button onClick={() => handleRemoveShoppingList(shoppingList.id)}>Remove</button></td>}
             </tr>
         ))}
         </tbody>

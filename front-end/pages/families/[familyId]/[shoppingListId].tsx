@@ -13,6 +13,7 @@ const shoppingListId: React.FC= () => {
 
     const [items, setItems] = useState<Item[]>([]);
     const [status, setStatus] = useState<string>('');
+    const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
     const getItemsFromShoppingList = async(shoppingListId: number | undefined) => {
         if (!shoppingListId) {
@@ -24,6 +25,7 @@ const shoppingListId: React.FC= () => {
 
     useEffect(() => {
         getItemsFromShoppingList(parseInt(shoppingListId as string));
+        setLoggedInUser(localStorage.getItem('loggedInUser'));
     },[shoppingListId, items])
 
     const addItemToShoppingList = async(item: Item) => {
@@ -70,7 +72,7 @@ const shoppingListId: React.FC= () => {
                 <tr key={idx}>
                     <td>{item.name}</td>
                     <td>{item.quantity}</td>
-                    <td><button onClick={() => handleDeleteItem(item.id)}>Remove</button></td>
+                    { loggedInUser && JSON.parse(loggedInUser).role != 'child' &&<td><button onClick={() => handleDeleteItem(item.id)}>Remove</button></td>}
                 </tr>
             ))}
         </tbody>
