@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     <header>
       <div className="nav">
         <img src="/images/FamList Temp.png" alt="famlist logo" />
-        {loggedInUser && <p className="welcomeUser">Welcome {JSON.parse(loggedInUser).username}! ({JSON.parse(loggedInUser).role})</p>}
+        {loggedInUser && <p className="welcomeUser">Welcome {JSON.parse(loggedInUser).name}! ({JSON.parse(loggedInUser).role})</p>}
         <ul>
           <Link href="/">
             Home
