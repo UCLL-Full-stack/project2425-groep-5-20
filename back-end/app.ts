@@ -10,9 +10,11 @@ import { Request, Response, NextFunction } from 'express';
 import { expressjwt } from 'express-jwt';
 import shoppingListRouter from './controller/shoppingList.routes';
 import itemRouter from './controller/item.routes';
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
+app.use(helmet())
 const port = process.env.APP_PORT || 3000;
 
 app.use(
