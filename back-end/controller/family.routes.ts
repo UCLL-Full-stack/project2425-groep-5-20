@@ -81,7 +81,7 @@ familyRouter.get('/', async(req: Request & {auth?: any}, res: Response, next: Ne
  *   get:
  *     security:
  *       - bearerAuth: []
- *     summary: Get a list of all families.
+ *     summary: Get a family by id.
  *     parameters:
  *         - in: path
  *           name: familyId

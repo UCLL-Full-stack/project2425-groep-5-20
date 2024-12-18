@@ -221,6 +221,25 @@ shoppingListRouter.post('/:id', async(req: Request, res: Response, next: NextFun
 });
 
 // Delete
+
+/**
+ * @swagger
+ * /shoppingLists/{id}:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a shopping list by ID.
+ *     parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: number
+ *             required: true
+ *             description: the shopping list id
+ *     responses:
+ *       200:
+ *         description: The deleted item.
+ */
 shoppingListRouter.delete('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
         await shoppingListsService.deleteShoppingList(parseInt(req.params.id));
