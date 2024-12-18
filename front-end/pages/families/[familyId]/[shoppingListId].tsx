@@ -31,7 +31,7 @@ const shoppingListId: React.FC= () => {
 
         const shoppingListItem = await ShoppingListService.addItemToShoppingList(parseInt(shoppingListId as string),item,userEmail);
 
-        setItems([...items, shoppingListItem]);
+        getItemsFromShoppingList(parseInt(shoppingListId as string));
         setStatus('Item successfully added to shopping list.');
         
         setTimeout(()=> {
