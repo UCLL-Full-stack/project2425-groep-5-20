@@ -1,3 +1,5 @@
+// Swagger documentation for the family routes
+// http://localhost:3000/api-docs/
 /**
  * @swagger
  * components:
@@ -143,4 +145,129 @@ familyRouter.post("/", async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
+/**
+ * @swagger
+ * /families/{id}:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Add a family member.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: number
+ *           required: true
+ *           description: The family ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The email of the user to add.
+ *     responses:
+ *       200:
+ *         description: The added family member.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
+familyRouter.post("/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const familyId = parseInt(req.params.id);
+        const {email} = req.body;
+        const result = await familyService.addFamilyMember(familyId, email);
+        res.status(200).json(result);
+    } catch (error){
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        }
+    }
+});
+
+/**
+ * @swagger
+ * /families/{id}:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a family by ID.
+ *     parameters:
+ *       - in: path
+ *         name: familyId
+ *         schema:
+ *           type: number
+ *           required: true
+ *           description: The family ID
+ *     responses:
+ *       200:
+ *         description: The deleted family.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Family'
+ */
+familyRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const familyId = parseInt(req.params.id);
+        const result = await familyService.deleteFamily(familyId);
+        res.status(200).json(result);
+    } catch (error){
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        }
+    }
+});
+
+/**
+ * @swagger
+ * /families/{id}/{email}:
+ *   put:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Remove a family member.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: number
+ *           required: true
+ *           description: The family ID
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *           required: true
+ *           description: The email of the user to remove.
+ *     responses:
+ *       200:
+ *         description: The removed family member.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
+familyRouter.put("/:id/:email", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const familyId = parseInt(req.params.id);
+        const email = req.body.email;
+        const result = await familyService.removeFamilyMember(familyId, email);
+        res.status(200).json(result);
+    } catch (error){
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        }
+    }
+});
 export default familyRouter;

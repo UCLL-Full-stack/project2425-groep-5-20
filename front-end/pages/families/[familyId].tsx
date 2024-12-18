@@ -26,8 +26,8 @@ const FamilyID: React.FC = () => {
 
     useEffect(() => {
         setLoggedInUser(sessionStorage.getItem("loggedInUser"));
-        getFamilyById(parseInt(familyId as string));
-    }, []);
+        getFamilyById(parseInt(familyId as string)); 
+    }, [familyId,family]);
 
     const handleSelectedOption = (bool: boolean) => {
         if (!bool) {
@@ -37,6 +37,19 @@ const FamilyID: React.FC = () => {
         }
     }
 
+    const handleRemoveFamily = async () => {
+        if (window.confirm("Are you sure you want to remove this family?")) {
+            await FamilyService.removeFamily(parseInt(familyId as string));
+            router.push('/families');
+        }
+    }
+
+    const handleAddFamilyMember = () => {
+        const email = prompt("Please enter the email of the family member you want to add.");
+        if (email) {
+            FamilyService.addFamilyMember(parseInt(familyId as string), email);
+        }
+    }
 
     return (
         <>
@@ -52,8 +65,9 @@ const FamilyID: React.FC = () => {
                     <div onClick={() => handleSelectedOption(true)}>Shopping Lists</div>
                 </div>
                 {!selectedOption && <><h1>Overview of {family?.name}</h1>
+                <button onClick={handleRemoveFamily}>Remove Family</button>
+                <button onClick={handleAddFamilyMember}>Add a family member</button>
                 <SingleFamilyOverview family={family}></SingleFamilyOverview></> || <ShoppingListsOverview family={family}/>} 
-                </>
                 || <h1>You are not authorized to view this content.</h1>}
             </main>
         </>
