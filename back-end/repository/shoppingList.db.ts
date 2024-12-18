@@ -59,9 +59,39 @@ const createShoppingList = async(name: string, updatedBy: User, family: Family):
 
 }
 
+// Put
+
+const addItemToShoppingList = async(shoppingListId: number, item: Item, updatedBy: User): Promise<ShoppingList> => {
+    try {
+        const shoppingListPrisma = await database.shoppingList.update({
+            where: {
+                id: shoppingListId
+            },
+            data: {
+                lastUpdate: new Date().toISOString(),
+                updatedBy: {connect: {id: updatedBy.getId()}},
+                items: {
+                    create: {
+                        name: item.getName(),
+                        quantity: item.getQuantity()
+                    }
+                }
+            },
+            include: {updatedBy: true, items: true}
+        })
+        return ShoppingList.from(shoppingListPrisma);
+
+
+    } catch (error) {
+        console.error(error);
+        throw new Error("Database error: Could not add item to shopping list, check server logs.");
+    }
+}
+
 
 export default {
     getAllShoppingLists,
     getAllShoppingListsForFamily,
     createShoppingList,
+    addItemToShoppingList,
 }

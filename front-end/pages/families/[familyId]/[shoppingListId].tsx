@@ -1,5 +1,7 @@
 import ItemService from "@/services/ItemService";
+import ShoppingListService from "@/services/ShoppingListService";
 import { Item, ShoppingList } from "@/types";
+import AddItemToShoppingList from "@components/families/familyId/shoppingListId/AddItemToShoppingList";
 import Header from "@components/header";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -10,6 +12,7 @@ const shoppingListId: React.FC= () => {
     const {familyId, shoppingListId} = router.query
 
     const [items, setItems] = useState<Item[]>([]);
+    const [status, setStatus] = useState<string>('');
 
     const getItemsFromShoppingList = async(shoppingListId: number | undefined) => {
         if (!shoppingListId) {
@@ -23,9 +26,24 @@ const shoppingListId: React.FC= () => {
         getItemsFromShoppingList(parseInt(shoppingListId as string));
     },[])
 
+    const addItemToShoppingList = async(item: Item) => {
+        const userEmail = JSON.parse(sessionStorage.getItem('loggedInUser') as string).email;
+
+        const shoppingListItem = await ShoppingListService.addItemToShoppingList(parseInt(shoppingListId as string),item,userEmail);
+
+        setItems([...items, shoppingListItem]);
+        setStatus('Item successfully added to shopping list.');
+        
+        setTimeout(()=> {
+            setStatus('');
+        }, 2000);
+    }
+
     return <>
     <Header/>
     <h1>Items inside of the shopping list.</h1>
+    <AddItemToShoppingList addItemToShoppingList={addItemToShoppingList}/>
+    {status && <p>{status}</p>}
     <table>
         <thead>
             <tr>

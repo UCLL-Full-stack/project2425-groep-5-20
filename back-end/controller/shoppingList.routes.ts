@@ -132,4 +132,17 @@ shoppingListRouter.post('/', async(req: Request, res: Response, next: NextFuncti
     }
 })
 
+shoppingListRouter.post('/:id', async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const shoppingList = await shoppingListsService.addItemToShoppingList(parseInt(req.params.id), req.body.item, req.body.userEmail);
+        res.status(200).json(shoppingList);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        } 
+    }
+})
+
 export default shoppingListRouter;

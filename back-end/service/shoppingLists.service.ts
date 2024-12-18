@@ -2,6 +2,7 @@ import shoppingListDb from "../repository/shoppingList.db";
 import { ShoppingList } from "../model/shoppingList";
 import familyDb from "../repository/family.db";
 import userDb from "../repository/user.db";
+import { Item } from "../model/item";
 
 const getAllShoppingLists = async(): Promise<ShoppingList[]> => {
     return await shoppingListDb.getAllShoppingLists();
@@ -29,8 +30,23 @@ const createShoppingList = async(name: string, userEmail: string, familyId: numb
 
 }
 
+const addItemToShoppingList = async(shoppingListId: number, item: any, userEmail: string): Promise<ShoppingList> => {
+    const user = await userDb.getUserByEmail(userEmail);
+    if (!user) {
+        throw new Error("User with this email does not exist.");
+    }
+
+    const {name, quantity} = item;
+    
+
+    const new_item = new Item({name, quantity})
+    
+    return shoppingListDb.addItemToShoppingList(shoppingListId, new_item, user);
+}
+
 export default {
     getAllShoppingLists,
     getAllShoppingListsForFamily,
     createShoppingList,
+    addItemToShoppingList,
 }

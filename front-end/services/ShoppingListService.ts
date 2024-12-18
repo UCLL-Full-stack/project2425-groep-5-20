@@ -1,4 +1,4 @@
-import { ShoppingList } from "@/types";
+import { Item, ShoppingList } from "@/types";
 
 
 
@@ -51,7 +51,26 @@ const createShoppingList = async (name: string, familyId: string, userEmail: str
     }
 };
 
+const addItemToShoppingList = async(shoppingListId: number, item: Item, userEmail: string): Promise<ShoppingList> => {
+    const token = getToken();
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/shoppingLists/${shoppingListId}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({item, userEmail})
+        });
+        return await response.json();
+
+    } catch (error) {
+        throw new Error('Error adding item to shopping list:' + error);
+    }
+}
+
 export default {
     getAllShoppingListsForFamily,
     createShoppingList,
+    addItemToShoppingList,
 }
