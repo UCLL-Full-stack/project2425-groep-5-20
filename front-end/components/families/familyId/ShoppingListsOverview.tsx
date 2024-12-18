@@ -37,10 +37,12 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
         if (!shoppingListId) {
             return;
         }
+        if (window.confirm("Are you sure you want to remove this shopping list?")){
 
-        await ShoppingListService.deleteShoppingList(shoppingListId);
+            await ShoppingListService.deleteShoppingList(shoppingListId);
 
-        getShoppingListsForFamily(family?.id);
+            getShoppingListsForFamily(family?.id);
+        }
     }
 
     return <>
