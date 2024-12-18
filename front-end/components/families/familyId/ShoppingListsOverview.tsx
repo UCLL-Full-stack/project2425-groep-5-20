@@ -18,7 +18,10 @@ const ShoppingListsOverview: React.FC<Props> = ({family}: Props) => {
             return;
         }
         const shoppingListsJson = await ShoppingListService.getAllShoppingListsForFamily(familyId);
+
+        // Sorts the shopping list on date (when you update them in the DB, they shuffle)
         shoppingListsJson.sort((a, b) => a.creationDate && b.creationDate ? a.creationDate.localeCompare(b.creationDate) : 0);
+        
         setShoppingLists(shoppingListsJson);
     }
 
