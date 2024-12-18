@@ -25,16 +25,18 @@ const Users: React.FC = () => {
 
   return (
     <>
+    <div className="bg-[#1F2833] min-h-screen">
       <Head>
         <title>Users</title>
       </Head>
       <Header />
       {loggedInUser && JSON.parse(loggedInUser).role == 'admin' && <main>
-        <h1>All Users</h1>
+        <h1 className='text-[#c5c6c7] mt-5'>All Users</h1>
         <section>
           {users.length > 0 ? <UserOverview users={users} /> : <p>No users found.</p>}
         </section>
       </main> || <h1>You are not authorized to access this content</h1>}
+      </div>
     </>
   );
 };
