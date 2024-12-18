@@ -218,6 +218,39 @@ shoppingListRouter.post('/:id', async(req: Request, res: Response, next: NextFun
             res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
         } 
     }
-})
+});
+
+// Delete
+
+/**
+ * @swagger
+ * /shoppingLists/{id}:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a shopping list by ID.
+ *     parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: number
+ *             required: true
+ *             description: the shopping list id
+ *     responses:
+ *       200:
+ *         description: The deleted item.
+ */
+shoppingListRouter.delete('/:id', async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        await shoppingListsService.deleteShoppingList(parseInt(req.params.id));
+        res.status(200)
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(400).json({ status: "error", errorMessage: error.message });
+        } else {
+            res.status(400).json({ status: "error", errorMessage: "An unknown error occurred" });
+        } 
+    }
+});
 
 export default shoppingListRouter;

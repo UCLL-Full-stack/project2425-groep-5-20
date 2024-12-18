@@ -66,7 +66,7 @@ const deleteFamily = async (familyId: number): Promise<void> => {
             await itemDb.deleteItemsFromShoppingList(shoppingList.getId());
     }}
 
-    await shoppingListDb.deleteShoppingList(familyId);
+    await shoppingListDb.deleteShoppingListsForFamily(familyId);
 
     return await familyDb.deleteFamily(familyId);
 }
