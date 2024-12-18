@@ -1,4 +1,5 @@
 import { Family, User } from "@/types";
+import UserService from "./UserService";
 
 // GET 
 
@@ -66,6 +67,37 @@ const createFamily = async (familyName: string, userEmail: string): Promise<Fami
     }
 };
 
+
+const addFamilyMember = async (familyId: number, email: string): Promise<User | null> => {
+    const token = getToken();
+    try {
+        if (!email) {
+            throw new Error('No email provided');
+        }
+        if (!await UserService.getUserByEmail(email)) {
+            throw new Error('No user found with this email');
+        }
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/families/${familyId}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({email}),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add family member');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error adding family member:', error);
+        return null;
+    }
+};
+
+
 // DELETE
 
 const removeFamily = async (familyId: number) => {
@@ -90,12 +122,41 @@ const removeFamily = async (familyId: number) => {
     }
 };
 
+const removeFamilyMember = async (familyId: number, email: string) => {
+    const token = getToken();
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/families/${familyId}/member`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({email}),
+        });
+
+        const errorResponse = await response.json();
+        if (!response.ok && errorResponse) {
+            if (errorResponse.errorMessage === "Owner cannot be removed from family.") {
+                throw new Error("You can't remove the owner");
+            }
+            console.error('Error response:', errorResponse);
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error removing family member:', error);
+        return false;
+    }
+};
+
 // Hierboven u code
 const FamilyService = {
     getAllFamlies,
     getFamilyById,
     createFamily,
     removeFamily,
+    addFamilyMember,
+    removeFamilyMember,
 }
 
 export default FamilyService
