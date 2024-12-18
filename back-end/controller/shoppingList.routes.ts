@@ -104,6 +104,31 @@ shoppingListRouter.get('/', async(req: Request, res: Response, next: NextFunctio
     }
 })
 
+/**
+ * @swagger
+ * /shoppingLists/family/{id}:
+ *   get:
+ *     security:
+ *         - bearerAuth: []
+ *     summary: Get the shopping lists of family.
+ *     parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: number
+ *             required: true
+ *             description: the family id
+ *     responses:
+ *       200:
+ *         description: An array of all shopping lists for a certain family.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/ShoppingList'
+ */
+
 shoppingListRouter.get('/family/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
         const shoppingLists = await shoppingListsService.getAllShoppingListsForFamily(parseInt(req.params.id));
@@ -119,6 +144,27 @@ shoppingListRouter.get('/family/:id', async(req: Request, res: Response, next: N
 
 // Post
 
+/**
+ * @swagger
+ * /shoppingLists:
+ *   post:
+ *      security:
+ *          - bearerAuth: []
+ *      summary: Create a new shopping list object
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/ShoppingList'
+ *      responses:
+ *         200:
+ *            description: The created shoppingList.
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/ShoppingList'
+ */
 shoppingListRouter.post('/', async(req: Request, res: Response, next: NextFunction) => {
     try {
         const shoppingList = await shoppingListsService.createShoppingList(req.body.name, req.body.userEmail, req.body.familyId);
@@ -132,6 +178,35 @@ shoppingListRouter.post('/', async(req: Request, res: Response, next: NextFuncti
     }
 })
 
+
+/**
+ * @swagger
+ * /shoppingLists/{id}:
+ *   post:
+ *      security:
+ *          - bearerAuth: []
+ *      summary: Add an item to the shopping list object
+ *      parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: number
+ *             required: true
+ *             description: the shopping list id
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Item'
+ *      responses:
+ *         200:
+ *            description: The created shoppingList.
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/ShoppingList'
+ */
 shoppingListRouter.post('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
         const shoppingList = await shoppingListsService.addItemToShoppingList(parseInt(req.params.id), req.body.item, req.body.userEmail);

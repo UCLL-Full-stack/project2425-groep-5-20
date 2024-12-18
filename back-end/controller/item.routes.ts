@@ -103,6 +103,30 @@ itemRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
     }
 })
 
+/**
+ * @swagger
+ * /items/{id}:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Get a list of all items in the database for a certain shopping List.
+ *     parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: number
+ *             required: true
+ *             description: the shopping list id
+ *     responses:
+ *       200:
+ *         description: An array of all items in the database for a certain shopping list.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Item'
+ */
 itemRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
     try {
         const items = await itemService.getItemsFromShoppingList(parseInt(req.params.id));
