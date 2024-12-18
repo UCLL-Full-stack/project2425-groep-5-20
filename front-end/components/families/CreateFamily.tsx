@@ -80,7 +80,7 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) =>
     return <>
         <div className="familybutton">
             <button 
-                className="bg-[#66FCF1] hover:bg-[#45A29E] text-white font-bold py-2 px-4 rounded mb-5 " 
+                className="bg-[#66FCF1] hover:bg-[#45A29E] text-[#1F2833] font-bold py-2 px-4 rounded mb-5" 
                 id="createFamilyButton" 
                 onClick={handleCreateFamilyClick}
             >
@@ -89,32 +89,36 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) =>
 
             {isInputVisible && (
                 <div>
-                    <form className="newfamily" onSubmit={handleAddFamily}>
+                    <form className="space-y-4" onSubmit={handleAddFamily}>
                         <div>
-                            <label id="familyname">Please enter new family name.</label>
+                            <label id="familyname" className="block text-sm font-medium text-gray-300">Please enter new family name.</label>
                             <input
                                 type="text"
                                 value={newFamilyName}
                                 onChange={(event) => setNewFamilyName(event.target.value)}
                                 placeholder="Enter family name"
+                                className="mt-1 block w-full px-3 py-2 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                             />
-                            {familyNameError && <p className="error">{familyNameError}</p>}
+                            {familyNameError && <p className="error text-red-500 mt-2">{familyNameError}</p>}
                         </div>
-                        {role == 'admin' &&<div>
-                            <label id="useremail">Please enter your user email.</label>
-                            <input
-                                type="text"
-                                value={userEmail}
-                                onChange={(event) => setUserEmail(event.target.value)}
-                                placeholder="Enter your user email"
-                            />
-                            {userEmailError && <p className="error">{userEmailError}</p>}
-                        </div>}
-                        <button type="submit">Add Family</button>
+                        {role == 'admin' && (
+                            <div>
+                                <label id="useremail" className="block text-sm font-medium text-gray-300">Please enter your user email.</label>
+                                <input
+                                    type="text"
+                                    value={userEmail}
+                                    onChange={(event) => setUserEmail(event.target.value)}
+                                    placeholder="Enter your user email"
+                                    className="mt-1 block w-full px-3 py-2 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+                                />
+                                {userEmailError && <p className="error text-red-500 mt-2">{userEmailError}</p>}
+                            </div>
+                        )}
+                        <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Add Family</button>
                     </form>
                 </div>
             )}
-            {statusMessage && <p className="success">{statusMessage}</p>}
+            {statusMessage && <p className="success text-green-500 mt-4">{statusMessage}</p>}
         </div>
     </>
 }

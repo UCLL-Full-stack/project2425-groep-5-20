@@ -93,9 +93,9 @@ const LoginPage: React.FC = () => {
             role: response.role
           }));
 
-        setStatusMessage('Successfully registered! Redirecting you to the homepage in 2 seconds...');
+        setStatusMessage('Redirecting in 2 seconds...');
         setTimeout(() => {
-            setStatusMessage('Successfully registered! Redirecting you to the homepage in 1 seconds...');
+            setStatusMessage('Redirecting in 1 seconds...');
         }, 1000);
         setTimeout(()=> {
             router.push('/');
@@ -124,9 +124,9 @@ const LoginPage: React.FC = () => {
             email: user.email,
             role: user.role
           }));
-        setStatusMessage('Successfully logged in! Redirecting you to the homepage in 2 seconds...');
+        setStatusMessage('Redirecting in 2 seconds...');
         setTimeout(()=> {
-            setStatusMessage('Successfully logged in! Redirecting you to the homepage in 1 seconds...');
+            setStatusMessage('Redirecting in 1 seconds...');
         }, 1000)
 
         setTimeout(()=> {
@@ -179,13 +179,13 @@ const LoginPage: React.FC = () => {
                 <div className="no-account-message mt-4 text-center">
                     <p>Already have an account? <a className="no-account-message-button text-blue-400 hover:underline cursor-pointer" onClick={() => setSignUpForm(false)}>Log in!</a></p>
                 </div>
-                <div className="errorMessages mt-4 text-red-500">
+                <div className="errorMessages mt-4 text-red-500 text-center">
                     {nameError && <p>{nameError}</p>}
                     {emailError && <p>{emailError}</p>}
                     {passwordError && <p>{passwordError}</p>}
                     {selectedOptionError && <p>{selectedOptionError}</p>}
                 </div>
-                <div className="signInSuccess mt-4 text-green-500">
+                <div className="signInSuccess mt-4 text-green-500 text-center">
                     {statusMessage && <p>{statusMessage}</p>}
                 </div>
             </form>}
@@ -203,11 +203,11 @@ const LoginPage: React.FC = () => {
                 <div className="no-account-message mt-4 text-center">
                     <p>You don't have an account yet? <a className="no-account-message-button text-blue-400 hover:underline cursor-pointer" onClick={() => setSignUpForm(true)}>Sign up!</a></p>
                 </div>
-                <div className="errorMessages mt-4 text-red-500">
+                <div className="errorMessages mt-4 text-red-500 text-center">
                     {emailError && <p>{emailError}</p>}
                     {passwordError && <p>{passwordError}</p>}
                 </div>
-                <div className="signInSuccess mt-4 text-green-500">
+                <div className="signInSuccess mt-4 text-green-500 text-center">
                     {statusMessage && <p>{statusMessage}</p>}
                 </div>
             </form>}

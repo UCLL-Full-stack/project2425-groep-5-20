@@ -62,24 +62,44 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
             addShoppingListToShoppingLists(shoppingList);
             setStatusMessage('Shopping list added successfully!')
         }
-        
-
     }
 
     return <>
-    {loggedInUser && JSON.parse(loggedInUser).role != 'child' && <><button onClick={() => handleSelected(!showNameTextField)}> Add a new shopping list</button>
-    {showNameTextField && 
-        <div>
-            <form onSubmit={(e) => addShoppingList(e)}>
-                <label id="name">Name</label>
-                <input id="shoppingList-name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
-                <button type="submit">Add</button>
-            </form>
-            {nameError && <p>{nameError}</p>}
-        </div>
-    }
-    {statusMessage && <p>{statusMessage}</p>}</>}
+    {loggedInUser && JSON.parse(loggedInUser).role != 'child' && (
+        <>
+            <button 
+                onClick={() => handleSelected(!showNameTextField)}
+                className="bg-[#66FCF1] hover:bg-[#45A29E] text-[#1F2833] font-bold py-2 px-4 rounded mb-5"
+            >
+                Add a new shopping list
+            </button>
+            {showNameTextField && (
+                <div className="bg-gray-800 p-4 rounded-md shadow-md">
+                    <form onSubmit={(e) => addShoppingList(e)} className="space-y-4">
+                        <div>
+                            <label id="name" className="block text-sm font-medium text-gray-300">Name</label>
+                            <input 
+                                id="shoppingList-name" 
+                                type="text" 
+                                value={name} 
+                                onChange={(event) => setName(event.target.value)} 
+                                className="mt-1 block w-full px-3 py-2 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+                            />
+                            {nameError && <p className="text-red-500 mt-2">{nameError}</p>}
+                        </div>
+                        <button 
+                            type="submit"
+                            className="w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+                        >
+                            Add
+                        </button>
+                    </form>
+                </div>
+            )}
+            {statusMessage && <p className="text-green-500 mt-4">{statusMessage}</p>}
+        </>
+    )}
     </>
 }
 
-export default addShoppingList
+export default addShoppingList;

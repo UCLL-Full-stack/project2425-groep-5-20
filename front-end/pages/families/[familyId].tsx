@@ -9,68 +9,97 @@ import ShoppingListsOverview from '@components/families/familyId/ShoppingListsOv
 
 const FamilyID: React.FC = () => {
     const router = useRouter();
-    const {familyId} = router.query;
+    const { familyId } = router.query;
 
     const [family, setFamily] = useState<Family>();
     const [loggedInUser, setLoggedInUser] = useState<string | null>();
-
-    // This is for the switch between Family Overview and Shopping Lists
-    // False => Family Overview
-    // True => Shopping Lists
     const [selectedOption, setSelectedOption] = useState<boolean>(false);
-
-    const getFamilyById = async (familyid : number) => {
-        const family = await FamilyService.getFamilyById(familyid);
-        setFamily(family);
-    };
 
     useEffect(() => {
         setLoggedInUser(localStorage.getItem("loggedInUser"));
-        getFamilyById(parseInt(familyId as string)); 
-    }, [familyId, family]);
-
-    const handleSelectedOption = (bool: boolean) => {
-        if (!bool) {
-            setSelectedOption(false);
-        } else {
-            setSelectedOption(true);
+        if (familyId) {
+            getFamilyById(parseInt(familyId as string));
         }
-    }
+    }, [familyId]);
+
+    const getFamilyById = async (familyId: number) => {
+        const family = await FamilyService.getFamilyById(familyId);
+        setFamily(family);
+    };
+
+    const handleSelectedOption = (option: boolean) => {
+        setSelectedOption(option);
+    };
 
     const handleRemoveFamily = async () => {
         if (window.confirm("Are you sure you want to remove this family?")) {
             await FamilyService.removeFamily(parseInt(familyId as string));
             router.push('/families');
         }
-    }
+    };
 
     const handleAddFamilyMember = () => {
         const email = prompt("Please enter the email of the family member you want to add.");
         if (email) {
             FamilyService.addFamilyMember(parseInt(familyId as string), email);
         }
-    }
+    };
 
     return (
         <>
             <Head>
                 <title>{family?.name}</title>
             </Head>
-            <main>
-                <Header />
-                {loggedInUser && 
-                <>
-                <div className='selectOptionFamilyOrShoppingLists'>
-                    <div onClick={() => handleSelectedOption(false)}>Family Overview</div>
-                    <div onClick={() => handleSelectedOption(true)}>Shopping Lists</div>
-                </div>
-                {!selectedOption && 
-                    <><h1>Overview of {family?.name}</h1>
-                    {JSON.parse(loggedInUser).role != 'child' && <><button onClick={handleRemoveFamily}>Remove Family</button>
-                    <button onClick={handleAddFamilyMember}>Add a family member</button></>}
-                    <SingleFamilyOverview family={family}></SingleFamilyOverview></> || <ShoppingListsOverview family={family}/>}</> 
-                || <h1>You are not authorized to view this content.</h1>}
-            </main>
+            <div className='bg-[#1F2833]'>
+                <main>
+                    <Header />
+                    {loggedInUser ? (
+                        <>
+                        <h1 className=" mb-5 mt-5 text-center text-2xl text-white">Overview of {family?.name}</h1>
+                            <div className='selectOptionFamilyOrShoppingLists flex justify-center space-x-4 my-4'>
+                                <button 
+                                    className={`py-2 px-4 rounded ${!selectedOption ? 'bg-blue-600 text-white' : 'bg-gray-300 text-black'}`} 
+                                    onClick={() => handleSelectedOption(false)}
+                                >
+                                    Family Overview
+                                </button>
+                                <button 
+                                    className={`py-2 px-4 rounded ${selectedOption ? 'bg-blue-600 text-white' : 'bg-gray-300 text-black'}`} 
+                                    onClick={() => handleSelectedOption(true)}
+                                >
+                                    Shopping Lists
+                                </button>
+                            </div>
+                            {!selectedOption ? (
+                                <>
+                                    
+                                    {JSON.parse(loggedInUser).role !== 'child' && (
+                                        <div className="flex justify-center space-x-4 my-4">
+                                            <button 
+                                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                                onClick={handleRemoveFamily}
+                                            >
+                                                Remove Family
+                                            </button>
+                                            <button 
+                                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                                onClick={handleAddFamilyMember}
+                                            >
+                                                Add a family member
+                                            </button>
+                                        </div>
+                                    )}
+                                    <SingleFamilyOverview family={family} />
+                                </>
+                            ) : (
+                                <ShoppingListsOverview family={family} />
+                            )}
+                        </>
+                    ) : (
+                        <h1 className="text-center text-2xl text-red-500">You are not authorized to view this content.</h1>
+                    )}
+                </main>
+            </div>
         </>
     );
 };

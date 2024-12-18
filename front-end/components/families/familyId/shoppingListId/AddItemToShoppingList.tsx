@@ -47,17 +47,38 @@ const addItemToShoppingList: React.FC<Props> = ({addItemToShoppingList}: Props) 
         addItemToShoppingList(item);
     }
 
-
     return <>
-    <form onSubmit={(e) => addingItemToShoppingList(e)}>
-    <label id="name">Name</label>
-    <input id="item-name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
-    <label id='quantity'>Quantity</label>
-    <input id="item-name" type='number' min={0} value={quantity} onChange={(event) => setQuantity(parseInt(event.target.value))} />
-    <button type='submit'>Add item</button>
-    </form>
-    {nameError && <p>{nameError}</p>}
-    {quantityError && <p>{quantityError}</p>}
+        <form className="space-y-2 p-2 bg-[#1F2833] rounded-md shadow-md max-w-xs mx-auto" onSubmit={(e) => addingItemToShoppingList(e)}>
+            <div>
+                <label className="block text-sm font-medium text-gray-300" id="name">Name</label>
+                <input
+                    id="item-name"
+                    type="text"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    className="mt-3 block w-full px-2 py-1 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+                />
+                {nameError && <p className="text-red-500 mt-1 text-xs">{nameError}</p>}
+            </div>
+            <div>
+                <label className="block text-sm font-medium text-gray-300" id='quantity'>Quantity</label>
+                <input 
+                    id="item-quantity" 
+                    type='number' 
+                    min={0} 
+                    value={quantity} 
+                    onChange={(event) => setQuantity(parseInt(event.target.value))}
+                    className="mt-3 mb-3 block w-full px-2 py-1 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+                />
+                {quantityError && <p className="text-red-500 mt-1 text-xs">{quantityError}</p>}
+            </div>
+            <button 
+                type='submit'
+                className="w-full py-1 px-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
+            >
+                Add item
+            </button>
+        </form>
     </>
 }
 
