@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   return (
     <>
+    <div className="bg-[#1F2833] min-h-screen">
       <Head>
         <title>FamList</title>
         <meta name="description" content="Exam app" />
@@ -16,10 +17,11 @@ export default function Home() {
       </Head>
       <Header></Header>
       <main>
-        <h1>Test Users</h1>
-        <h2>These are the users that the lecturers can use to perform tests on our application.</h2>
+        <h1 className="text-[#c5c6c7] mt-5">Test Users</h1>
+        <h2 className="text-[#c5c6c7] text-center mb-5" >These are the users that the lecturers can use to perform tests on our application.</h2>
         <TableOverview></TableOverview>
       </main>
+    </div>
     </>
   );
 }

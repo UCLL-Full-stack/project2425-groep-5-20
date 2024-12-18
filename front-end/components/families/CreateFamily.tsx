@@ -79,7 +79,14 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) =>
 
     return <>
         <div className="familybutton">
-            <button id="createFamilyButton" onClick={handleCreateFamilyClick}>Create New Family</button>
+            <button 
+                className="bg-[#66FCF1] hover:bg-[#45A29E] text-white font-bold py-2 px-4 rounded mb-5 " 
+                id="createFamilyButton" 
+                onClick={handleCreateFamilyClick}
+            >
+                Create New Family
+            </button>
+
             {isInputVisible && (
                 <div>
                     <form className="newfamily" onSubmit={handleAddFamily}>

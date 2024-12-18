@@ -27,16 +27,18 @@ const Families: React.FC = () => {
 
     return (
         <>
+        <div className='bg-[#1F2833]'>
             <Head>
                 <title>Families</title>
             </Head>
             <main>
                 <Header />
-                {loggedInUser && <><h1>All Families</h1>
+                {loggedInUser && <><h1 className='text-[#c5c6c7] mt-5'>All Families</h1>
                 {JSON.parse(loggedInUser).role != 'child' && <CreateFamily onCreatedFamily={addNewFamily} email={JSON.parse(loggedInUser).email} role={JSON.parse(loggedInUser).role}/>}
                 <FamiliesOverview families={families} selectedFamily={setSelectedFamily} />
                 </> || <h1>You are not authorized to access this content</h1>}
             </main>
+        </div>
         </>
     );
 };
