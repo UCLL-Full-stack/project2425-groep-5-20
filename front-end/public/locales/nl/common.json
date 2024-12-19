@@ -74,6 +74,7 @@
         "createNewFamily": "Nieuwe familie aanmaken",
         "pleaseEnterNewName": "Voer een nieuwe familienaam in",
         "pleaseEnterEmail": "Voer je e-mailadres in",
+        "details": "Voer hieronder de familiedetails in. Deze actie voegt een nieuwe familie toe aan de lijst.",
         "addFamily": "Familie toevoegen",
         "status": {
             "familyError": "Familienaam is verplicht",
@@ -91,8 +92,11 @@
             },
             "status": {
                 "areYouSure": "Weet je zeker dat je deze familie wilt verwijderen?",
+                "areYouSureMember": "Weet je zeker dat je deze familielid wilt verwijderen?",
                 "addEmail": "Voer het e-mailadres in van het gezinslid dat je wilt toevoegen.",
-                "noOwner": "Je kunt de eigenaar niet verwijderen"
+                "noOwner": "Je kunt de eigenaar niet verwijderen",
+                "success": "Familielid succesvol toegevoegd",
+                "fail": "Kon familielid niet toevoegen"
             }
         },
         "shoppingListOverview": {
@@ -117,7 +121,7 @@
             }
         },
         "itemOverview": {
-            "title": "Items in",
+            "title": "Items in boodschappenlijst",
             "button": {
                 "addShoppingList": "Voeg een nieuwe boodschappenlijst toe",
                 "remove": "Verwijderen",

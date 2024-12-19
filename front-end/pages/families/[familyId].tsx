@@ -9,8 +9,13 @@ import ShoppingListsOverview from '@components/families/familyId/ShoppingListsOv
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "../../../next-i18next.config";
 
 const FamilyID: React.FC = () => {
+  const {t} = useTranslation();
+
   const router = useRouter();
   const { familyId } = router.query;
 
@@ -41,7 +46,7 @@ const FamilyID: React.FC = () => {
     let result = true;
 
     if (newMemberEmail.trim() === '' || !emailRegex.test(newMemberEmail)) {
-      setUserEmailError('Email should be a valid email.');
+      setUserEmailError(`${t("families.emailError")}`);
       result = false;
     }
 
@@ -69,16 +74,16 @@ const FamilyID: React.FC = () => {
     if (response) {
       setShowAddMemberDialog(false);
       setNewMemberEmail('');
-      setStatusMessage('Family member added successfully');
+      setStatusMessage(`${t("families.familyOverview.status.success")}`);
     } else {
-      setStatusMessage('Failed to add family member');
+      setStatusMessage(`${t("families.familyOverview.status.fail")}`);
     }
   };
 
   return (
     <>
       <Head>
-        <title>{family?.name}</title>
+        <title>{family?.name} | {t("header.nav.families")}</title>
       </Head>
       <div className="bg-[#1F2833] min-h-screen">
         <main>
@@ -95,7 +100,7 @@ const FamilyID: React.FC = () => {
                   }`}
                   onClick={() => handleSelectedOption(false)}
                 >
-                  Family Overview
+                  {t("families.familyOverview.titleButtom")}
                 </button>
                 <button
                   className={`py-2 px-4 rounded ${
@@ -103,7 +108,7 @@ const FamilyID: React.FC = () => {
                   }`}
                   onClick={() => handleSelectedOption(true)}
                 >
-                  Shopping Lists
+                  {t("families.shoppingListOverview.titleButtom")}
                 </button>
               </div>
 
@@ -118,13 +123,13 @@ const FamilyID: React.FC = () => {
                           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300"
                           onClick={() => setShowRemoveDialog(true)}
                         >
-                          Remove Family
+                          {t("families.familyOverview.button.removeFamily")}
                         </button>
                         <button
                           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
                           onClick={() => setShowAddMemberDialog(true)}
                         >
-                          Add a Family Member
+                          {t("families.familyOverview.button.addMember")}
                         </button>
                       </div>
                     )}
@@ -136,7 +141,7 @@ const FamilyID: React.FC = () => {
             </div>
           ) : (
             <h1 className="text-center text-[#ff0000] mt-10">
-              You are not authorized to access this content.
+              {t("login.status.noAccess")}
             </h1>
           )}
         </main>
@@ -146,9 +151,9 @@ const FamilyID: React.FC = () => {
       <Dialog open={showRemoveDialog} onOpenChange={setShowRemoveDialog}>
         <DialogContent className="bg-[#1F2833] text-white rounded-lg shadow-lg p-6 outline-none border-none">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold text-[#66FCF1]">Remove Family</DialogTitle>
+            <DialogTitle className="text-2xl font-semibold text-[#66FCF1]">{t("families.familyOverview.button.removeFamily")}</DialogTitle>
           </DialogHeader>
-          <p>Are you sure you want to remove the family?</p>
+          <p>{t("families.familyOverview.status.areYouSure")}</p>
           <DialogFooter className="flex justify-end mt-4">
             <Button variant="destructive" onClick={handleRemoveFamily}>
               Yes
@@ -165,9 +170,9 @@ const FamilyID: React.FC = () => {
       <Dialog open={showAddMemberDialog} onOpenChange={setShowAddMemberDialog}>
         <DialogContent className="bg-[#1F2833] text-white rounded-lg shadow-lg p-6 outline-none border-none">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-semibold text-[#66FCF1]">Add Family Member</DialogTitle>
+            <DialogTitle className="text-2xl font-semibold text-[#66FCF1]">{t("families.familyOverview.button.addMember")}</DialogTitle>
           </DialogHeader>
-          <p>Please enter the email of the family member you want to add.</p>
+          <p>{t("families.familyOverview.status.addEmail")}</p>
           <Input
             type="email"
             placeholder="example@email.com"
@@ -198,6 +203,16 @@ const FamilyID: React.FC = () => {
       </Dialog>
     </>
   );
+};
+
+export const getServerSideProps = async (content: { locale: any; }) => {
+  const { locale } = content;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['common'], nextI18nextConfig)),
+    },
+  };
 };
 
 export default FamilyID;

@@ -74,6 +74,7 @@
         "createNewFamily": "Create new family",
         "pleaseEnterNewName": "Please enter a new family name",
         "pleaseEnterEmail": "Please enter your email address",
+        "details": "Enter the family details below. This action will add a new family to the list.",
         "addFamily": "Add family",
         "status": {
             "familyError": "Family name is required",
@@ -91,8 +92,11 @@
             },
             "status": {
                 "areYouSure": "Are you sure you want to remove this family?",
+                "areYouSureMember": "Are you sure you want to remove this family member?",
                 "addEmail": "Please enter the email of the family member you want to add.",
-                "noOwner": "You can't remove the owner"
+                "noOwner": "You can't remove the owner",
+                "success": "Family member added successfully",
+                "fail": "Failed to add family member"
             }
         },
         "shoppingListOverview": {
@@ -117,7 +121,7 @@
             }
         },
         "itemOverview": {
-            "title": "Items inside of",
+            "title": "Items inside of the Shopping list",
             "button": {
                 "addShoppingList": "Add a new shopping list",
                 "remove": "Remove",

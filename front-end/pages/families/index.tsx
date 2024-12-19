@@ -7,8 +7,11 @@ import CreateFamily from "@components/families/CreateFamily";
 import { Family } from "@/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "../../../next-i18next.config";
+import { useTranslation } from "next-i18next";
 
 const Families: React.FC = () => {
+  const {t} = useTranslation();
+
   const [families, setFamilies] = useState<Array<Family>>([]);
   const [selectedFamily, setSelectedFamily] = useState<any | null>(null);
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
@@ -31,7 +34,7 @@ const Families: React.FC = () => {
     <>
       <div className="bg-[#1F2833] min-h-screen">
         <Head>
-          <title>Families</title>
+          <title>{t("header.nav.families")}</title>
         </Head>
         <main>
           <Header />
@@ -40,7 +43,7 @@ const Families: React.FC = () => {
               {/* card ding wrapper div */}
               <div className="bg-[#303341] shadow-lg rounded-lg w-11/12 md:w-3/5 p-6 text-black">
                 <h1 className="text-3xl font-bold text-center text-[#c5c6c7] mb-6">
-                  All Families
+                  {t("families.allFamilies")}
                 </h1>
 
                 <div className="overflow-x-auto mb-6">
@@ -63,7 +66,7 @@ const Families: React.FC = () => {
             </div>
           ) : (
             <h1 className="text-center text-[#ff0000] mt-10">
-              You are not authorized to access this content
+              {t("login.status.noAccess")}
             </h1>
           )}
         </main>

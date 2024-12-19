@@ -1,5 +1,6 @@
 import ShoppingListService from "@/services/ShoppingListService";
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 type Props = {
     familyId: number | undefined;
@@ -7,6 +8,8 @@ type Props = {
 }
 
 const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLists}: Props) => {
+    const {t} = useTranslation();
+    
     const [showNameTextField, setShowNameTextField] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -35,7 +38,7 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
         let result = true;
 
         if (name?.trim() === '') {
-            setNameError('Name is required.');
+            setNameError(t("families.shoppingListOverview.status.nameError"));
             result = false;
         }
 
@@ -60,7 +63,10 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
             setShowNameTextField(false);
             setName('');
             addShoppingListToShoppingLists(shoppingList);
-            setStatusMessage('Shopping list added successfully!')
+            setStatusMessage(t("families.shoppingListOverview.status.succes"))
+            setTimeout(() => {
+                setStatusMessage("")
+            }, 2000)
         }
     }
 
@@ -71,13 +77,13 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
                 onClick={() => handleSelected(!showNameTextField)}
                 className="bg-[#66FCF1] hover:bg-[#45A29E] text-[#1F2833] font-bold py-2 px-4 rounded mb-5"
             >
-                Add a new shopping list
+                {t("families.shoppingListOverview.button.addShoppingList")}
             </button>
             {showNameTextField && (
                 <div className="bg-gray-800 p-4 rounded-md shadow-md">
                     <form onSubmit={(e) => addShoppingList(e)} className="space-y-4">
                         <div>
-                            <label id="name" className="block text-sm font-medium text-gray-300">Name</label>
+                            <label id="name" className="block text-sm font-medium text-gray-300">{t("families.shoppingListOverview.name")}</label>
                             <input 
                                 id="shoppingList-name" 
                                 type="text" 
@@ -91,7 +97,7 @@ const addShoppingList: React.FC<Props> = ({familyId, addShoppingListToShoppingLi
                             type="submit"
                             className="w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300"
                         >
-                            Add
+                            {t("families.shoppingListOverview.button.add")}
                         </button>
                     </form>
                 </div>
