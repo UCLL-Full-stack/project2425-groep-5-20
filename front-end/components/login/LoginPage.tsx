@@ -2,8 +2,11 @@ import UserService from "@/services/UserService";
 import { Role } from "@/types";
 import { useRouter } from "next/router";
 import { SetStateAction, useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const LoginPage: React.FC = () => {
+    const {t} = useTranslation();
+
     const router = useRouter();
     // Form waarden
     const [name, setName] = useState<string>('');
@@ -32,19 +35,19 @@ const LoginPage: React.FC = () => {
         let result = true;
 
         if (name.trim() === '') {
-            setNameError('Name is required.');
+            setNameError(`${t("login.status.nameError")}`);
             result = false;
         }
         if (password.trim() === '' || password.length < 8) {
-            setPasswordError('Password should be at least 8 characters.');
+            setPasswordError(`${t("login.status.passwordError")}`);
             result = false;
         }
         if (email.trim() === '' || !emailRegex.test(email)) {
-            setEmailError("Email should be a valid email.")
+            setEmailError(`${t("login.status.emailError")}`)
             result = false;
         }
         if (selectedOption.trim() === '') {
-            setSelectedOptionError("You should choose one of the two options.")
+            setSelectedOptionError(`${t("login.status.options")}`)
             result = false;
         }
 
@@ -57,11 +60,11 @@ const LoginPage: React.FC = () => {
         let result = true;
 
         if (password.trim() === '' || password.length < 8) {
-            setPasswordError('Password should be at least 8 characters.');
+            setPasswordError(`${t("login.status.passwordError")}`);
             result = false;
         }
         if (email.trim() === '' || !emailRegex.test(email)) {
-            setEmailError("Email should be a valid email.")
+            setEmailError(`${t("login.status.emailError")}`)
             result = false;
         }
         
@@ -81,7 +84,7 @@ const LoginPage: React.FC = () => {
         const response = await UserService.createUser(name, email, password, selectedOption as Role);
 
         if (response.status) {
-            setEmailError("User with this email already exists.");
+            setEmailError(`${t("login.status.userExists")}`);
             return;
         }
 
@@ -102,9 +105,9 @@ const LoginPage: React.FC = () => {
             }));
         }
 
-        setStatusMessage('Successfully registered! Redirecting you to the homepage in 2 seconds...');
+        setStatusMessage(`${t("login.status.success2sec")}`);
         setTimeout(() => {
-            setStatusMessage('Successfully registered! Redirecting you to the homepage in 1 seconds...');
+            setStatusMessage(`${t("login.status.success1sec")}`);
         }, 1000);
         setTimeout(()=> {
             router.push('/');
@@ -123,7 +126,7 @@ const LoginPage: React.FC = () => {
         const user = await UserService.login(email, password);
 
         if (user.status != null) {
-            setEmailError(user.message);
+            setEmailError(`${t("login.status.incorrect")}`);
             return;
         }
 
@@ -144,9 +147,9 @@ const LoginPage: React.FC = () => {
             }));
         }
         
-        setStatusMessage('Successfully logged in! Redirecting you to the homepage in 2 seconds...');
+        setStatusMessage(`${t("login.status.success2sec")}`);
         setTimeout(()=> {
-            setStatusMessage('Successfully logged in! Redirecting you to the homepage in 1 seconds...');
+            setStatusMessage(`${t("login.status.success1sec")}`);
         }, 1000)
 
         setTimeout(()=> {
@@ -159,23 +162,23 @@ const LoginPage: React.FC = () => {
         <>
             {signUpForm && <form className="login" onSubmit={saveUser}>
                 <div>
-                <label id="name">Name</label>
+                <label id="name">{t("users.name")}</label>
                 <input id="login-name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
                 </div>
 
                 <div>
-                <label id="email">Email</label>
+                <label id="email">{t("users.email")}</label>
                 <input id="login-email" type="text" value={email} onChange={(event) => setEmail(event.target.value)} />
                 </div>
 
                 <div>
-                <label id="password">Password</label>
+                <label id="password">{t("users.password")}</label>
                 <input id="login-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)}/>
                 </div>
 
                 <div className="parentOrChild">
                 <label id="parentOrChild">
-                    Parent
+                    {t("login.button.parent")}
                     <input 
                     type="radio"
                     value='parent'
@@ -184,7 +187,7 @@ const LoginPage: React.FC = () => {
                      />
                 </label>
                 <label id="parentOrChild">
-                    Child
+                    {t("login.button.child")}
                     <input 
                     type="radio"
                     value='child'
@@ -193,8 +196,8 @@ const LoginPage: React.FC = () => {
                     />
                 </label>
                 </div>
-                <button id="signInButton">Sign up</button>
-                <div className="no-account-message"><p>Already have an account? <a className="no-account-message-button"  onClick={() => setSignUpForm(false)}>Log in!</a></p></div>
+                <button id="signInButton">{t("login.button.signUp")}</button>
+                <div className="no-account-message"><p>{t("login.hasAccount")} <a className="no-account-message-button"  onClick={() => setSignUpForm(false)}>{t("login.button.login")}!</a></p></div>
                 <div className="errorMessages">
                 {nameError && <p>{nameError}</p>}
                 {emailError && <p>{emailError}</p>}
@@ -208,16 +211,16 @@ const LoginPage: React.FC = () => {
             </form>}
             {!signUpForm && <form className="login" onSubmit={logIn}>
             <div>
-                <label id="email">Email</label>
+                <label id="email">{t("users.email")}</label>
                 <input id="login-email" type="text" value={email} onChange={(event) => setEmail(event.target.value)} />
                 </div>
 
                 <div>
-                <label id="password">Password</label>
+                <label id="password">{t("users.password")}</label>
                 <input id="login-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)}/>
                 </div>
-                <button id="signInButton">Log in</button>
-                <div className="no-account-message"><p>You don't have an account yet? <a className="no-account-message-button" onClick={() => setSignUpForm(true)}>Sign up!</a></p></div>
+                <button id="signInButton">{t("login.button.login")}</button>
+                <div className="no-account-message"><p>{t("login.hasnoAccount")} <a className="no-account-message-button" onClick={() => setSignUpForm(true)}>{t("login.button.signUp")}</a></p></div>
                 <div className="errorMessages">
                 {emailError && <p>{emailError}</p>}
                 {passwordError && <p>{passwordError}</p>}
