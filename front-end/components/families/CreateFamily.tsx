@@ -1,5 +1,6 @@
 import FamilyService from "@/services/FamilyService";
 import UserService from "@/services/UserService";
+import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import {
   Dialog,
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const CreateFamily: React.FC<Props> = ({ onCreatedFamily, email, role }: Props) => {
+  const {t} = useTranslation();
   const [newFamilyName, setNewFamilyName] = useState("");
   const [userEmail, setUserEmail] = useState("");
 
@@ -39,12 +41,12 @@ const CreateFamily: React.FC<Props> = ({ onCreatedFamily, email, role }: Props) 
     let result = true;
 
     if (newFamilyName.trim() === "") {
-      setFamilyNameError("Family name is required.");
+      setFamilyNameError(`${t("families.status.familyError")}`);
       result = false;
     }
     if (role === "admin") {
       if (userEmail.trim() === "" || !emailRegex.test(userEmail)) {
-        setUserEmailError("Email should be a valid email.");
+        setUserEmailError(`${t("families.status.emailError")}`);
         result = false;
       }
     }
@@ -62,7 +64,7 @@ const CreateFamily: React.FC<Props> = ({ onCreatedFamily, email, role }: Props) 
     if (role === "admin") {
       const user = await UserService.getUserByEmail(userEmail);
       if (!user || user.email !== userEmail) {
-        setUserEmailError("No user with that email exists!");
+        setUserEmailError(`${t("families.status.noUserWithThisEmail")}`);
         return;
       }
     }
@@ -72,7 +74,7 @@ const CreateFamily: React.FC<Props> = ({ onCreatedFamily, email, role }: Props) 
       onCreatedFamily(newFamily);
       setNewFamilyName("");
       setUserEmail("");
-      setStatusMessage("Family created successfully");
+      setStatusMessage(`${t("families.status.success")}`);
 
       // timer om dialog box te sluiten als de family is aangemaakt
       setTimeout(() => {
@@ -92,37 +94,37 @@ const CreateFamily: React.FC<Props> = ({ onCreatedFamily, email, role }: Props) 
             id="createFamilyButton"
             onClick={() => setIsDialogOpen(true)}
           >
-            Create New Family
+            {t("families.createNewFamily")}
           </button>
         </DialogTrigger>
         <DialogContent className="bg-[#1F2833] text-white rounded-lg shadow-lg p-6 outline-none border-none">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-[#66FCF1]">
-              Create a New Family
+              {t("families.createNewFamily")}
             </DialogTitle>
             <DialogDescription className="text-gray-400 mb-4">
-              Enter the family details below. This action will add a new family to the list.
+              {t("families.details")}
             </DialogDescription>
           </DialogHeader>
           <form className="space-y-6" onSubmit={handleAddFamily}>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Family Name</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">{t("families.name")}</label>
               <input
                 type="text"
                 value={newFamilyName}
                 onChange={(event) => setNewFamilyName(event.target.value)}
-                placeholder="Enter family name"
+                placeholder={t("families.pleaseEnterNewName")}
                 className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#66FCF1] outline-none"
               />
               {familyNameError && <p className="text-red-500 mt-1">{familyNameError}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">User Email</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">{t("users.email")}</label>
               <input
                 type="text"
                 value={userEmail}
                 onChange={(event) => setUserEmail(event.target.value)}
-                placeholder="Enter user email"
+                placeholder={t("families.pleaseEnterEmail")}
                 className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#66FCF1] outline-none"
               />
               {userEmailError && <p className="text-red-500 mt-1">{userEmailError}</p>}
@@ -131,7 +133,7 @@ const CreateFamily: React.FC<Props> = ({ onCreatedFamily, email, role }: Props) 
               type="submit"
               className="w-full bg-[#66FCF1] hover:bg-[#45A29E] text-[#1F2833] font-bold py-2 px-4 rounded-lg transition duration-300"
             >
-              Add Family
+              {t("families.addFamily")}
             </button>
           </form>
           {statusMessage && (

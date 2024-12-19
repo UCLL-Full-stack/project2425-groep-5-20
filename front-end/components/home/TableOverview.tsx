@@ -1,3 +1,5 @@
+import { useTranslation } from "next-i18next";
+
 const TableOverview: React.FC = () => {
     return (
         <div className="container mx-auto p-4">
