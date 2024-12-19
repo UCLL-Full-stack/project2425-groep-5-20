@@ -7,6 +7,8 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useSWR, { mutate } from "swr";
+import useInterval from "use-interval";
 import nextI18nextConfig from "../../../../next-i18next.config";
 
 const shoppingListId: React.FC = () => {
@@ -14,7 +16,6 @@ const shoppingListId: React.FC = () => {
     const router = useRouter();
     const { familyId, shoppingListId } = router.query;
 
-    const [items, setItems] = useState<Item[]>([]);
     const [status, setStatus] = useState<string>('');
     const [loggedInUser, setLoggedInUser] = useState<string | null>();
 
@@ -22,12 +23,22 @@ const shoppingListId: React.FC = () => {
         if (!shoppingListId) {
             return;
         }
-        const itemsJSON = await ItemService.getItemsFromShoppingList(shoppingListId);
-        setItems(itemsJSON);
+        const response = await ItemService.getItemsFromShoppingList(shoppingListId);
+        return response;
     }
 
+    const {data: items, isLoading, error} = useSWR(
+        "items",
+        () => getItemsFromShoppingList(parseInt(shoppingListId as string))
+    );
+
+    useInterval(() => {
+        mutate(
+            "items",
+            getItemsFromShoppingList(parseInt(shoppingListId as string)));
+    }, 500);
+
     useEffect(() => {
-        getItemsFromShoppingList(parseInt(shoppingListId as string));
         setLoggedInUser(localStorage.getItem('loggedInUser'));
     }, [shoppingListId, items]);
 
@@ -42,6 +53,8 @@ const shoppingListId: React.FC = () => {
         setTimeout(() => {
             setStatus('');
         }, 2000);
+
+        mutate("items", getItemsFromShoppingList(parseInt(shoppingListId as string)));
     }
 
     const handleDeleteItem = async (itemId: number | undefined) => {
@@ -53,6 +66,7 @@ const shoppingListId: React.FC = () => {
             const userEmail = JSON.parse(localStorage.getItem('loggedInUser') as string).email;
 
             await ItemService.deleteItem(itemId, userEmail, parseInt(shoppingListId as string));
+            mutate("items", getItemsFromShoppingList(parseInt(shoppingListId as string)));
         }
 
         getItemsFromShoppingList(parseInt(shoppingListId as string));
@@ -66,38 +80,40 @@ const shoppingListId: React.FC = () => {
             <AddItemToShoppingList addItemToShoppingList={addItemToShoppingList} />
             {status && <p className="text-green-500 text-center mt-2">{status}</p>}
             <div className="container mx-auto p-4">
-                <table className="min-w-full bg-white border border-gray-200">
-                    <thead>
-                        <tr className="bg-gray-100">
-                            <th scope="col" className="py-2 px-4 border-b">{t("families.itemOverview.name")}</th>
-                            <th scope="col" className="py-2 px-4 border-b">{t("families.itemOverview.quantity")}</th>
-                            {loggedInUser && JSON.parse(loggedInUser).role != 'child' && (
-                                <th scope="col" className="py-2 px-4 border-b">Actions</th>
-                            )}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item, idx) => (
-                            <tr key={idx} className="hover:bg-gray-50">
-                                <td className="py-2 px-4 border-b">{item.name}</td>
-                                <td className="py-2 px-4 border-b">{item.quantity}</td>
-                                {loggedInUser && JSON.parse(loggedInUser).role != 'child' && (
-                                    <td className="py-2 px-4 border-b">
-                                        <button
-                                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                                            onClick={() => handleDeleteItem(item.id)}
-                                        >
-                                            {t("families.itemOverview.button.remove")}
-                                        </button>
-                                    </td>
-                                )}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+              <table className="min-w-full bg-white border border-gray-200">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th scope="col" className="py-2 px-4 border-b">{t("families.itemOverview.name")}</th>
+                    <th scope="col" className="py-2 px-4 border-b">{t("families.itemOverview.quantity")}</th>
+                    {loggedInUser && JSON.parse(loggedInUser).role !== 'child' && (
+                      <th scope="col" className="py-2 px-4 border-b">Actions</th>
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {error && <tr><td colSpan={3} className="text-center text-red-500 mt-4">Failed to load items</td></tr>}
+                  {isLoading && <tr><td colSpan={3} className="text-center text-white mt-4">Loading...</td></tr>}
+                  {items && items.map((item, idx) => (
+                    <tr key={idx} className="hover:bg-gray-50">
+                      <td className="py-2 px-4 border-b">{item.name}</td>
+                      <td className="py-2 px-4 border-b">{item.quantity}</td>
+                      {loggedInUser && JSON.parse(loggedInUser).role !== 'child' && (
+                        <td className="py-2 px-4 border-b">
+                          <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                            onClick={() => handleDeleteItem(item.id)}
+                          >
+                            {t("families.itemOverview.button.remove")}
+                          </button>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-        </div>
-    </>
+          </div>
+        </>
 }
 
 export const getServerSideProps = async (content: { locale: any; }) => {

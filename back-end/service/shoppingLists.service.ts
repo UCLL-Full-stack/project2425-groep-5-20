@@ -27,7 +27,8 @@ const createShoppingList = async(name: string, userEmail: string, familyId: numb
         throw new Error("No family with this ID exists.");
     }
 
-    return await shoppingListDb.createShoppingList(name, user, family);
+    const shoppingList = new ShoppingList({name, creationDate: new Date(), lastUpdate: new Date(), updatedBy: user, items: []});
+    return await shoppingListDb.createShoppingList(shoppingList.getName(), shoppingList.getUpdatedBy(), family);
 
 }
 

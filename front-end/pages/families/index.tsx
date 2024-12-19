@@ -8,27 +8,39 @@ import { Family } from "@/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "../../../next-i18next.config";
 import { useTranslation } from "next-i18next";
+import useInterval from "use-interval";
+import useSWR, { mutate } from 'swr';
 
 const Families: React.FC = () => {
   const {t} = useTranslation();
-
-  const [families, setFamilies] = useState<Array<Family>>([]);
   const [selectedFamily, setSelectedFamily] = useState<any | null>(null);
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
   const getAllFamilies = async () => {
-    const families = await FamilyService.getAllFamlies();
-    setFamilies(families);
+    const response = await FamilyService.getAllFamlies();
+    return response;
   };
 
   useEffect(() => {
     setLoggedInUser(localStorage.getItem("loggedInUser"));
-    getAllFamilies();
   }, []);
 
-  const addNewFamily = (newFamily: Family) => {
-    setFamilies([...families, newFamily]);
+  const { data, isLoading, error } = useSWR(
+    "families",
+    getAllFamilies
+  );
+
+  useInterval(() => {
+    mutate(
+      "families",
+      getAllFamilies());
+  }, 500);
+
+  const addNewFamily = async (newFamily: Family) => {
+    mutate("families");
   };
+
+  
 
   return (
     <>
@@ -45,14 +57,14 @@ const Families: React.FC = () => {
                 <h1 className="text-3xl font-bold text-center text-[#c5c6c7] mb-6">
                   {t("families.allFamilies")}
                 </h1>
-
                 <div className="overflow-x-auto mb-6">
                   <FamiliesOverview
-                    families={families}
+                    families={data}
                     selectedFamily={setSelectedFamily}
                   />
                 </div>
-
+                {error && <p className="text-center text-[#ff0000] mt-4">Failed to load users</p>}
+                {isLoading && <p className="text-center text-[#c5c6c7] mt-4">Loading...</p>}
                 {JSON.parse(loggedInUser).role !== "child" && (
                   <div className="flex justify-end mr-4">
                     <CreateFamily
