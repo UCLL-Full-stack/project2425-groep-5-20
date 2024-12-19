@@ -55,18 +55,36 @@ const main = async() => {
         }
     })
 
+    const userJane = await prisma.user.create({
+        data: {
+            name: 'Jane',
+            email: 'jane@email.com',
+            password: await bcrypt.hash('jane12345678', 12),
+            role: 'parent',
+        }
+    })
+
     const userJohnJr = await prisma.user.create({
         data: {
             name: 'JohnJr',
-            email: 'johnJr@email.com',
+            email: 'johnjr@email.com',
             password: await bcrypt.hash('johnJr12345678', 12),
             role: 'child',
         }
     })
 
-    const FamilyBoze = await prisma.family.create({
+    const userJeniffer = await prisma.user.create({
         data: {
-            name: 'De Boze Familie',
+            name: 'Jeniffer',
+            email: 'jeniffer@email.com',
+            password: await bcrypt.hash('jeniffer12345678', 12),
+            role: 'child',
+        }
+    })
+
+    const FamilyTest = await prisma.family.create({
+        data: {
+            name: 'Familie test',
             familyList: {
                 connect: [{id: userJorrit.id}]
             },
@@ -76,11 +94,11 @@ const main = async() => {
         }
     })
 
-    const FamilyJohn = await prisma.family.create({
+    const FamilyDoe = await prisma.family.create({
         data: {
-            name: 'De John Familie',
+            name: 'De Doe Familie',
             familyList: {
-                connect: [{id: userJohn.id}, {id: userJohnJr.id}]
+                connect: [{id: userJohn.id}, {id: userJohnJr.id}, {id: userJane.id}, {id: userJeniffer.id}]
             },
             owner: {
                 connect: {id: userJohn.id}
