@@ -30,7 +30,7 @@ const Header: React.FC = () => {
         {/* Welcome Message */}
         {loggedInUser && (
           <p className="text-sm text-[#66FCF1]">
-            Welcome {JSON.parse(loggedInUser).name}! (
+            {t("header.welcome")} {JSON.parse(loggedInUser).name}! (
             {JSON.parse(loggedInUser).role})
           </p>
         )}
@@ -42,7 +42,7 @@ const Header: React.FC = () => {
           </li>
           <li>
             <Link href="/" className="text-[#66FCF1] hover:text-[#45A29E] transition">
-              Home
+            {t("header.nav.home")}
             </Link>
           </li>
 
@@ -52,7 +52,7 @@ const Header: React.FC = () => {
                 href="/users"
                 className="text-[#66FCF1] hover:text-[#45A29E] transition"
               >
-                Users
+                {t("header.nav.users")}
               </Link>
             </li>
           )}
@@ -63,7 +63,7 @@ const Header: React.FC = () => {
                 href="/families"
                 className="text-[#66FCF1] hover:text-[#45A29E] transition"
               >
-                Families
+                {t("header.nav.families")}
               </Link>
             </li>
           )}
@@ -74,7 +74,7 @@ const Header: React.FC = () => {
                 href="/login"
                 className="text-[#66FCF1] hover:text-[#45A29E] transition"
               >
-                Sign in
+                {t("header.nav.signIn")}
               </Link>
             </li>
           )}
@@ -86,7 +86,7 @@ const Header: React.FC = () => {
                 onClick={handleLogOut}
                 className="text-[#66FCF1] hover:text-[#45A29E] transition"
               >
-                Log out
+                {t("header.nav.logOut")}
               </Link>
             </li>
           )}

@@ -21,7 +21,7 @@ const Language: React.FC = () => {
       </label>
       <select
         id="language"
-        className="ml-2 p-1"
+        className="ml-2 p-1 text-black"
         value={locale}
         onChange={handleLanguageChange}
       >

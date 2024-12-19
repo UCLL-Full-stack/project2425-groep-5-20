@@ -36,11 +36,11 @@ const Users: React.FC = () => {
       </Head>
       <Header />
       {loggedInUser && JSON.parse(loggedInUser).role == 'admin' && <main>
-        <h1 className='text-[#c5c6c7] mt-5'>All Users</h1>
+        <h1 className='text-[#c5c6c7] mt-5'>{t("users.allUsers")}</h1>
         <section>
           {users.length > 0 ? <UserOverview users={users} /> : <p>No users found.</p>}
         </section>
-      </main> || <h1>You are not authorized to access this content</h1>}
+      </main> || <h1>{t("login.status.noAccess")}</h1>}
       </div>
     </>
   );
