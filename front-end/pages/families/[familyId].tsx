@@ -9,12 +9,13 @@ import ShoppingListsOverview from '@components/families/familyId/ShoppingListsOv
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useInterval } from 'use-interval';
+import useSWR,{ mutate } from 'swr';
 
 const FamilyID: React.FC = () => {
   const router = useRouter();
   const { familyId } = router.query;
 
-  const [family, setFamily] = useState<Family>();
   const [loggedInUser, setLoggedInUser] = useState<string | null>();
   const [selectedOption, setSelectedOption] = useState<boolean>(false);
   const [showRemoveDialog, setShowRemoveDialog] = useState<boolean>(false);
@@ -26,15 +27,24 @@ const FamilyID: React.FC = () => {
 
   useEffect(() => {
     setLoggedInUser(localStorage.getItem("loggedInUser"));
-    if (familyId) {
-      getFamilyById(parseInt(familyId as string));
-    }
   }, [familyId]);
 
   const getFamilyById = async (familyId: number) => {
-    const family = await FamilyService.getFamilyById(familyId);
-    setFamily(family);
+    const response = await FamilyService.getFamilyById(familyId);
+    return response;
   };
+
+  const {data: family, isLoading, error} = useSWR(
+    "familyId",
+    getFamilyById(parseInt(familyId as string))
+    );
+
+    useInterval(() => {
+        mutate(
+          "familyId",
+          getFamilyById(parseInt(familyId as string))
+        );
+    }, 500);
 
   const validateEmail = (): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
