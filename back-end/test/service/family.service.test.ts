@@ -82,30 +82,6 @@ test('given family exists, when addFamilyMember is called, then it adds the fami
     expect(family.getFamilyList().length).toBe(2);
 });
 
-// deze test runt niet, de voorlaatste expect geeft een error omdat de user2 er nog steeds in zit, ik weet niet waarom
-// test('given family exists, when removeFamilyMember is called, then it removes the family member', async () => {
-//     // Given
-//     const familyId = family.getId();
-//     if (familyId === undefined) {
-//         throw new Error('Family ID is undefined');
-//     }
-//     family.getFamilyList().push(user2); // Add user2 to the familyList
-//     const mockRemoveFamilyMember = familyDB.removeFamilyMember = jest.fn().mockImplementation((familyId, email) => {
-//         const updatedList = family.getFamilyList().filter(member => member.getEmail() !== email);
-//         family.getFamilyList = jest.fn().mockReturnValue(updatedList); // Return updated list
-//         return family;
-//     });
-    
-//     // When
-//     await familyService.removeFamilyMember(familyId, user2.getEmail());
-
-//     // Then
-//     expect(mockFamilyDBGetFamilyById).toHaveBeenCalledTimes(1);
-//     expect(mockFamilyDBGetFamilyById).toHaveBeenCalledWith(familyId);
-//     expect(mockRemoveFamilyMember).toHaveBeenCalledTimes(1);
-//     expect(family.getFamilyList()).not.toContain(user2);
-//     expect(family.getFamilyList().length).toBe(1);
-// });
 
 // Unhappy
 test('given family does not exist, when deleteFamily is called, then it throws an error', async () => {
@@ -149,28 +125,3 @@ test('given family exists, when addFamilyMember is called with a non-existent us
     expect(mockGetUserByEmail).toHaveBeenCalledTimes(1);
     expect(familyDB.addFamilyMember).not.toHaveBeenCalled();
 });
-
-// deze test werkt enkel als je hem bovenaan zet, anders werkt hij niet dus er is iets mis met de beforeEach en afterEach
-// test('given family exists, when removeFamilyMember is called with the owner of the family, then it throws an error', async () => {
-//     // Given
-//     const familyId = family.getId();
-//     if (familyId === undefined) {
-//         throw new Error('Family ID is undefined');
-//     }
-
-//     const mockRemoveFamilyMember = familyDB.removeFamilyMember = jest.fn();
-
-//     // When
-//     let error;
-//     try {
-//         await familyService.removeFamilyMember(familyId, user.getEmail());
-//     } catch (e) {
-//         error = e;
-//     }
-
-//     // Then
-//     expect(family.getOwner()).toEqual(user);
-//     expect(error).toEqual(new Error('Owner cannot be removed from family.'));
-//     expect(mockFamilyDBGetFamilyById).toHaveBeenCalledTimes(1);
-//     expect(mockRemoveFamilyMember).not.toHaveBeenCalled(); 
-// });
