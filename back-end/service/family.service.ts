@@ -34,8 +34,8 @@ const createFamily = async (familyName: string, userEmail: string): Promise<Fami
         throw new Error('User does not exist.');
     }
     const familyList: User[] = [user];
-
-    return familyDb.createFamily(familyName, familyList, user);
+    const family = new Family({name: familyName, familyList: familyList, owner: user});
+    return familyDb.createFamily(family.getName(),family.getFamilyList(), family.getOwner());
 }
 
 const addFamilyMember = async (familyId: number, userEmail: string) => {
