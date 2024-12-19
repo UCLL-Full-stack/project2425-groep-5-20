@@ -42,7 +42,7 @@ const Header: React.FC = () => {
           </Link>}
 
           {!loggedInUser && <Link href='/login'>
-            {t('header.nav.signin')}
+            {t('header.nav.signIn')}
           </Link>}
           
           {loggedInUser && <Link onClick={handleLogOut} href='/'>

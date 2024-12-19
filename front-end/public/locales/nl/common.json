@@ -34,7 +34,8 @@
             "userExists": "Er bestaat al een gebruiker met dit e-mailadres.",
             "incorrect": "Onjuist e-mailadres of wachtwoord.",
             "success2sec": "Succesvol ingelogd! Je wordt over 2 seconden doorgestuurd naar de homepage...",
-            "success1sec": "Succesvol ingelogd! Je wordt over 1 seconde doorgestuurd naar de homepage..."
+            "success1sec": "Succesvol ingelogd! Je wordt over 1 seconde doorgestuurd naar de homepage...",
+            "noAccess": "U heeft geen toegang om deze pagina te bekijken."
         }
     },
     "users": {

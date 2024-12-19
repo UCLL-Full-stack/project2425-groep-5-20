@@ -1,5 +1,6 @@
 import FamilyService from "@/services/FamilyService";
 import UserService from "@/services/UserService";
+import { useTranslation } from "next-i18next";
 import { useState } from "react";
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
 }
 
 const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) => {
+    const {t} = useTranslation();
+    
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [newFamilyName, setNewFamilyName] = useState("");
     const [userEmail, setUserEmail] = useState("");
@@ -35,12 +38,12 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) =>
         let result = true;
 
         if (newFamilyName.trim() === '') {
-            setFamilyNameError('Family name is required.');
+            setFamilyNameError(`${t("families.status.familyError")}`);
             result = false;
         }
         if (role == "admin"){
             if (userEmail.trim() === '' || !emailRegex.test(userEmail)) {
-                setUserEmailError('Email should be a valid email.');
+                setUserEmailError(`${t("families.status.emailError")}`);
                 result = false;
         }}
 
@@ -58,7 +61,7 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) =>
         if (role == 'admin') {
             const user = await UserService.getUserByEmail(userEmail);
             if (!user || user.email !== userEmail) {
-                setUserEmailError("No user with that email exists!");
+                setUserEmailError(`${t("families.status.noUserWithThisEmail")}`);
                 return;
         }}
         console.log(email)
@@ -70,7 +73,7 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) =>
             setNewFamilyName("");
             setUserEmail("");
             setIsInputVisible(false);
-            setStatusMessage('Family created successfully');
+            setStatusMessage(`${t("families.status.success")}`);
         } else {
             setStatusMessage('Failed to create family');
         }
@@ -79,31 +82,31 @@ const CreateFamily: React.FC<Props> = ({onCreatedFamily, email, role}: Props) =>
 
     return <>
         <div className="familybutton">
-            <button id="createFamilyButton" onClick={handleCreateFamilyClick}>Create New Family</button>
+            <button id="createFamilyButton" onClick={handleCreateFamilyClick}>{t("families.createNewFamily")}</button>
             {isInputVisible && (
                 <div>
                     <form className="newfamily" onSubmit={handleAddFamily}>
                         <div>
-                            <label id="familyname">Please enter new family name.</label>
+                            <label id="familyname">{t("families.pleaseEnterNewName")}</label>
                             <input
                                 type="text"
                                 value={newFamilyName}
                                 onChange={(event) => setNewFamilyName(event.target.value)}
-                                placeholder="Enter family name"
+                                placeholder={t("families.name")}
                             />
                             {familyNameError && <p className="error">{familyNameError}</p>}
                         </div>
                         {role == 'admin' &&<div>
-                            <label id="useremail">Please enter your user email.</label>
+                            <label id="useremail">{t("families.pleaseEnterEmail")}.</label>
                             <input
                                 type="text"
                                 value={userEmail}
                                 onChange={(event) => setUserEmail(event.target.value)}
-                                placeholder="Enter your user email"
+                                placeholder={t("users.email")}
                             />
                             {userEmailError && <p className="error">{userEmailError}</p>}
                         </div>}
-                        <button type="submit">Add Family</button>
+                        <button type="submit">{t("families.addFamily")}</button>
                     </form>
                 </div>
             )}

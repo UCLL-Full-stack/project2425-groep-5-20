@@ -5,8 +5,12 @@ import FamilyService from '@/services/FamilyService';
 import FamiliesOverview from '@components/families/FamiliesOverview';
 import CreateFamily  from '@components/families/CreateFamily';
 import { Family } from '@/types';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import nextI18NextConfig from '../../../next-i18next.config';
 
 const Families: React.FC = () => {
+    const {t} = useTranslation();
     const [families, setFamilies] = useState<Array<Family>>([]);
     const [selectedFamily, setSelectedFamily] = useState<any | null>(null);
     const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
@@ -28,17 +32,28 @@ const Families: React.FC = () => {
     return (
         <>
             <Head>
-                <title>Families</title>
+                <title>{t("header.nav.families")}</title>
             </Head>
             <main>
                 <Header />
-                {loggedInUser && <><h1>All Families</h1>
+                {loggedInUser && <><h1>{t("families.allFamilies")}</h1>
                 {JSON.parse(loggedInUser).role != 'child' && <CreateFamily onCreatedFamily={addNewFamily} email={JSON.parse(loggedInUser).email} role={JSON.parse(loggedInUser).role}/>}
                 <FamiliesOverview families={families} selectedFamily={setSelectedFamily} />
-                </> || <h1>You are not authorized to access this content</h1>}
+                </> || <h1>{t("login.status.noAccess")}</h1>}
             </main>
         </>
     );
 };
+
+export const getServerSideProps = async (content: { locale: any; }) => {
+  const { locale } = content;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['common'], nextI18NextConfig)),
+    },
+  };
+};
+
 
 export default Families;

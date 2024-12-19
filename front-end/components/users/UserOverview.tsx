@@ -1,4 +1,5 @@
 
+import { useTranslation } from "next-i18next";
 import { User } from "types/index";
 
 type Props = {
@@ -6,16 +7,16 @@ type Props = {
 }
 
 const UserOverview: React.FC<Props> = ({ users }: Props) => {
-
+  const {t} = useTranslation();
   return (
     <>
       <section className="mt-5">
         <table>
           <thead>
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Role</th>
+              <th scope="col">{t("users.name")}</th>
+              <th scope="col">{t("users.email")}</th>
+              <th scope="col">{t("users.role")}</th>
             </tr>
           </thead>
           <tbody>

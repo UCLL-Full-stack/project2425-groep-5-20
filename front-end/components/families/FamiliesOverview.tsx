@@ -1,5 +1,6 @@
 import { Family } from "@/types";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 type Props = {
     families: Family[];
@@ -7,15 +8,16 @@ type Props = {
 }
 
 const FamiliesOverview: React.FC<Props> = ({families, selectedFamily}: Props) => {
+  const {t} = useTranslation();
   const router = useRouter();
     return (
         <>
         <table>
           <thead>
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Amount of members</th>
-              <th scope="col">Owner</th>
+              <th scope="col">{t("families.name")}</th>
+              <th scope="col">{t("families.amountOfMembers")}</th>
+              <th scope="col">{t("families.owner")}</th>
             </tr>
           </thead>
           <tbody className="familyRow">

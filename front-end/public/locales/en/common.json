@@ -34,7 +34,8 @@
             "userExists": "User with this email already exists.",
             "incorrect": "Incorrect email or password.",
             "success2sec": "Successfully logged in! Redirecting you to the homepage in 2 seconds...",
-            "success1sec": "Successfully logged in! Redirecting you to the homepage in 1 seconds..."
+            "success1sec": "Successfully logged in! Redirecting you to the homepage in 1 seconds...",
+            "noAccess": "You are not authorized to access this content"
         }
     },
     "users": {
