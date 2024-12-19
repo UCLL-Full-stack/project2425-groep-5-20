@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Language from "./language";
 
 const Header: React.FC = () => {
   const {t} = useTranslation();
@@ -36,6 +37,9 @@ const Header: React.FC = () => {
 
         {/* Navigation */}
         <ul className="flex space-x-6 list-none">
+          <li>
+            <Language/>
+          </li>
           <li>
             <Link href="/" className="text-[#66FCF1] hover:text-[#45A29E] transition">
               Home
