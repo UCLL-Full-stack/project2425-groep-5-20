@@ -121,7 +121,6 @@ const FamilyID: React.FC = () => {
                     <SingleFamilyOverview family={family} />
                     {isParent && JSON.parse(isParent).isParent != false && (
                       <div className="flex justify-end space-x-4 my-4 mr-4">
-                        <>{console.log(JSON.parse(isParent).isParent)}</>
                         <button
                           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300"
                           onClick={() => setShowRemoveDialog(true)}
