@@ -5,7 +5,12 @@ import bcrypt from "bcrypt";
 import generateJwtToken from "../util/jwt";
 
 
-const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
+const getAllUsers = async (role: string): Promise<User[]> => {
+    if (role == 'child') {
+        throw new Error('You are not authorised to do that.')
+    }
+    return await userDb.getAllUsers();
+}
 
 const getUserByEmail = async (email: string): Promise<User | null> => {
     const user = await userDb.getUserByEmail(email);

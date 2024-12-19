@@ -97,7 +97,7 @@ familyRouter.get('/', async(req: Request & {auth?: any}, res: Response, next: Ne
  *             schema:
  *                 $ref: '#/components/schemas/Family'
  */
-familyRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) => {
+familyRouter.get('/:id', async(req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
         const family = await familyService.getFamilyById(parseInt(req.params.id));
         res.status(200).json(family); 
@@ -131,10 +131,11 @@ familyRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) 
  *             schema:
  *               $ref: '#/components/schemas/Family'
  */
-familyRouter.post("/", async (req: Request, res: Response, next: NextFunction) => {
+familyRouter.post("/", async (req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
         const {familyName, userEmail} = req.body;
-        const result = await familyService.createFamily(familyName, userEmail);
+        const {email, role} = req.auth;
+        const result = await familyService.createFamily(familyName, userEmail, role);
         res.status(200).json(result);
     } catch (error){
         if (error instanceof Error) {
@@ -177,11 +178,12 @@ familyRouter.post("/", async (req: Request, res: Response, next: NextFunction) =
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-familyRouter.post("/:id", async (req: Request, res: Response, next: NextFunction) => {
+familyRouter.post("/:id", async (req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
         const familyId = parseInt(req.params.id);
         const {email} = req.body;
-        const result = await familyService.addFamilyMember(familyId, email);
+        const {role} = req.auth;
+        const result = await familyService.addFamilyMember(familyId, email, role);
         res.status(200).json(result);
     } catch (error){
         if (error instanceof Error) {
@@ -214,10 +216,11 @@ familyRouter.post("/:id", async (req: Request, res: Response, next: NextFunction
  *             schema:
  *               $ref: '#/components/schemas/Family'
  */
-familyRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+familyRouter.delete("/:id", async (req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
         const familyId = parseInt(req.params.id);
-        const result = await familyService.deleteFamily(familyId);
+        const {role} = req.auth;
+        const result = await familyService.deleteFamily(familyId, role);
         res.status(200).json(result);
     } catch (error){
         if (error instanceof Error) {
@@ -256,11 +259,12 @@ familyRouter.delete("/:id", async (req: Request, res: Response, next: NextFuncti
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-familyRouter.put("/:id/:email", async (req: Request, res: Response, next: NextFunction) => {
+familyRouter.put("/:id/:email", async (req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
+        const {role} = req.auth;
         const familyId = parseInt(req.params.id);
         const email = req.body.email;
-        const result = await familyService.removeFamilyMember(familyId, email);
+        const result = await familyService.removeFamilyMember(familyId, email, role);
         res.status(200).json(result);
     } catch (error){
         if (error instanceof Error) {

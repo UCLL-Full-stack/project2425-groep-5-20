@@ -51,7 +51,7 @@ test('given family exists, when deleteFamily is called, then it deletes the fami
     const mockDeleteFamily = familyDB.deleteFamily = jest.fn();
 
     // when
-    await familyService.deleteFamily(familyId);
+    await familyService.deleteFamily(familyId, "admin");
 
     // then
     expect(mockFamilyDBGetFamilyById).toHaveBeenCalledTimes(1);
@@ -72,7 +72,7 @@ test('given family exists, when addFamilyMember is called, then it adds the fami
     });
     
     // When
-    await familyService.addFamilyMember(familyId, user2.getEmail());
+    await familyService.addFamilyMember(familyId, user2.getEmail(), "admin");
 
     // Then
     expect(mockFamilyDBGetFamilyById).toHaveBeenCalledTimes(1);
@@ -92,7 +92,7 @@ test('given family does not exist, when deleteFamily is called, then it throws a
     // When
     let error;
     try {
-        await familyService.deleteFamily(nonExistentFamilyId);
+        await familyService.deleteFamily(nonExistentFamilyId, "admin");
     } catch (e) {
         error = e;
     }
@@ -114,7 +114,7 @@ test('given family exists, when addFamilyMember is called with a non-existent us
     // When
     let error;
     try {
-        await familyService.addFamilyMember(familyId, nonExistentUserEmail);
+        await familyService.addFamilyMember(familyId, nonExistentUserEmail, "admin");
     } catch (e) {
         error = e;
     }

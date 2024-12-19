@@ -169,9 +169,10 @@ itemRouter.get('/:id', async(req: Request, res: Response, next: NextFunction) =>
  *       200:
  *         description: The deleted item.
  */
-itemRouter.delete('/remove', async(req: Request, res: Response, next: NextFunction) => {
+itemRouter.delete('/remove', async(req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
-        await itemService.deleteItem(req.body.itemId, req.body.userEmail, req.body.shoppingListId);
+        const {role} = req.auth
+        await itemService.deleteItem(req.body.itemId, req.body.userEmail, req.body.shoppingListId, role);
         res.status(200);
     } catch (error) {
         if (error instanceof Error) {

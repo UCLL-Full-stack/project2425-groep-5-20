@@ -165,9 +165,10 @@ shoppingListRouter.get('/family/:id', async(req: Request, res: Response, next: N
  *                schema:
  *                  $ref: '#/components/schemas/ShoppingList'
  */
-shoppingListRouter.post('/', async(req: Request, res: Response, next: NextFunction) => {
+shoppingListRouter.post('/', async(req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
-        const shoppingList = await shoppingListsService.createShoppingList(req.body.name, req.body.userEmail, req.body.familyId);
+        const {role} = req.auth;
+        const shoppingList = await shoppingListsService.createShoppingList(req.body.name, req.body.userEmail, req.body.familyId, role);
         res.status(200).json(shoppingList);
     } catch (error) {
         if (error instanceof Error) {
@@ -207,9 +208,10 @@ shoppingListRouter.post('/', async(req: Request, res: Response, next: NextFuncti
  *                schema:
  *                  $ref: '#/components/schemas/ShoppingList'
  */
-shoppingListRouter.post('/:id', async(req: Request, res: Response, next: NextFunction) => {
+shoppingListRouter.post('/:id', async(req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
-        const shoppingList = await shoppingListsService.addItemToShoppingList(parseInt(req.params.id), req.body.item, req.body.userEmail);
+        const {role} = req.auth;
+        const shoppingList = await shoppingListsService.addItemToShoppingList(parseInt(req.params.id), req.body.item, req.body.userEmail, role);
         res.status(200).json(shoppingList);
     } catch (error) {
         if (error instanceof Error) {
@@ -240,9 +242,10 @@ shoppingListRouter.post('/:id', async(req: Request, res: Response, next: NextFun
  *       200:
  *         description: The deleted item.
  */
-shoppingListRouter.delete('/:id', async(req: Request, res: Response, next: NextFunction) => {
+shoppingListRouter.delete('/:id', async(req: Request & {auth?: any}, res: Response, next: NextFunction) => {
     try {
-        await shoppingListsService.deleteShoppingList(parseInt(req.params.id));
+        const {role} = req.auth
+        await shoppingListsService.deleteShoppingList(parseInt(req.params.id), role);
         res.status(200)
     } catch (error) {
         if (error instanceof Error) {
