@@ -1,0 +1,144 @@
+{
+    "app.title": "FamList",
+    "header": {
+        "welcome": "Welcome",
+        "nav": {
+            "home": "Home",
+            "users": "Users",
+            "families": "Families",
+            "signIn": "Sign In",
+            "logOut": "Log out",
+            "language": "Language"
+        }
+    },
+    "home": {
+        "testUsers": "Test users",
+        "testUsersExplained": "These are the users that the lecturers can use to perform tests on our application.",
+        "welcome": "Welcome to FamList",
+        "info": "FamList is the ultimate app for families to stay organized and make shopping a breeze. Say goodbye to forgotten items and hello to a stress-free grocery experience!",
+        "hello": "Hello",
+        "goTo": "Go to Families",
+        "getStarted": "Get Started Today!",
+        "welcomeBack": "Welcome back! Click on the button below to view your families!",
+        "ready": "Ready to simplify your family’s grocery planning? Click below to sign up and get started!",
+        "why": "Why Use FamList?",
+        "how": "How It Works?",
+        "collab1": "Collaborative Grocery Lists: ",
+        "collab2": "Everyone in the family can add items to the shared list.",
+        "accessable1": "Accessible Anywhere: ",
+        "accessable2": "Update and view lists on any device, anytime.",
+        "streamlined1": "Streamlined Shopping: ",
+        "streamlined2": "Check items off as you shop for a smooth experience.",
+        "reminder1": "Reminders and Notifications: ",
+        "reminder2": "Get reminders so you never miss adding an item again.",
+        "step1": "Create a family group and invite members to join.",
+        "step2": "Start adding items to the shared grocery list.",
+        "step3": "Mark items as purchased during your shopping trips.",
+        "step4": "Enjoy a stress-free and efficient grocery shopping experience!"
+    },
+    "login": {
+        "email": "Email",
+        "password": "Password",
+        "hasnoAccount": "You don't have an account yet?",
+        "hasAccount": "Already have an account?",
+        "button": {
+            "login": "Log in",
+            "signUp": "Sign up",
+            "parent": "Parent",
+            "child": "Child"
+        },
+        "status": {
+            "nameError": "Name is required.",
+            "emailError": "Email should be a valid email.",
+            "passwordError": "Password should be at least 8 characters.",
+            "options": "You should choose one of the two options.",
+            "userExists": "User with this email already exists.",
+            "incorrect": "Incorrect email or password.",
+            "success2sec": "Successfully logged in! Redirecting you to the homepage in 2 seconds...",
+            "success1sec": "Successfully logged in! Redirecting you to the homepage in 1 seconds...",
+            "noAccess": "You are not authorized to access this content"
+        }
+    },
+    "users": {
+        "allUsers": "All Users",
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "role": "Role"
+    },
+    "families": {
+        "allFamilies": "All Families",
+        "name": "Name",
+        "amountOfMembers": "Amount of members",
+        "owner": "Owner",
+        "createNewFamily": "Create new family",
+        "pleaseEnterNewName": "Please enter a new family name",
+        "pleaseEnterEmail": "Please enter your email address",
+        "details": "Enter the family details below. This action will add a new family to the list.",
+        "addFamily": "Add family",
+        "status": {
+            "familyError": "Family name is required",
+            "emailError": "Email should be valid format",
+            "noUserWithThisEmail": "No user with that email exists!",
+            "success": "Family successfully added!"
+        },
+        "familyOverview": {
+            "title": "Overview of",
+            "titleButtom": "Family Overview",
+            "button": {
+                "removeFamily": "Remove Family",
+                "addMember": "Add a family member",
+                "remove": "Remove"
+            },
+            "status": {
+                "areYouSure": "Are you sure you want to remove this family?",
+                "areYouSureMember": "Are you sure you want to remove this family member?",
+                "addEmail": "Please enter the email of the family member you want to add.",
+                "noOwner": "You can't remove the owner",
+                "success": "Family member added successfully",
+                "fail": "Failed to add family member"
+            }
+        },
+        "shoppingListOverview": {
+            "title": "Shopping Lists of",
+            "titleButtom": "Shopping Lists",
+            "button": {
+                "addShoppingList": "Add a new shopping list",
+                "remove": "Remove",
+                "add": "Add"
+            },
+            "name": "Name",
+            "table": {
+                "name": "Name",
+                "creationDate": "Creation Date",
+                "lastTimeUpdated": "Last time updated",
+                "lastUpdateBy": "Last updated by"
+            },
+            "status": {
+                "areYouSure": "Are you sure you want to remove this shopping list?",
+                "nameError":"Name is required.",
+                "succes":"Shopping list successfully added."
+            }
+        },
+        "itemOverview": {
+            "title": "Items inside of the Shopping list",
+            "button": {
+                "addShoppingList": "Add a new shopping list",
+                "remove": "Remove",
+                "add": "Add Item"
+            },
+            "name": "Name",
+            "quantity": "Quantity",
+            "table": {
+                "name": "Item name",
+                "quanity": "Quantity"
+            },
+            "status": {
+                "nameError":"Name is required.",
+                "quantityError": "You should add more than 0 quantity of an item.",
+                "succes": "Item successfully added to shopping list.",
+                "areYouSure": "Are you sure you want to delete this item from the shopping list?"
+            }
+        }
+    }
+}
