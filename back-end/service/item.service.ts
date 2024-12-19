@@ -12,7 +12,11 @@ const getItemsFromShoppingList = async(shoppingListId:number): Promise<Item[]> =
     return itemDb.getItemsFromShoppingList(shoppingListId);
 }
 
-const deleteItem = async(itemId: number, userEmail: string, shoppingListId: number) => {
+const deleteItem = async(itemId: number, userEmail: string, shoppingListId: number, role: string) => {
+    if (role == 'child') {
+        throw new Error("You are not authorised to do that.")
+    }
+    
     const user = await userDb.getUserByEmail(userEmail);
     if (!user) {
         throw new Error("Cannot find user with this email");

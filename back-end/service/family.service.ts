@@ -28,7 +28,10 @@ const getFamilyById = async(familyId: number): Promise<Family> => {
     return family;
 }
 
-const createFamily = async (familyName: string, userEmail: string): Promise<Family> => {
+const createFamily = async (familyName: string, userEmail: string, role: string): Promise<Family> => {
+    if (role == 'child') {
+        throw new Error("You are not authorised to do that");
+    }
     const user = await userDb.getUserByEmail(userEmail);
     if (!user) {
         throw new Error('User does not exist.');
@@ -38,7 +41,10 @@ const createFamily = async (familyName: string, userEmail: string): Promise<Fami
     return familyDb.createFamily(family.getName(),family.getFamilyList(), family.getOwner());
 }
 
-const addFamilyMember = async (familyId: number, userEmail: string) => {
+const addFamilyMember = async (familyId: number, userEmail: string, role: string) => {
+    if (role == 'child') {
+        throw new Error("You are not authorised to do that.")
+    }
     if (!familyId) {
         throw new Error('Family ID is required.');
     }
@@ -53,7 +59,11 @@ const addFamilyMember = async (familyId: number, userEmail: string) => {
     return familyDb.addFamilyMember(familyId, user);
 }
 
-const deleteFamily = async (familyId: number): Promise<void> => {
+const deleteFamily = async (familyId: number, role: string): Promise<void> => {
+    if (role == 'child') {
+        throw new Error("You are not authorised to do that.");
+    }
+    
     const family = await familyDb.getFamilyById(familyId);
     const shoppingLists = await shoppingListDb.getAllShoppingListsForFamily(familyId);
 
@@ -71,7 +81,11 @@ const deleteFamily = async (familyId: number): Promise<void> => {
     return await familyDb.deleteFamily(familyId);
 }
 
-const removeFamilyMember = async (familyId: number, userEmail: string): Promise<void> => {
+const removeFamilyMember = async (familyId: number, userEmail: string, role: string): Promise<void> => {
+    if (role == "child") {
+        throw new Error("You are not authorised to do that.")
+    }
+    
     if (!familyId) {
         throw new Error('Family ID is required.');
     }

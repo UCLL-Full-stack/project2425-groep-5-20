@@ -17,7 +17,11 @@ const getAllShoppingListsForFamily = async(familyId: number): Promise<ShoppingLi
     return await shoppingListDb.getAllShoppingListsForFamily(familyId);
 }
 
-const createShoppingList = async(name: string, userEmail: string, familyId: number): Promise<ShoppingList> => {
+const createShoppingList = async(name: string, userEmail: string, familyId: number, role:string): Promise<ShoppingList> => {
+    if (role == "child") {
+        throw new Error("You are not authorised to do that.")
+    }
+    
     const user = await userDb.getUserByEmail(userEmail);
     const family = await familyDb.getFamilyById(parseInt(familyId.toString()));
     if (!user) {
@@ -32,7 +36,9 @@ const createShoppingList = async(name: string, userEmail: string, familyId: numb
 
 }
 
-const addItemToShoppingList = async(shoppingListId: number, item: any, userEmail: string): Promise<ShoppingList> => {
+const addItemToShoppingList = async(shoppingListId: number, item: any, userEmail: string, role: string): Promise<ShoppingList> => {
+    
+
     const user = await userDb.getUserByEmail(userEmail);
     if (!user) {
         throw new Error("User with this email does not exist.");
@@ -46,7 +52,10 @@ const addItemToShoppingList = async(shoppingListId: number, item: any, userEmail
     return shoppingListDb.addItemToShoppingList(shoppingListId, new_item, user);
 }
 
-const deleteShoppingList = async(shoppingListId: number) => {
+const deleteShoppingList = async(shoppingListId: number, role: string) => {
+    if (role == "child") {
+        throw new Error("You are not authorised to do that.")
+    }
     await itemDb.deleteItemsFromShoppingList(shoppingListId);
     await shoppingListDb.deleteShoppingList(shoppingListId);
 }

@@ -34,7 +34,7 @@ test('given: Users in the database; when: getting all users; then: return all us
     userService.getAllUsers = mockGetAllUsers.mockReturnValue(users);
 
 
-    const result = userService.getAllUsers();
+    const result = userService.getAllUsers("admin");
 
 
     expect(mockGetAllUsers).toHaveBeenCalledTimes(1);
