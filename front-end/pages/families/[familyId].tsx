@@ -21,6 +21,7 @@ const FamilyID: React.FC = () => {
 
   const [family, setFamily] = useState<Family>();
   const [loggedInUser, setLoggedInUser] = useState<string | null>();
+  const [isParent, setIsParent] = useState<string | null>();
   const [selectedOption, setSelectedOption] = useState<boolean>(false);
   const [showRemoveDialog, setShowRemoveDialog] = useState<boolean>(false);
   const [showAddMemberDialog, setShowAddMemberDialog] = useState<boolean>(false);
@@ -31,6 +32,7 @@ const FamilyID: React.FC = () => {
 
   useEffect(() => {
     setLoggedInUser(localStorage.getItem("loggedInUser"));
+    setIsParent(localStorage.getItem("isParent"));
     if (familyId) {
       getFamilyById(parseInt(familyId as string));
     }
@@ -117,8 +119,9 @@ const FamilyID: React.FC = () => {
                 {!selectedOption ? (
                   <>
                     <SingleFamilyOverview family={family} />
-                    {JSON.parse(loggedInUser).role !== 'child' && (
+                    {isParent && JSON.parse(isParent).isParent != false && (
                       <div className="flex justify-end space-x-4 my-4 mr-4">
+                        <>{console.log(JSON.parse(isParent).isParent)}</>
                         <button
                           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300"
                           onClick={() => setShowRemoveDialog(true)}

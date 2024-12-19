@@ -96,6 +96,16 @@ const LoginPage: React.FC = () => {
             role: response.role
           }));
 
+        if (response.role != "child") {
+            localStorage.setItem("isParent", JSON.stringify({
+                isParent: true
+            }));
+        } else {
+            localStorage.setItem("isParent", JSON.stringify({
+                isParent: false
+            })); 
+        }
+
         setStatusMessage(`${t("login.status.success2sec")}`);
         setTimeout(() => {
             setStatusMessage(`${t("login.status.success1sec")}`);
@@ -127,6 +137,15 @@ const LoginPage: React.FC = () => {
             email: user.email,
             role: user.role
           }));
+        if (user.role != "child") {
+            localStorage.setItem("isParent", JSON.stringify({
+                isParent: true
+            }));
+        } else {
+            localStorage.setItem("isParent", JSON.stringify({
+                isParent: false
+            })); 
+        }
         setStatusMessage(`${t("login.status.success2sec")}`);
         setTimeout(()=> {
             setStatusMessage(`${t("login.status.success1sec")}`);
