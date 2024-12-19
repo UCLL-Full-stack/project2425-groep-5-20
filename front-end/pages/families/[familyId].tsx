@@ -46,8 +46,8 @@ const FamilyID: React.FC = () => {
   };
 
   const {data: family, isLoading, error} = useSWR(
-    "familyId",
-    getFamilyById(parseInt(familyId as string))
+      "familyId",
+      () => getFamilyById(parseInt(familyId as string))
     );
 
     useInterval(() => {

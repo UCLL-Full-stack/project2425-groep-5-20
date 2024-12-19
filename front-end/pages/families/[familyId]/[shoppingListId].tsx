@@ -29,7 +29,7 @@ const shoppingListId: React.FC = () => {
 
     const {data: items, isLoading, error} = useSWR(
         "items",
-        () => getItemsFromShoppingList(parseInt(shoppingListId as string))
+        (): Promise<Item[]> => getItemsFromShoppingList(parseInt(shoppingListId as string))
     );
 
     useInterval(() => {
