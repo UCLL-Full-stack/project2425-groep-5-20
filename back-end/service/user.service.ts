@@ -8,7 +8,11 @@ import generateJwtToken from "../util/jwt";
 const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
 
 const getUserByEmail = async (email: string): Promise<User | null> => {
-    const user = userDb.getUserByEmail(email);
+    const user = await userDb.getUserByEmail(email);
+
+    if (!user) {
+        throw new Error("User does not exist");
+    }
 
     return user;
 }
