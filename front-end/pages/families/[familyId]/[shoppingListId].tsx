@@ -59,6 +59,7 @@ const shoppingListId: React.FC = () => {
     }
 
     return <>
+        <title>{t("families.itemOverview.title")}</title>
         <Header />
         <div className="bg-[#1F2833] min-h-screen p-4">
             <h1 className="text-center text-2xl text-white mb-4">{t("families.itemOverview.title")}</h1>
