@@ -1,39 +1,40 @@
 import { useTranslation } from "next-i18next";
 
 const TableOverview: React.FC = () => {
-    const {t} = useTranslation();
-    return <>
-    <table>
-        <thead>
-            <tr>
-            <th scope="col">{t("users.name")}</th>
-            <th scope="col">{t("users.email")}</th>
-            <th scope="col">{t("users.password")}</th>
-            <th scope="col">{t("users.role")}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Admin</td>
-                <td>admin@email.com</td>
-                <td>admin123</td>
-                <td>admin</td>
-            </tr>
-            <tr>
-                <td>Parent</td>
-                <td>parent@email.com</td>
-                <td>parent123</td>
-                <td>parent</td>
-            </tr>
-            <tr>
-                <td>Child</td>
-                <td>child@email.com</td>
-                <td>child123</td>
-                <td>child</td>
-            </tr>
-        </tbody>
-    </table>
-    </>
+    return (
+        <div className="container mx-auto p-4">
+            <table className="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr className="bg-gray-100">
+                        <th scope="col" className="py-2 px-4 border-b">Name</th>
+                        <th scope="col" className="py-2 px-4 border-b">Email</th>
+                        <th scope="col" className="py-2 px-4 border-b">Password</th>
+                        <th scope="col" className="py-2 px-4 border-b">Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr className="hover:bg-gray-50">
+                        <td className="py-2 px-4 border-b">Admin</td>
+                        <td className="py-2 px-4 border-b">admin@email.com</td>
+                        <td className="py-2 px-4 border-b">admin123</td>
+                        <td className="py-2 px-4 border-b">admin</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                        <td className="py-2 px-4 border-b">Parent</td>
+                        <td className="py-2 px-4 border-b">parent@email.com</td>
+                        <td className="py-2 px-4 border-b">parent123</td>
+                        <td className="py-2 px-4 border-b">parent</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                        <td className="py-2 px-4 border-b">Child</td>
+                        <td className="py-2 px-4 border-b">child@email.com</td>
+                        <td className="py-2 px-4 border-b">child123</td>
+                        <td className="py-2 px-4 border-b">child</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
 export default TableOverview;

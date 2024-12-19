@@ -95,19 +95,10 @@ const LoginPage: React.FC = () => {
             email: response.email,
             role: response.role
           }));
-        if (response.role != "child") {
-            localStorage.setItem("isParent", JSON.stringify({
-                isParent: true
-            }));
-        } else {
-            localStorage.setItem("isParent", JSON.stringify({
-                isParent: false
-            }));
-        }
 
-        setStatusMessage(`${t("login.status.success2sec")}`);
+        setStatusMessage('Redirecting in 2 seconds...');
         setTimeout(() => {
-            setStatusMessage(`${t("login.status.success1sec")}`);
+            setStatusMessage('Redirecting in 1 seconds...');
         }, 1000);
         setTimeout(()=> {
             router.push('/');
@@ -136,20 +127,9 @@ const LoginPage: React.FC = () => {
             email: user.email,
             role: user.role
           }));
-
-          if (user.role != "child") {
-            localStorage.setItem("isParent", JSON.stringify({
-                isParent: true
-            }));
-        } else {
-            localStorage.setItem("isParent", JSON.stringify({
-                isParent: false
-            }));
-        }
-        
-        setStatusMessage(`${t("login.status.success2sec")}`);
+        setStatusMessage('Redirecting in 2 seconds...');
         setTimeout(()=> {
-            setStatusMessage(`${t("login.status.success1sec")}`);
+            setStatusMessage('Redirecting in 1 seconds...');
         }, 1000)
 
         setTimeout(()=> {
@@ -160,72 +140,77 @@ const LoginPage: React.FC = () => {
 
     return (
         <>
-            {signUpForm && <form className="login" onSubmit={saveUser}>
+            {signUpForm && <form className="login space-y-4" onSubmit={saveUser}>
                 <div>
-                <label id="name">{t("users.name")}</label>
-                <input id="login-name" type="text" value={name} onChange={(event) => setName(event.target.value)} />
+                    <label id="name" className="block text-sm font-medium text-gray-300">Name</label>
+                    <input id="login-name" type="text" value={name} onChange={(event) => setName(event.target.value)} className="mt-1 block w-full px-3 py-2 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
                 </div>
 
                 <div>
-                <label id="email">{t("users.email")}</label>
-                <input id="login-email" type="text" value={email} onChange={(event) => setEmail(event.target.value)} />
+                    <label id="email" className="block text-sm font-medium text-gray-300">Email</label>
+                    <input id="login-email" type="text" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-1 block w-full px-3 py-2 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
                 </div>
 
                 <div>
-                <label id="password">{t("users.password")}</label>
-                <input id="login-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)}/>
+                    <label id="password" className="block text-sm font-medium text-gray-300">Password</label>
+                    <input id="login-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-1 block w-full px-3 py-2 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
                 </div>
 
-                <div className="parentOrChild">
-                <label id="parentOrChild">
-                    {t("login.button.parent")}
-                    <input 
-                    type="radio"
-                    value='parent'
-                    checked={selectedOption === 'parent'}
-                    onChange={(event) => setSelectedOption(event.target.value)}
-                     />
-                </label>
-                <label id="parentOrChild">
-                    {t("login.button.child")}
-                    <input 
-                    type="radio"
-                    value='child'
-                    checked={selectedOption === "child"}
-                    onChange={(event) => setSelectedOption(event.target.value)}
-                    />
-                </label>
+                <div className="parentOrChild space-y-2">
+                    <label id="parentOrChild" className="block text-sm font-medium text-gray-300">
+                        Parent
+                        <input 
+                            type="radio"
+                            value='parent'
+                            checked={selectedOption === 'parent'}
+                            onChange={(event) => setSelectedOption(event.target.value)}
+                            className="ml-2"
+                        />
+                    </label>
+                    <label id="parentOrChild" className="block text-sm font-medium text-gray-300">
+                        Child
+                        <input 
+                            type="radio"
+                            value='child'
+                            checked={selectedOption === "child"}
+                            onChange={(event) => setSelectedOption(event.target.value)}
+                            className="ml-2"
+                        />
+                    </label>
                 </div>
-                <button id="signInButton">{t("login.button.signUp")}</button>
-                <div className="no-account-message"><p>{t("login.hasAccount")} <a className="no-account-message-button"  onClick={() => setSignUpForm(false)}>{t("login.button.login")}!</a></p></div>
-                <div className="errorMessages">
-                {nameError && <p>{nameError}</p>}
-                {emailError && <p>{emailError}</p>}
-                {passwordError && <p>{passwordError}</p>}
-                {selectedOptionError && <p>{selectedOptionError}</p>}
+                <button id="signInButton" className="w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Sign up</button>
+                <div className="no-account-message mt-4 text-center">
+                    <p>Already have an account? <a className="no-account-message-button text-blue-400 hover:underline cursor-pointer" onClick={() => setSignUpForm(false)}>Log in!</a></p>
                 </div>
-                <div className="signInSuccess">
+                <div className="errorMessages mt-4 text-red-500 text-center">
+                    {nameError && <p>{nameError}</p>}
+                    {emailError && <p>{emailError}</p>}
+                    {passwordError && <p>{passwordError}</p>}
+                    {selectedOptionError && <p>{selectedOptionError}</p>}
+                </div>
+                <div className="signInSuccess mt-4 text-green-500 text-center">
                     {statusMessage && <p>{statusMessage}</p>}
                 </div>
-
             </form>}
-            {!signUpForm && <form className="login" onSubmit={logIn}>
-            <div>
-                <label id="email">{t("users.email")}</label>
-                <input id="login-email" type="text" value={email} onChange={(event) => setEmail(event.target.value)} />
+            {!signUpForm && <form className="login space-y-4" onSubmit={logIn}>
+                <div>
+                    <label id="email" className="block text-sm font-medium text-gray-300">Email</label>
+                    <input id="login-email" type="text" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-1 block w-full px-3 py-2 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
                 </div>
 
                 <div>
-                <label id="password">{t("users.password")}</label>
-                <input id="login-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)}/>
+                    <label id="password" className="block text-sm font-medium text-gray-300">Password</label>
+                    <input id="login-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-1 block w-full px-3 py-2 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
                 </div>
-                <button id="signInButton">{t("login.button.login")}</button>
-                <div className="no-account-message"><p>{t("login.hasnoAccount")} <a className="no-account-message-button" onClick={() => setSignUpForm(true)}>{t("login.button.signUp")}</a></p></div>
-                <div className="errorMessages">
-                {emailError && <p>{emailError}</p>}
-                {passwordError && <p>{passwordError}</p>}
+                <button id="signInButton" className="w-full py-2 px-4 bg-[#66FCF1] text-black rounded-md shadow-sm hover:bg-[#45A29E] focus:outline-none focus:ring focus:border-blue-300">Log in</button>
+                <div className="no-account-message mt-4 text-center">
+                    <p>You don't have an account yet? <a className="no-account-message-button text-blue-400 hover:underline cursor-pointer" onClick={() => setSignUpForm(true)}>Sign up!</a></p>
                 </div>
-                <div className="signInSuccess">
+                <div className="errorMessages mt-4 text-red-500 text-center">
+                    {emailError && <p>{emailError}</p>}
+                    {passwordError && <p>{passwordError}</p>}
+                </div>
+                <div className="signInSuccess mt-4 text-green-500 text-center">
                     {statusMessage && <p>{statusMessage}</p>}
                 </div>
             </form>}
