@@ -92,6 +92,15 @@ const LoginPage: React.FC = () => {
             email: response.email,
             role: response.role
           }));
+        if (response.role != "child") {
+            localStorage.setItem("isParent", JSON.stringify({
+                isParent: true
+            }));
+        } else {
+            localStorage.setItem("isParent", JSON.stringify({
+                isParent: false
+            }));
+        }
 
         setStatusMessage('Successfully registered! Redirecting you to the homepage in 2 seconds...');
         setTimeout(() => {
@@ -124,6 +133,17 @@ const LoginPage: React.FC = () => {
             email: user.email,
             role: user.role
           }));
+
+          if (user.role != "child") {
+            localStorage.setItem("isParent", JSON.stringify({
+                isParent: true
+            }));
+        } else {
+            localStorage.setItem("isParent", JSON.stringify({
+                isParent: false
+            }));
+        }
+        
         setStatusMessage('Successfully logged in! Redirecting you to the homepage in 2 seconds...');
         setTimeout(()=> {
             setStatusMessage('Successfully logged in! Redirecting you to the homepage in 1 seconds...');

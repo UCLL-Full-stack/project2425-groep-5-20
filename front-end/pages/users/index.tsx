@@ -4,8 +4,13 @@ import Header from '@components/header';
 import UserOverview from '@components/users/UserOverview';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import nextI18NextConfig from '../../../next-i18next.config';
 
 const Users: React.FC = () => {
+  const {t} = useTranslation();
+
   const [users, setUsers] = useState<Array<User>>([]);
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
@@ -38,5 +43,15 @@ const Users: React.FC = () => {
     </>
   );
 };
+
+export const getServerSideProps = async(content: { locale: any; }) => {
+  const {locale} = content;
+
+  return {
+      props: {
+          ...(await serverSideTranslations(locale ?? 'en', ['common'], nextI18NextConfig))
+      }
+  }
+}
 
 export default Users;

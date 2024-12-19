@@ -6,8 +6,9 @@
             "home": "Home",
             "users": "Gebruikers",
             "families": "Families",
-            "signin": "Inloggen",
-            "logoout": "Uitloggen"
+            "signIn": "Inloggen",
+            "logOut": "Uitloggen",
+            "language": "Taal"
         }
     },
     "home": {

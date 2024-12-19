@@ -6,8 +6,9 @@
             "home": "Home",
             "users": "Users",
             "families": "Families",
-            "signin": "Sign In",
-            "logoout": "Log out"
+            "signIn": "Sign In",
+            "logOut": "Log out",
+            "language": "Language"
         }
     },
     "home": {

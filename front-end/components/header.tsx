@@ -1,8 +1,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
+import  { serverSideTranslations }  from 'next-i18next/serverSideTranslations';
+import Language from "./language";
+
 
 
 const Header: React.FC = () => {
+  const {t} = useTranslation();
+
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
   
 
@@ -20,26 +26,27 @@ const Header: React.FC = () => {
     <header>
       <div className="nav">
         <img src="/images/FamList Temp.png" alt="famlist logo" />
-        {loggedInUser && <p className="welcomeUser">Welcome {JSON.parse(loggedInUser).name}! ({JSON.parse(loggedInUser).role})</p>}
+        {loggedInUser && <p className="welcomeUser">{t("header.welcome")} {JSON.parse(loggedInUser).name}! ({JSON.parse(loggedInUser).role})</p>}
         <ul>
+          <Language/>
           <Link href="/">
-            Home
+            {t('header.nav.home')}
           </Link>
 
           {loggedInUser && JSON.parse(loggedInUser).role == 'admin' && <Link href="/users">
-            Users
+            {t('header.nav.users')}
           </Link>}
 
           {loggedInUser && <Link href="/families">
-            Families
+            {t('header.nav.families')}
           </Link>}
 
           {!loggedInUser && <Link href='/login'>
-            Sign in
+            {t('header.nav.signin')}
           </Link>}
           
           {loggedInUser && <Link onClick={handleLogOut} href='/'>
-            Log out
+          {t('header.nav.logOut')}
           </Link>}
           
         </ul>

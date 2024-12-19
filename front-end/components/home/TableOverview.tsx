@@ -1,12 +1,15 @@
+import { useTranslation } from "next-i18next";
+
 const TableOverview: React.FC = () => {
+    const {t} = useTranslation();
     return <>
     <table>
         <thead>
             <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Password</th>
-            <th scope="col">Role</th>
+            <th scope="col">{t("users.name")}</th>
+            <th scope="col">{t("users.email")}</th>
+            <th scope="col">{t("users.password")}</th>
+            <th scope="col">{t("users.role")}</th>
             </tr>
         </thead>
         <tbody>
