@@ -23,7 +23,7 @@ const Header: React.FC = () => {
       <div className="flex items-center justify-between max-w-7xl mx-auto px-4 py-3 ">
         {/* Logo */}
         <img
-          src="/images/Famlist logo white.svg"
+          src="/images/Famlist logo wit.png"
           alt="FamList logo"
           className="h-20 w-auto"
         />

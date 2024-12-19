@@ -18,7 +18,6 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
 }
 
 const createUser = async ({name, email, password, role}: UserInput): Promise<AuthenticationResponse> => {
-
     if (await userDb.getUserByEmail(email)) {
         throw new Error("User with this email already exists.");
     }
