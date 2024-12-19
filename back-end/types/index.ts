@@ -17,6 +17,21 @@ type FamilyInput = {
     owner: User;
 }
 
+type ItemInput = {
+    id?: number;
+    name: string;
+    quantity: number;
+}
+
+type ShoppingListInput = {
+    id?: number;
+    name: string;
+    creationDate: Date;
+    lastUpdate: Date;
+    updatedBy: User;
+    items: ItemInput[];
+}
+
 type AuthenticationResponse = {
     token: string,
     name: string,
@@ -28,6 +43,8 @@ export {
     Role,
     UserInput,
     FamilyInput,
+    ItemInput,
+    ShoppingListInput,
     AuthenticationResponse,
 }
 
