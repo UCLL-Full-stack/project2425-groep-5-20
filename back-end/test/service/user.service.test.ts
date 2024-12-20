@@ -53,3 +53,4 @@ test('given: Users in the database; when: getting a user by email; then: return 
     expect(mockGetUserByEmail).toHaveBeenCalledWith(user.getEmail());
     expect(result).toEqual(user);
 });
+
