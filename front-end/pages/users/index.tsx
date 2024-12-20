@@ -46,7 +46,7 @@ const Users: React.FC = () => {
           {isLoading && <p className="text-center text-[#c5c6c7] mt-4">Loading...</p>}
           {data ? <UserOverview users={data} /> : <p className="text-center text-[#c5c6c7] mt-4">No users found.</p>}
         </section>
-      </main> || <h1>{t("login.status.noAccess")}</h1>}
+      </main> || <h1 className="text-center text-[#ff0000] mt-10">{t("login.status.noAccess")}</h1>}
       </div>
     </>
   );
