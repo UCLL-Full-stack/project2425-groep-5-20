@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 const main = async() => {
-    await prisma.shoppingList.deleteMany();
     await prisma.item.deleteMany();
+    await prisma.shoppingList.deleteMany();
     await prisma.family.deleteMany();
     await prisma.user.deleteMany();
 
@@ -106,9 +106,65 @@ const main = async() => {
         }
     })
 
+    const shoppingList1 = await prisma.shoppingList.create({
+        data: {
+            name: "Shopping list 1",
+            family: {
+                connect: {id: FamilyTest.id}
+            },
+            creationDate: new Date().toISOString(),
+            lastUpdate: new Date().toISOString(),
+            updatedBy: {
+                connect: {id: userJorrit.id}
+            },
+            items: {
+                create: [
+                    {
+                        name: "Apples",
+                        quantity: 5
+                    },
+                    {
+                        name: "Bananas",
+                        quantity: 10,
+                    },
+                    {
+                        name: "Oranges",
+                        quantity: 3
+                    }
+                ]
+            }
+        }
+    })
 
-
-
+    const shoppingList2 = await prisma.shoppingList.create({
+        data: {
+            name: "Shopping list 2",
+            family: {
+                connect: {id: FamilyDoe.id}
+            },
+            creationDate: new Date().toISOString(),
+            lastUpdate: new Date().toISOString(),
+            updatedBy: {
+                connect: {id: userJohn.id}
+            },
+            items: {
+                create: [
+                    {
+                        name: "Milk",
+                        quantity: 2
+                    },
+                    {
+                        name: "Bread",
+                        quantity: 1
+                    },
+                    {
+                        name: "Cheese",
+                        quantity: 1
+                    }
+                ]
+            }
+        }
+    })
 
 }
 
