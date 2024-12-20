@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
 import nextI18nextConfig from "../../../../next-i18next.config";
+import ItemOverview from '@components/families/familyId/shoppingListId/ItemOverview'
 
 const shoppingListId: React.FC = () => {
     const {t} = useTranslation();
@@ -57,20 +58,6 @@ const shoppingListId: React.FC = () => {
         mutate("items", getItemsFromShoppingList(parseInt(shoppingListId as string)));
     }
 
-    const handleDeleteItem = async (itemId: number | undefined) => {
-        if (!itemId) {
-            return;
-        }
-
-        if (window.confirm(t("families.itemOverview.status.areYouSure"))) {
-            const userEmail = JSON.parse(localStorage.getItem('loggedInUser') as string).email;
-
-            await ItemService.deleteItem(itemId, userEmail, parseInt(shoppingListId as string));
-            mutate("items", getItemsFromShoppingList(parseInt(shoppingListId as string)));
-        }
-
-        getItemsFromShoppingList(parseInt(shoppingListId as string));
-    }
 
     return <>
         <title>{t("families.itemOverview.title")}</title>
@@ -80,37 +67,7 @@ const shoppingListId: React.FC = () => {
             <AddItemToShoppingList addItemToShoppingList={addItemToShoppingList} />
             {status && <p className="text-green-500 text-center mt-2">{status}</p>}
             <div className="container mx-auto p-4">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th scope="col" className="py-2 px-4 border-b">{t("families.itemOverview.name")}</th>
-                    <th scope="col" className="py-2 px-4 border-b">{t("families.itemOverview.quantity")}</th>
-                    {loggedInUser && JSON.parse(loggedInUser).role !== 'child' && (
-                      <th scope="col" className="py-2 px-4 border-b">Actions</th>
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {error && <tr><td colSpan={3} className="text-center text-red-500 mt-4">Failed to load items</td></tr>}
-                  {isLoading && <tr><td colSpan={3} className="text-center text-white mt-4">Loading...</td></tr>}
-                  {items && items.map((item, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50">
-                      <td className="py-2 px-4 border-b">{item.name}</td>
-                      <td className="py-2 px-4 border-b">{item.quantity}</td>
-                      {loggedInUser && JSON.parse(loggedInUser).role !== 'child' && (
-                        <td className="py-2 px-4 border-b">
-                          <button
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                            onClick={() => handleDeleteItem(item.id)}
-                          >
-                            {t("families.itemOverview.button.remove")}
-                          </button>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                <ItemOverview loggedInUser={loggedInUser} shoppingListId={shoppingListId as string}/>
             </div>
           </div>
         </>
