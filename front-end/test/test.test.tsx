@@ -4,7 +4,7 @@ import TestComponent from "../components/reactdingen";
 
 window.React = React;
 
-test ('Test Hello World', () => {
+test ('Test Hello', () => {
     render(<TestComponent />);
     
     expect(screen.getByText('Hello'))
